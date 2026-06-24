@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "spot-t01",
+      "domain": "tailoring",
+      "featureId": "gorge",
+      "promptText": "Which collar shows a higher gorge height — the seam placed closer to the base of the neck?",
+      "plateA": "gorge-high",
+      "plateB": "gorge-low",
+      "correctSide": "A",
+      "explanation": "A higher gorge raises the visual line and lengthens the proportion. The seam sits close to the base of the neck."
+    },
+    {
+      "id": "spot-t02",
+      "domain": "tailoring",
+      "featureId": "waist-suppression",
+      "promptText": "Which coat shows stronger waist suppression — more nipped in at the midsection?",
+      "plateA": "suppression-strong",
+      "plateB": "suppression-none",
+      "correctSide": "A",
+      "explanation": "Waist suppression creates the X-silhouette. The stronger nip at the waist makes the chest and skirt read larger by contrast."
+    },
+    {
+      "id": "spot-t03",
+      "domain": "tailoring",
+      "featureId": "drape-cut",
+      "promptText": "Which jacket shows drape cut — soft vertical fullness over the chest, with a close-cut waist?",
+      "plateA": "drape-full",
+      "plateB": "drape-slim",
+      "correctSide": "A",
+      "explanation": "Drape cut carries deliberate fullness over the chest that creates a soft vertical ripple, contrasted with a nipped waist."
+    },
+    {
+      "id": "spot-t04",
+      "domain": "tailoring",
+      "featureId": "roped-shoulder",
+      "promptText": "Which shoulder seam shows the roped shoulder — a small raised roll at the sleeve head?",
+      "plateA": "shoulder-roped",
+      "plateB": "shoulder-soft",
+      "correctSide": "A",
+      "explanation": "The roped shoulder (con rollino) sets the sleevehead with a raised roll, squaring the shoulder line. The soft shoulder slopes gently — the Neapolitan alternative."
+    },
+    {
+      "id": "spot-t05",
+      "domain": "tailoring",
+      "featureId": "high-armhole",
+      "promptText": "Which armhole position allows the arm to lift without the coat body moving — the tell of the high, closed armhole?",
+      "plateA": "armhole-high",
+      "plateB": "armhole-low",
+      "correctSide": "A",
+      "explanation": "A high, closed armhole lets the arm move while the coat body stays still. The clean gap at the side seam is the tell."
+    },
+    {
+      "id": "spot-t06",
+      "domain": "tailoring",
+      "featureId": "aline-skirt",
+      "promptText": "Which coat skirt flares from the waist in an A-line — the lower body opening outward toward the hem?",
+      "plateA": "aline-open",
+      "plateB": "aline-straight",
+      "correctSide": "A",
+      "explanation": "The A-line coat skirt opens below the suppressed waist, completing the hourglass silhouette and allowing the coat to clear the thighs when seated."
+    },
+    {
+      "id": "spot-t07",
+      "domain": "tailoring",
+      "featureId": "stand-collar",
+      "promptText": "Which collar removes the lapel entirely, framing the neck with a clean standing band?",
+      "plateA": "collar-stand",
+      "plateB": "collar-notch",
+      "correctSide": "A",
+      "explanation": "The stand collar (funnel, mandarin, or Nehru) removes the lapel — the busiest element of a coat — leaving only line. Less information, more form."
+    },
+    {
+      "id": "spot-t08",
+      "domain": "tailoring",
+      "featureId": "sack",
+      "promptText": "Which jacket silhouette shows the sack cut — straight-hanging with no waist shaping?",
+      "plateA": "sack-straight",
+      "plateB": "sack-shaped",
+      "correctSide": "A",
+      "explanation": "The sack cut has no darts, no suppression — cloth falls straight from shoulder to hem. A named alternative to the sculpted silhouette."
+    },
+    {
+      "id": "spot-a01",
+      "domain": "architecture",
+      "featureId": "beton-brut",
+      "promptText": "Which wall surface shows béton brut — concrete left as cast, with the formwork grain visible?",
+      "plateA": "brut-raw",
+      "plateB": "brut-faced",
+      "correctSide": "A",
+      "explanation": "Béton brut means 'raw concrete' — left as cast from the formwork, board grain and all. The marks are a record of making."
+    },
+    {
+      "id": "spot-a02",
+      "domain": "architecture",
+      "featureId": "poche",
+      "promptText": "Which plan reads the walls as solid black mass — with rooms as carved white voids?",
+      "plateA": "poche-filled",
+      "plateB": "poche-outline",
+      "correctSide": "A",
+      "explanation": "Poché fills the wall solid so the rooms read as shaped voids rather than leftover space. The solid is the figure; the room is the ground."
+    },
+    {
+      "id": "spot-a03",
+      "domain": "architecture",
+      "featureId": "enfilade",
+      "promptText": "Which plan shows enfilade — doorways aligned so you see straight through a sequence of rooms?",
+      "plateA": "enfilade-aligned",
+      "plateB": "enfilade-staggered",
+      "correctSide": "A",
+      "explanation": "Enfilade aligns all the doorways on a single axis, so a standing view extends through five or more rooms in one vista."
+    },
+    {
+      "id": "spot-a04",
+      "domain": "architecture",
+      "featureId": "ma",
+      "promptText": "Which composition uses the gap between two elements as the focal point — the charged interval held between them?",
+      "plateA": "ma-gap",
+      "plateB": "ma-full",
+      "correctSide": "A",
+      "explanation": "Ma is the deliberate negative space, the interval. The gap between elements is composed as carefully as the elements themselves."
+    },
+    {
+      "id": "spot-a05",
+      "domain": "architecture",
+      "featureId": "pilotis",
+      "promptText": "Which building lifts its mass off the ground on slim columns, leaving the ground level open?",
+      "plateA": "pilotis-lifted",
+      "plateB": "pilotis-grounded",
+      "correctSide": "A",
+      "explanation": "Pilotis raise the building's mass on columns, freeing the ground to flow underneath and making the heavy body appear to float."
+    },
+    {
+      "id": "spot-a06",
+      "domain": "architecture",
+      "featureId": "tectonic",
+      "promptText": "Which detail expresses the structure's joint — celebrating the connection rather than hiding it?",
+      "plateA": "tectonic-expressed",
+      "plateB": "tectonic-hidden",
+      "correctSide": "A",
+      "explanation": "Tectonic design expresses the frame and joints — the steel node, the timber connection — rather than encasing them. Structure becomes ornament."
+    },
+    {
+      "id": "spot-i01",
+      "domain": "interiors",
+      "featureId": "wabi-sabi",
+      "promptText": "Which bowl reads as wabi-sabi — beauty through imperfection, the repair visible and valued?",
+      "plateA": "wabisabi-repaired",
+      "plateB": "wabisabi-perfect",
+      "correctSide": "A",
+      "explanation": "Wabi-sabi finds beauty in imperfection and impermanence. The repaired crack (kintsugi), the worn edge — these mark the object as real and lived-in."
+    },
+    {
+      "id": "spot-i02",
+      "domain": "interiors",
+      "featureId": "shibui",
+      "promptText": "Which room reveals more the longer you look — quiet on first glance, deepening on attention?",
+      "plateA": "shibui-quiet",
+      "plateB": "shibui-busy",
+      "correctSide": "A",
+      "explanation": "Shibui is understated beauty that rewards sustained attention. A simple surface with complex depth — the opposite of immediate visual loudness."
+    },
+    {
+      "id": "spot-i03",
+      "domain": "interiors",
+      "featureId": "truth-materials",
+      "promptText": "Which surface shows truth to materials — the wood looking like wood, the concrete like concrete?",
+      "plateA": "truth-honest",
+      "plateB": "truth-faked",
+      "correctSide": "A",
+      "explanation": "Truth to materials means each material looks and behaves like itself — never veneered, printed, or faked to imitate another."
+    },
+    {
+      "id": "spot-i04",
+      "domain": "interiors",
+      "featureId": "patina",
+      "promptText": "Which object shows patina — the surface change earned through age and use?",
+      "plateA": "patina-earned",
+      "plateB": "patina-new",
+      "correctSide": "A",
+      "explanation": "Patina is the surface character a material earns over time: the sheen on worn brass, the depth on oiled wood. It marks an object as quality."
+    },
+    {
+      "id": "spot-i05",
+      "domain": "interiors",
+      "featureId": "biophilic",
+      "promptText": "Which room shows biophilic design — a full nature-connection system of light, material, and sightline?",
+      "plateA": "biophilic-full",
+      "plateB": "biophilic-plant",
+      "correctSide": "A",
+      "explanation": "Biophilic design is more than plants — it's daylight quality, natural materials, sightlines to green, and organic forms working as a system."
+    },
+    {
+      "id": "spot-i06",
+      "domain": "interiors",
+      "featureId": "japandi",
+      "promptText": "Which interior shows japandi — Japanese restraint and asymmetry blended with Nordic warmth and natural material?",
+      "plateA": "japandi-blend",
+      "plateB": "japandi-cold",
+      "correctSide": "A",
+      "explanation": "Japandi combines Japanese minimalism (restraint, asymmetry, reverence for material) with Scandinavian warmth (light wood, comfort). The blend avoids both cold severity and clutter."
+    }
+  ]
+}

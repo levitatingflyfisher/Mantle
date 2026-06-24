@@ -1,0 +1,10 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- drape-full: pronounced chest fullness + tight waist -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M66 20 L100 12 L134 20 L128 62 Q146 112 136 178 L64 178 Q54 112 72 62 Z"/>
+  </g>
+  <!-- exaggerated drape ripple lines on chest -->
+  <path d="M80 34 Q86 58 80 86" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <path d="M118 34 Q114 58 118 86" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <path d="M78 98 Q100 108 122 98" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- biophilic-plant: just a potted plant in corner - not a full biophilic system -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="46" y="36" width="108" height="128"/>
+    <!-- pot in corner -->
+    <path d="M72 162 L80 162 L78 148 L74 148 Z"/>
+  </g>
+  <!-- single small plant, minimal -->
+  <line x1="76" y1="148" x2="76" y2="128" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M76 136 Q68 130 66 122" fill="none" stroke="#C4553B" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M76 132 Q84 126 86 118" fill="none" stroke="#C4553B" stroke-width="1.4" stroke-linecap="round"/>
+  <!-- no daylight, no material consideration -->
+  <line x1="46" y1="100" x2="154" y2="100" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+</svg>

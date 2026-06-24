@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- enfilade-aligned: doorways all on same axis - vista through rooms -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="36" y="66" width="28" height="68"/>
+    <rect x="68" y="60" width="28" height="80"/>
+    <rect x="100" y="54" width="28" height="92"/>
+    <rect x="132" y="48" width="28" height="104"/>
+  </g>
+  <!-- central axis line through all aligned doorways -->
+  <line x1="36" y1="100" x2="162" y2="100" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+</svg>
