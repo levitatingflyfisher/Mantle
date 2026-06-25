@@ -12,6 +12,14 @@ class MantleApp extends ConsumerWidget {
     return MaterialApp(
       title: 'Mantle',
       theme: (pref.valueOrNull ?? ThemePreference.light).build(),
+      builder: (context, child) {
+        final inner = child ?? const SizedBox.shrink();
+        if (MediaQuery.of(context).size.width <= 760) return inner;
+        return ColoredBox(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Center(child: SizedBox(width: 760, child: inner)),
+        );
+      },
       home: const HomeScreen(),
     );
   }
