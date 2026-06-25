@@ -63,6 +63,26 @@ void main() {
       expect(find.byType(MembersScreen), findsOneWidget);
     });
 
+    testWidgets('add-form color picker does not overflow at 320dp / 2x text',
+        (tester) async {
+      // Small phone (≤320dp) with a large accessibility text scale — the
+      // conditions under which the fixed-width swatch row used to overflow.
+      tester.view.physicalSize = const Size(320, 800);
+      tester.view.devicePixelRatio = 1.0;
+      tester.platformDispatcher.textScaleFactorTestValue = 2.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+      await _pump(tester, db); // 0 members → the add form (color picker) shows
+
+      expect(find.byKey(const Key('colorSwatch_0')), findsOneWidget,
+          reason: 'the color picker must be on the add form');
+      expect(tester.takeException(), isNull,
+          reason: 'the swatch row must wrap, not overflow, at narrow width / '
+              'large text scale');
+    });
+
     testWidgets('can add a member and it appears in the list', (tester) async {
       await _pump(tester, db);
 
