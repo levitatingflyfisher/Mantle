@@ -1,0 +1,9 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- wabisabi: beauty in imperfection, the repaired crack (kintsugi) -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 90 Q60 140 100 156 Q140 140 130 90 Q100 78 70 90 Z"/>
+  </g>
+  <circle cx="100" cy="120" r="2" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <!-- kintsugi crack in gold/thread color -->
+  <path d="M96 80 L102 110 L94 132" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

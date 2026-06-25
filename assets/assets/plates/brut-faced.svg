@@ -1,0 +1,14 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- brut-faced: concrete hidden behind a smooth facing / cladding -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="50" y="30" width="100" height="140"/>
+    <!-- cladding panel lines - smooth tiles, no grain -->
+    <line x1="50" y1="100" x2="150" y2="100"/>
+    <line x1="100" y1="30" x2="100" y2="170"/>
+  </g>
+  <!-- tile joints only, no board grain -->
+  <line x1="50" y1="65" x2="100" y2="65" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <line x1="100" y1="65" x2="150" y2="65" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <line x1="50" y1="135" x2="100" y2="135" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <line x1="100" y1="135" x2="150" y2="135" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+</svg>
