@@ -278,50 +278,61 @@ class _AddMemberForm extends StatelessWidget {
           ),
           const SizedBox(height: OhSpacing.sm),
 
-          // Color picker row
+          // Color picker row. The swatches live in a Wrap so they flow onto a
+          // second line on narrow phones (≤320dp) or at large text scale rather
+          // than overflowing the row.
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Color',
-                style: Theme.of(context).textTheme.bodySmall,
+              Padding(
+                padding: const EdgeInsets.only(top: OhSpacing.sm),
+                child: Text(
+                  'Color',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               ),
               const SizedBox(width: OhSpacing.md),
-              for (int i = 0; i < _memberSwatches.length; i++)
-                Padding(
-                  padding: const EdgeInsets.only(right: OhSpacing.sm),
-                  child: Semantics(
-                    label: 'Member colour ${i + 1}',
-                    selected: selectedColorIndex == i,
-                    button: true,
-                    child: GestureDetector(
-                      key: Key('colorSwatch_$i'),
-                      onTap: () => onColorSelected(i),
-                      child: SizedBox(
-                        width: 44,
-                        height: 44,
-                        child: Center(
-                          child: AnimatedContainer(
-                            duration: OhMotion.fast,
-                            width: 28,
-                            height: 28,
-                            decoration: BoxDecoration(
-                              color: _memberSwatches[i],
-                              shape: BoxShape.circle,
-                              border: selectedColorIndex == i
-                                  ? Border.all(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface,
-                                      width: 2.5,
-                                    )
-                                  : null,
+              Expanded(
+                child: Wrap(
+                  spacing: OhSpacing.sm,
+                  runSpacing: OhSpacing.sm,
+                  children: [
+                    for (int i = 0; i < _memberSwatches.length; i++)
+                      Semantics(
+                        label: 'Member colour ${i + 1}',
+                        selected: selectedColorIndex == i,
+                        button: true,
+                        child: GestureDetector(
+                          key: Key('colorSwatch_$i'),
+                          onTap: () => onColorSelected(i),
+                          child: SizedBox(
+                            width: 44,
+                            height: 44,
+                            child: Center(
+                              child: AnimatedContainer(
+                                duration: OhMotion.fast,
+                                width: 28,
+                                height: 28,
+                                decoration: BoxDecoration(
+                                  color: _memberSwatches[i],
+                                  shape: BoxShape.circle,
+                                  border: selectedColorIndex == i
+                                      ? Border.all(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface,
+                                          width: 2.5,
+                                        )
+                                      : null,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
+                  ],
                 ),
+              ),
             ],
           ),
           const SizedBox(height: OhSpacing.md),
