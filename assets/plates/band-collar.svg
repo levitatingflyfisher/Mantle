@@ -1,0 +1,15 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- band-collar: short standing band at the neckline with no fold-down collar leaf -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M74 58 Q100 40 126 58"/>
+    <path d="M78 68 Q100 52 122 68"/>
+    <path d="M74 58 L78 68"/>
+    <path d="M126 58 L122 68"/>
+    <path d="M78 68 L60 168"/>
+    <path d="M122 68 L140 168"/>
+    <path d="M60 168 L140 168"/>
+  </g>
+  <path d="M74 58 Q100 40 126 58" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M78 68 Q100 52 122 68" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <text x="100" y="120" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">no fold</text>
+</svg>

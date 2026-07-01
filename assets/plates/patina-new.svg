@@ -1,0 +1,9 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- patina-new: pristine new surface, no history, no earned character -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M56 60 L144 60 L138 150 L62 150 Z"/>
+  </g>
+  <!-- uniform, no wear traces - pristine and characterless -->
+  <line x1="70" y1="60" x2="70" y2="150" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <line x1="124" y1="60" x2="120" y2="150" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+</svg>

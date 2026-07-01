@@ -1,0 +1,8 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- suppression-strong: pronounced X-silhouette, hard nip at waist -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M65 20 L100 12 L135 20 L118 58 Q144 92 136 178 L64 178 Q56 92 82 58 Z"/>
+  </g>
+  <line x1="64" y1="92" x2="136" y2="92" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <path d="M80 92 Q100 104 120 92" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

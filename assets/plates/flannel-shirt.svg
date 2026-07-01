@@ -1,0 +1,39 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- flannel-shirt: long-sleeve button-up in brushed napped cloth, woven into a plaid -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M74 26 L100 18 L126 26 L120 58 L122 176 L78 176 L80 58 Z"/>
+    <path d="M74 26 Q52 50 50 100 Q48 130 54 150"/>
+    <path d="M126 26 Q148 50 150 100 Q152 130 146 150"/>
+    <path d="M100 26 L100 176"/>
+    <path d="M82 64 L96 64 L96 80 L82 80 Z"/>
+    <path d="M104 64 L118 64 L118 80 L104 80 Z"/>
+  </g>
+  <path d="M86 40 L100 30 L114 40" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="100" cy="48" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <circle cx="100" cy="66" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <circle cx="100" cy="84" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <circle cx="100" cy="102" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <circle cx="100" cy="120" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <!-- zoom swatch A: brushed nap texture, scattered fuzz ticks -->
+  <rect x="112" y="126" width="30" height="30" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <g stroke="#C4553B" stroke-width="1.4" stroke-linecap="round">
+    <path d="M118 132 L121 129"/>
+    <path d="M126 130 L128 134"/>
+    <path d="M134 131 L131 135"/>
+    <path d="M117 142 L120 145"/>
+    <path d="M128 144 L125 147"/>
+    <path d="M136 142 L138 146"/>
+    <path d="M120 152 L123 149"/>
+    <path d="M132 150 L135 153"/>
+  </g>
+  <!-- zoom swatch B: plaid pattern, crossing check lines -->
+  <rect x="148" y="126" width="26" height="30" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <g stroke="#C4553B" stroke-width="1.4" stroke-linecap="round">
+    <line x1="148" y1="136" x2="174" y2="136"/>
+    <line x1="148" y1="146" x2="174" y2="146"/>
+    <line x1="157" y1="126" x2="157" y2="156"/>
+    <line x1="166" y1="126" x2="166" y2="156"/>
+  </g>
+  <text x="127" y="163" fill="#8FB3C7" font-size="7" text-anchor="middle" font-family="monospace">nap</text>
+  <text x="161" y="163" fill="#8FB3C7" font-size="7" text-anchor="middle" font-family="monospace">plaid</text>
+</svg>

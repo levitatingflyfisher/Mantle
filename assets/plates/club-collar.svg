@@ -1,0 +1,16 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- club-collar: point collar with the tips rounded off instead of squared -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M58 58 L60 168"/>
+    <path d="M142 58 L140 168"/>
+    <path d="M60 168 L140 168"/>
+    <path d="M90 44 Q100 34 110 44"/>
+    <path d="M58 58 L90 44 L96 120 Q90 132 84 122 Z"/>
+    <path d="M142 58 L110 44 L104 120 Q110 132 116 122 Z"/>
+  </g>
+  <path d="M96 120 Q90 132 84 122" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M104 120 Q110 132 116 122" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <text x="100" y="140" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">round</text>
+  <path d="M146 144 L150 160 L160 146" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <text x="153" y="170" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">square</text>
+</svg>

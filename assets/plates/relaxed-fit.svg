@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- relaxed-fit: generous ease shown as a gap between an inner body line and the outer fabric line -->
+  <path d="M88 34 L112 34 L108 174 L92 174 Z" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 30 L130 30 L124 178 L76 178 Z"/>
+  </g>
+  <line x1="73" y1="100" x2="90" y2="100" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <text x="134" y="36" fill="#8FB3C7" font-size="8" font-family="monospace">fabric</text>
+  <text x="94" y="66" fill="#8FB3C7" font-size="8" font-family="monospace">body</text>
+  <text x="94" y="106" fill="#8FB3C7" font-size="8" font-family="monospace">ease</text>
+</svg>

@@ -1,0 +1,408 @@
+{
+  "version": 2,
+  "images": [
+    {
+      "id": "arch-1",
+      "domain": "architecture",
+      "features": [
+        "beton-brut",
+        "poche"
+      ],
+      "throughlines": [
+        "material-honesty",
+        "figure-void"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1981.13",
+      "sourceUrl": "https://clevelandart.org/art/1981.13",
+      "license": "CC0",
+      "creator": "John Martin (British, 1789–1854)",
+      "title": "Ruins of an Ancient City"
+    },
+    {
+      "id": "arch-2",
+      "domain": "architecture",
+      "features": [
+        "patina",
+        "beton-brut"
+      ],
+      "throughlines": [
+        "material-honesty"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "2022.93",
+      "sourceUrl": "https://clevelandart.org/art/2022.93",
+      "license": "CC0",
+      "creator": "Giovanni Battista Lusieri (Italian, 1750–1825)",
+      "title": "A View of the Ruins of the Baths of Caracalla"
+    },
+    {
+      "id": "arch-3",
+      "domain": "architecture",
+      "features": [
+        "enfilade",
+        "poche"
+      ],
+      "throughlines": [
+        "figure-void"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1951.485",
+      "sourceUrl": "https://clevelandart.org/art/1951.485",
+      "license": "CC0",
+      "creator": "Hubert Robert (French, 1733–1808)",
+      "title": "Roman Ruins, Villa Pamfili"
+    },
+    {
+      "id": "arch-4",
+      "domain": "architecture",
+      "features": [
+        "ma",
+        "poche"
+      ],
+      "throughlines": [
+        "figure-void",
+        "interval"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1979.57",
+      "sourceUrl": "https://clevelandart.org/art/1979.57",
+      "license": "CC0",
+      "creator": "Arnold Böcklin (Swiss, 1827–1901)",
+      "title": "Ruin by the Sea"
+    },
+    {
+      "id": "arch-5",
+      "domain": "architecture",
+      "features": [
+        "tectonic",
+        "enfilade"
+      ],
+      "throughlines": [
+        "expressed-structure"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1980.218",
+      "sourceUrl": "https://clevelandart.org/art/1980.218",
+      "license": "CC0",
+      "creator": "Domenico Quaglio (German, 1787–1837)",
+      "title": "Outer Staircase of a Gothic Ruin"
+    },
+    {
+      "id": "arch-6",
+      "domain": "architecture",
+      "features": [
+        "tectonic",
+        "pilotis"
+      ],
+      "throughlines": [
+        "expressed-structure",
+        "figure-void"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1972.99",
+      "sourceUrl": "https://clevelandart.org/art/1972.99",
+      "license": "CC0",
+      "creator": "Rudolf von Alt (Austrian, 1812–1905)",
+      "title": "Ruin of a Church"
+    },
+    {
+      "id": "arch-7",
+      "domain": "architecture",
+      "features": [
+        "ma"
+      ],
+      "throughlines": [
+        "interval"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1954.648.d",
+      "sourceUrl": "https://clevelandart.org/art/1954.648.d",
+      "license": "CC0",
+      "creator": "Samuel Prout (British, 1783–1852)",
+      "title": "Sketchbook: \"Ruin\""
+    },
+    {
+      "id": "arch-8",
+      "domain": "architecture",
+      "features": [
+        "beton-brut"
+      ],
+      "throughlines": [
+        "material-honesty"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "2020.142",
+      "sourceUrl": "https://clevelandart.org/art/2020.142",
+      "license": "CC0",
+      "creator": "Roelant Roghman (Dutch, 1627–1692)",
+      "title": "The Ruin of Huis 't Sant at Katwijk aan Zee"
+    },
+    {
+      "id": "tail-1",
+      "domain": "tailoring",
+      "features": [
+        "drape-cut",
+        "roped-shoulder"
+      ],
+      "throughlines": [
+        "material-honesty"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1976.188",
+      "sourceUrl": "https://clevelandart.org/art/1976.188",
+      "license": "CC0",
+      "creator": "Unidentified maker",
+      "title": "Egúngún Masquerade Dance Costume"
+    },
+    {
+      "id": "tail-2",
+      "domain": "tailoring",
+      "features": [
+        "stand-collar",
+        "drape-cut"
+      ],
+      "throughlines": [
+        "material-honesty",
+        "figure-void"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1974.36",
+      "sourceUrl": "https://clevelandart.org/art/1974.36",
+      "license": "CC0",
+      "creator": "Unidentified maker",
+      "title": "Nō Costume (Nuihaku) with  Blossoming Trees and Flowers"
+    },
+    {
+      "id": "tail-3",
+      "domain": "tailoring",
+      "features": [
+        "drape-cut"
+      ],
+      "throughlines": [
+        "material-honesty"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1973.33",
+      "sourceUrl": "https://clevelandart.org/art/1973.33",
+      "license": "CC0",
+      "creator": "Eugène Delacroix (French, 1798–1863)",
+      "title": "Count Demetrius de Palatiano in Suliot Costume"
+    },
+    {
+      "id": "tail-4",
+      "domain": "tailoring",
+      "features": [
+        "stand-collar"
+      ],
+      "throughlines": [
+        "expressed-structure"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "2001.13",
+      "sourceUrl": "https://clevelandart.org/art/2001.13",
+      "license": "CC0",
+      "creator": "Nicolas de Larmessin II (French, 1638–1694)",
+      "title": "Fanciful Costumes: Costume of the Astrologer"
+    },
+    {
+      "id": "tail-5",
+      "domain": "tailoring",
+      "features": [
+        "roped-shoulder"
+      ],
+      "throughlines": [
+        "expressed-structure"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "2001.14",
+      "sourceUrl": "https://clevelandart.org/art/2001.14",
+      "license": "CC0",
+      "creator": "Nicolas de Larmessin II (French, 1638–1694)",
+      "title": "Fanciful Costumes: Costume of the Fireworks Maker"
+    },
+    {
+      "id": "tail-6",
+      "domain": "tailoring",
+      "features": [
+        "aline-skirt"
+      ],
+      "throughlines": [
+        "interval"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1926.232",
+      "sourceUrl": "https://clevelandart.org/art/1926.232",
+      "license": "CC0",
+      "creator": "Unidentified maker",
+      "title": "Woman with a Tambourine, in Neoclassical Costume"
+    },
+    {
+      "id": "tail-7",
+      "domain": "tailoring",
+      "features": [
+        "waist-suppression"
+      ],
+      "throughlines": [
+        "interval"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1984.71",
+      "sourceUrl": "https://clevelandart.org/art/1984.71",
+      "license": "CC0",
+      "creator": "Pierre Milan (French); Rosso Fiorentino (Italian, 1494–1540)",
+      "title": "The Three Fates, Costume Designs"
+    },
+    {
+      "id": "tail-8",
+      "domain": "tailoring",
+      "features": [
+        "high-armhole"
+      ],
+      "throughlines": [
+        "interval"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1996.210",
+      "sourceUrl": "https://clevelandart.org/art/1996.210",
+      "license": "CC0",
+      "creator": "Pietro Longhi (Italian, 1702–1785)",
+      "title": "Studies of a Costume, Sleeve, and Hand"
+    },
+    {
+      "id": "int-1",
+      "domain": "interiors",
+      "features": [
+        "patina",
+        "biophilic"
+      ],
+      "throughlines": [
+        "material-honesty"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1951.65.7",
+      "sourceUrl": "https://clevelandart.org/art/1951.65.7",
+      "license": "CC0",
+      "creator": "Édouard Vuillard (French, 1868–1940); Auguste Clot (French, 1858–1936); Ambroise Vollard (French, 1867–1939)",
+      "title": "Interior with Pink Wallpaper II"
+    },
+    {
+      "id": "int-2",
+      "domain": "interiors",
+      "features": [
+        "wabi-sabi",
+        "patina"
+      ],
+      "throughlines": [
+        "material-honesty"
+      ],
+      "institution": "The Metropolitan Museum of Art",
+      "accessionId": "14.40.611",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/437878",
+      "license": "Public Domain",
+      "creator": "Johannes Vermeer",
+      "title": "A Maid Asleep"
+    },
+    {
+      "id": "int-3",
+      "domain": "interiors",
+      "features": [
+        "truth-materials"
+      ],
+      "throughlines": [
+        "expressed-structure"
+      ],
+      "institution": "The Metropolitan Museum of Art",
+      "accessionId": "35.121",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/435848",
+      "license": "Public Domain",
+      "creator": "Fra Carnevale (Bartolomeo di Giovanni Corradini)",
+      "title": "The Birth of the Virgin"
+    },
+    {
+      "id": "int-4",
+      "domain": "interiors",
+      "features": [
+        "truth-materials",
+        "shibui"
+      ],
+      "throughlines": [
+        "expressed-structure",
+        "figure-void"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1974.39",
+      "sourceUrl": "https://clevelandart.org/art/1974.39",
+      "license": "CC0",
+      "creator": "Giovanni Paolo Panini (Italian, 1691–1765)",
+      "title": "Interior of the Pantheon, Rome"
+    },
+    {
+      "id": "int-5",
+      "domain": "interiors",
+      "features": [
+        "shibui"
+      ],
+      "throughlines": [
+        "figure-void",
+        "interval"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1971.1",
+      "sourceUrl": "https://clevelandart.org/art/1971.1",
+      "license": "CC0",
+      "creator": "Emanuel de Witte (Dutch, c. 1617–1692)",
+      "title": "Interior of a Church"
+    },
+    {
+      "id": "int-6",
+      "domain": "interiors",
+      "features": [
+        "shibui",
+        "wabi-sabi"
+      ],
+      "throughlines": [
+        "interval"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1982.6",
+      "sourceUrl": "https://clevelandart.org/art/1982.6",
+      "license": "CC0",
+      "creator": "Gwen John (British, 1876–1939)",
+      "title": "Interior"
+    },
+    {
+      "id": "int-7",
+      "domain": "interiors",
+      "features": [
+        "truth-materials"
+      ],
+      "throughlines": [
+        "expressed-structure"
+      ],
+      "institution": "The Metropolitan Museum of Art",
+      "accessionId": "31.45",
+      "sourceUrl": "https://www.metmuseum.org/art/collection/search/436105",
+      "license": "Public Domain",
+      "creator": "Jacques Louis David",
+      "title": "The Death of Socrates"
+    },
+    {
+      "id": "int-8",
+      "domain": "interiors",
+      "features": [
+        "biophilic",
+        "patina"
+      ],
+      "throughlines": [
+        "material-honesty"
+      ],
+      "institution": "Cleveland Museum of Art",
+      "accessionId": "1951.65.8",
+      "sourceUrl": "https://clevelandart.org/art/1951.65.8",
+      "license": "CC0",
+      "creator": "Édouard Vuillard (French, 1868–1940); Auguste Clot (French, 1858–1936); Ambroise Vollard (French, 1867–1939)",
+      "title": "Interior with Pink Wallpaper III"
+    }
+  ]
+}

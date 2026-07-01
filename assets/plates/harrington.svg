@@ -1,0 +1,17 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- harrington: waist-length jacket shown half-open over a tartan lining, elastic hem -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M76 30 L100 18 L124 30 L122 152 L78 152 Z"/>
+    <path d="M88 22 L88 30 L112 30 L112 22"/>
+    <path d="M96 30 L82 90"/>
+    <path d="M104 30 L118 90"/>
+  </g>
+  <path d="M90 40 L110 80" stroke="#C4553B" stroke-width="1"/>
+  <path d="M85 55 L105 90" stroke="#C4553B" stroke-width="1"/>
+  <path d="M95 35 L115 70" stroke="#C4553B" stroke-width="1"/>
+  <path d="M110 40 L90 80" stroke="#C4553B" stroke-width="1"/>
+  <path d="M115 55 L95 90" stroke="#C4553B" stroke-width="1"/>
+  <path d="M78 152 Q85 147 92 152 Q99 147 106 152 Q113 147 120 152" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <text x="100" y="65" fill="#8FB3C7" font-size="7" text-anchor="middle" font-family="monospace">lining</text>
+  <text x="100" y="163" fill="#8FB3C7" font-size="7" text-anchor="middle" font-family="monospace">hem</text>
+</svg>

@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- armhole: high, closed armhole -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M72 26 L100 18 L128 26 L120 60 L120 168 L80 168 L80 60 Z"/>
+    <path d="M72 30 Q52 70 56 130"/>
+    <path d="M128 30 Q148 70 144 130"/>
+  </g>
+  <path d="M80 60 Q66 78 70 120" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M120 60 Q134 78 130 120" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <text x="100" y="100" fill="#8FB3C7" font-size="9" text-anchor="middle" font-family="monospace">gap</text>
+</svg>

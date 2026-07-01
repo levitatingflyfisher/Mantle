@@ -1,0 +1,5 @@
+{
+  "main_dart_js_gz_max_bytes": 1301642,
+  "apk_arm64_max_bytes": 26735291,
+  "_note": "2026-07-22 deliberate ratchet: fresh 3.38.7 builds = web gz 1239659, arm64 25462181 (+5% each). Growth vs the stale baselines is toolchain engine+AOT plus the Tier F OhTheme + backup v0.2.0 campaign code."
+}

@@ -1,0 +1,13 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+<!-- drawstring-trouser: waistband drawcord tied at center front, exiting through two eyelets -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M76 42 L124 42 L116 178 L104 178 L100 96 L96 178 L84 178 Z"/>
+    <path d="M77 50 L123 50"/>
+  </g>
+  <circle cx="86" cy="48" r="2" fill="none" stroke="#C4553B" stroke-width="1.4"/>
+  <circle cx="114" cy="48" r="2" fill="none" stroke="#C4553B" stroke-width="1.4"/>
+  <path d="M86 48 Q94 60 100 50 Q106 60 114 48" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="100" cy="51" r="1.6" fill="none" stroke="#C4553B" stroke-width="1.2"/>
+  <path d="M98 53 L94 68 M102 53 L106 68" fill="none" stroke="#C4553B" stroke-width="1.4" stroke-linecap="round"/>
+  <text x="100" y="80" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">drawcord</text>
+</svg>

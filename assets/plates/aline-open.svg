@@ -1,0 +1,8 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- aline-open: pronounced A-line flare from waist -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M76 24 L100 16 L124 24 L120 70 L156 178 L44 178 L80 70 Z"/>
+  </g>
+  <line x1="80" y1="70" x2="120" y2="70" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <path d="M82 70 Q100 80 118 70" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "domain": "menswear",
+  "archetypes": [
+    {
+      "id": "ivy-prep",
+      "name": "Ivy / Prep",
+      "handle": "Boat shoes, no boat required",
+      "oneLiner": "Repp-stripe ties, oxford-cloth button-downs, and penny loafers borrowed from a 1960s New England quad.",
+      "axisSignature": {
+        "structured-relaxed": "lean-structured",
+        "muted-graphic": "mid",
+        "classic-directional": "classic"
+      },
+      "signatureGarments": ["OCBD", "repp-stripe tie", "tweed sport coat", "penny loafer", "chino"],
+      "description": "Rooted in mid-century collegiate style — tweed, madras, and the easy layering of a New England campus. It favors texture and pattern over shine, and it wears its history lightly rather than formally.",
+      "adjacentTo": ["classic-tailored", "mod", "workwear-americana"]
+    },
+    {
+      "id": "classic-tailored",
+      "name": "Classic Tailored",
+      "handle": "A suit with somewhere to be",
+      "oneLiner": "A well-cut suit, a crisp shirt, and the quiet confidence of clothes built to hold a room.",
+      "axisSignature": {
+        "structured-relaxed": "structured",
+        "muted-graphic": "muted",
+        "classic-directional": "classic"
+      },
+      "signatureGarments": ["two-button suit", "dress shirt", "silk tie", "oxford shoe", "pocket square"],
+      "description": "Built around the enduring logic of a well-made suit: clean lines, quality cloth, and details that don't shout. It's the look of someone who trusts tradition to do the talking.",
+      "adjacentTo": ["ivy-prep", "minimalist"]
+    },
+    {
+      "id": "workwear-americana",
+      "name": "Workwear / Americana",
+      "handle": "Denim that's done a day's work",
+      "oneLiner": "Chore coats, selvedge denim, and boots that are meant to scuff — heritage utility worn proudly.",
+      "axisSignature": {
+        "structured-relaxed": "lean-relaxed",
+        "muted-graphic": "lean-muted",
+        "classic-directional": "lean-classic"
+      },
+      "signatureGarments": ["chore coat", "selvedge denim", "chambray shirt", "work boot", "canvas tote"],
+      "description": "Grounded in the clothes made for actual labor — canvas, denim, and leather chosen for how they age. It values function and durability as much as looks, and it wears its wear proudly.",
+      "adjacentTo": ["rugged-outdoors", "ivy-prep", "techwear", "minimalist", "mod"]
+    },
+    {
+      "id": "rugged-outdoors",
+      "name": "Rugged Outdoors",
+      "handle": "The mountain didn't RSVP",
+      "oneLiner": "Flannel, waxed canvas, and boots built for trailheads, dressed for the elements more than the room.",
+      "axisSignature": {
+        "structured-relaxed": "relaxed",
+        "muted-graphic": "mid",
+        "classic-directional": "lean-classic"
+      },
+      "signatureGarments": ["flannel shirt", "waxed cotton jacket", "hiking boot", "wool sweater", "canvas pant"],
+      "description": "Built for trailheads and cold mornings — flannel, wool, and waxed cotton chosen to handle weather first. It brings the outdoors into everyday dress without needing an actual mountain nearby.",
+      "adjacentTo": ["workwear-americana", "techwear"]
+    },
+    {
+      "id": "minimalist",
+      "name": "Minimalist",
+      "handle": "A whisper in three colors",
+      "oneLiner": "Clean lines, a tonal palette, and nothing on the garment that doesn't need to be there.",
+      "axisSignature": {
+        "structured-relaxed": "mid",
+        "muted-graphic": "muted",
+        "classic-directional": "lean-directional"
+      },
+      "signatureGarments": ["crewneck sweater", "straight-leg trouser", "leather sneaker", "overcoat", "tonal tee"],
+      "description": "A pared-back palette and clean silhouettes, where the cut and the fabric do all the work. It finds interest in restraint — texture and proportion over pattern or logo.",
+      "adjacentTo": ["techwear", "classic-tailored", "workwear-americana"]
+    },
+    {
+      "id": "streetwear",
+      "name": "Streetwear",
+      "handle": "Sneakers with something to say",
+      "oneLiner": "Graphic tees, fresh sneakers, and drop-shoulder hoodies that turn the sidewalk into a runway.",
+      "axisSignature": {
+        "structured-relaxed": "relaxed",
+        "muted-graphic": "graphic",
+        "classic-directional": "directional"
+      },
+      "signatureGarments": ["graphic tee", "hoodie", "cargo pant", "high-top sneaker", "bomber jacket"],
+      "description": "Born from skate parks, sneaker culture, and hip-hop — bold graphics, logos, and silhouettes built to be seen. It treats clothing as a form of self-expression as loud and specific as music taste.",
+      "adjacentTo": ["techwear", "mod"]
+    },
+    {
+      "id": "mod",
+      "name": "Mod",
+      "handle": "Three-button, two-tone soul",
+      "oneLiner": "Slim suits, skinny ties, and polka-dot precision borrowed from 1960s London scooter culture.",
+      "axisSignature": {
+        "structured-relaxed": "lean-structured",
+        "muted-graphic": "lean-graphic",
+        "classic-directional": "mid"
+      },
+      "signatureGarments": ["slim suit", "skinny tie", "polo shirt", "desert boot", "parka"],
+      "description": "A sharp, high-contrast look descended from 1960s London — narrow suits, clean geometry, and a taste for bold color against dark cloth. It's tailoring with a beat behind it.",
+      "adjacentTo": ["ivy-prep", "streetwear", "workwear-americana"]
+    },
+    {
+      "id": "techwear",
+      "name": "Techwear",
+      "handle": "Dressed for a city that's always raining",
+      "oneLiner": "Matte black shells, articulated cargos, and hardware built for a commute through the rain.",
+      "axisSignature": {
+        "structured-relaxed": "lean-relaxed",
+        "muted-graphic": "lean-muted",
+        "classic-directional": "directional"
+      },
+      "signatureGarments": ["technical shell jacket", "articulated cargo pant", "waterproof sneaker", "crossbody sling", "softshell hoodie"],
+      "description": "Engineered fabrics and utilitarian hardware built for a modern, weatherproof city life. It treats a jacket like gear — waterproofing, pocket placement, and articulation matter as much as silhouette.",
+      "adjacentTo": ["minimalist", "streetwear", "rugged-outdoors"]
+    }
+  ]
+}

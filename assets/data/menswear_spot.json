@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "ms-spot-henley-polo",
+      "facet": "garment",
+      "promptText": "Which one is the henley?",
+      "plateA": "henley",
+      "plateB": "polo",
+      "correctSide": "A",
+      "explanation": "The henley has a short buttoned placket at the throat but no collar. The polo has a folded collar."
+    },
+    {
+      "id": "ms-spot-henley-crew",
+      "facet": "garment",
+      "promptText": "Which one is the henley, not a plain crew tee?",
+      "plateA": "crew-tee",
+      "plateB": "henley",
+      "correctSide": "B",
+      "explanation": "The buttoned placket is the henley's tell; the crew tee has a plain round neckline."
+    },
+    {
+      "id": "ms-spot-point-spread",
+      "facet": "collar",
+      "promptText": "Which is the spread collar — points set wide apart?",
+      "plateA": "point-collar",
+      "plateB": "spread-collar",
+      "correctSide": "B",
+      "explanation": "The spread collar opens its points toward the shoulders, leaving a wide throat gap. The point collar sits closer together."
+    },
+    {
+      "id": "ms-spot-buttondown-point",
+      "facet": "collar",
+      "promptText": "Which collar is a button-down?",
+      "plateA": "button-down-collar",
+      "plateB": "point-collar",
+      "correctSide": "A",
+      "explanation": "A button-down pins its points to the shirt with two small buttons, keeping a soft roll. The point collar has no such buttons."
+    },
+    {
+      "id": "ms-spot-oxford-chambray",
+      "facet": "garment",
+      "promptText": "Which is the oxford-cloth shirt (a basket-weave with body), not chambray?",
+      "plateA": "oxford-shirt",
+      "plateB": "chambray-shirt",
+      "correctSide": "A",
+      "explanation": "Oxford cloth pairs two fine threads against a thicker one in a basket-weave, giving body. Chambray is a smoother plain weave that reads like light denim."
+    },
+    {
+      "id": "ms-spot-chelsea-chukka",
+      "facet": "footwear",
+      "promptText": "Which is the Chelsea boot — elastic side panels, no laces?",
+      "plateA": "chelsea-boot",
+      "plateB": "chukka-desert-boot",
+      "correctSide": "A",
+      "explanation": "The Chelsea pulls on via elastic gore panels and has no laces. The chukka/desert boot has two or three lace eyelets."
+    },
+    {
+      "id": "ms-spot-chino-jean",
+      "facet": "trousers",
+      "promptText": "Which is the flat-front chino, not the five-pocket jean?",
+      "plateA": "flat-front-chino",
+      "plateB": "five-pocket-denim",
+      "correctSide": "A",
+      "explanation": "The chino runs a smooth cotton twill with no rivets and no coin pocket. The jean shows the five-pocket layout and rivets at the stress points."
+    },
+    {
+      "id": "ms-spot-derby-loafer",
+      "facet": "footwear",
+      "promptText": "Which is the derby — a lace-up with open lacing?",
+      "plateA": "derby",
+      "plateB": "loafer",
+      "correctSide": "A",
+      "explanation": "The derby laces up, with the lace flaps stitched on top of the shoe front. The loafer has no laces at all — you just step in."
+    }
+  ]
+}
