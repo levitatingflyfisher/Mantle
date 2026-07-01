@@ -41,92 +41,91 @@ class HomeScreen extends ConsumerWidget {
         ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: OhSpacing.insetPage,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: OhSpacing.xl),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: OhSpacing.insetPage,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: OhSpacing.xl),
 
-              // ── Wordmark / title ─────────────────────────────────────────
-              Text(
-                'Mantle',
-                style: theme.textTheme.displayMedium,
-              ),
-              const SizedBox(height: OhSpacing.xs),
-              Text(
-                'Discover what is recognizably yours.',
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: cs.onSurfaceVariant,
+                // ── Wordmark / title ─────────────────────────────────────────
+                Text(
+                  'Mantle',
+                  style: theme.textTheme.displayMedium,
                 ),
-              ),
-
-              const SizedBox(height: OhSpacing.xl),
-
-              // ── Primary action — Start a round ───────────────────────────
-              ActivityCard(
-                icon: Icons.people_outline,
-                title: 'Start a round',
-                subtitle:
-                    'Gather the household and rank together to find the thread that runs through your home.',
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (_) => const MembersScreen(),
+                const SizedBox(height: OhSpacing.xs),
+                Text(
+                  'Discover what is recognizably yours.',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: cs.onSurfaceVariant,
                   ),
                 ),
-              ),
 
-              const SizedBox(height: OhSpacing.md),
+                const SizedBox(height: OhSpacing.xl),
 
-              // ── Open last Charter ────────────────────────────────────────
-              ActivityCard(
-                icon: Icons.auto_stories_outlined,
-                title: 'Open last Charter',
-                subtitle: "Your House's spine and named through-lines.",
-                onTap: () async {
-                  final chartersDao = ref.read(chartersDaoProvider);
-                  final charter = await chartersDao.latest();
-                  if (charter != null && context.mounted) {
-                    await Navigator.push<void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (_) => CharterScreen(charter: charter),
-                      ),
-                    );
-                  } else if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                            'No charter yet — complete a round first.'),
-                      ),
-                    );
-                  }
-                },
-              ),
-
-              const SizedBox(height: OhSpacing.md),
-
-              // ── Explore solo depth ───────────────────────────────────────
-              ActivityCard(
-                icon: Icons.explore_outlined,
-                title: 'Explore',
-                subtitle:
-                    'Read the vocabulary, train your eye, or map your through-lines — solo, any time.',
-                onTap: () => Navigator.push<void>(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (_) => const SoloHubScreen(),
+                // ── Primary action — Start a round ───────────────────────────
+                ActivityCard(
+                  icon: Icons.people_outline,
+                  title: 'Start a round',
+                  subtitle:
+                      'Gather the household and rank together to find the thread that runs through your home.',
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => const MembersScreen(),
+                    ),
                   ),
                 ),
-              ),
 
-              const Spacer(),
-            ],
+                const SizedBox(height: OhSpacing.md),
+
+                // ── Open last Charter ────────────────────────────────────────
+                ActivityCard(
+                  icon: Icons.auto_stories_outlined,
+                  title: 'Open last Charter',
+                  subtitle: "Your House's spine and named through-lines.",
+                  onTap: () async {
+                    final chartersDao = ref.read(chartersDaoProvider);
+                    final charter = await chartersDao.latest();
+                    if (charter != null && context.mounted) {
+                      await Navigator.push<void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => CharterScreen(charter: charter),
+                        ),
+                      );
+                    } else if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content:
+                              Text('No charter yet — complete a round first.'),
+                        ),
+                      );
+                    }
+                  },
+                ),
+
+                const SizedBox(height: OhSpacing.md),
+
+                // ── Explore solo depth ───────────────────────────────────────
+                ActivityCard(
+                  icon: Icons.explore_outlined,
+                  title: 'Explore',
+                  subtitle:
+                      'Read the vocabulary, train your eye, or map your through-lines — solo, any time.',
+                  onTap: () => Navigator.push<void>(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (_) => const SoloHubScreen(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-
