@@ -53,9 +53,16 @@ class _ReadScreenState extends ConsumerState<ReadScreen> {
   bool get _hasNext => _index < widget.items.length - 1;
 
   Future<void> _report({required bool knewIt}) async {
-    final itemId = _current.id; // capture before any await to avoid race on navigation
+    final item = _current; // capture before any await to avoid race on navigation
     final dao = ref.read(readProgressDaoProvider);
-    await dao.markRead(widget.memberId, itemId, knewIt: knewIt);
+    await dao.markRead(widget.memberId, item.id, knewIt: knewIt);
+    // Reading an item means the member has encountered its through-lines — record
+    // each so they surface on the solo Map (markSeen had no callers, so Map mode
+    // was permanently "Nothing has surfaced yet").
+    final discovered = ref.read(discoveredThroughlinesDaoProvider);
+    for (final throughlineId in item.throughlines) {
+      await discovered.markSeen(widget.memberId, throughlineId);
+    }
   }
 
   void _goNext() {

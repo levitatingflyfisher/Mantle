@@ -97,6 +97,27 @@ void main() {
       expect(find.byType(ReadScreen), findsOneWidget);
     });
 
+    testWidgets('reporting an item records its through-lines for the solo Map',
+        (tester) async {
+      await tester.pumpWidget(_buildReadScreen(db));
+      await tester.pumpAndSettle();
+
+      final knewIt = find.text('Knew it');
+      await tester.ensureVisible(knewIt);
+      await tester.pumpAndSettle();
+      await tester.tap(knewIt);
+      await tester.pumpAndSettle();
+
+      final seen =
+          await db.discoveredThroughlinesDao.forMember('member-test');
+      expect(
+        seen.map((t) => t.throughlineId).toSet(),
+        _item.throughlines.toSet(),
+        reason: 'reading an item must surface its through-lines on the Map '
+            '(markSeen was never called, so Map mode was always empty)',
+      );
+    });
+
     testWidgets('shows both quickRead and closerRead text', (tester) async {
       await tester.pumpWidget(_buildReadScreen(db));
       await tester.pumpAndSettle();
