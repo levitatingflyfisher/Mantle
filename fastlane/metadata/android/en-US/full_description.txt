@@ -1,0 +1,10 @@
+Discover the aesthetic from revealed preference, then merge in a way that rewards agreement — not enthusiasm. A shared favourite is one you BOTH ranked high, not one person loved and the other tolerated.
+
+• Pairwise "which is more us?" over a deck of images
+• A printable House Charter: your Spine, what is Contested, and the through-lines
+• Ranking maths that will not let one loud voice win
+
+No accounts, no cloud, no ads. The APK asks for no network permission at all.
+
+Free and open source, MIT licensed.
+Source: https://github.com/levitatingflyfisher/Mantle
