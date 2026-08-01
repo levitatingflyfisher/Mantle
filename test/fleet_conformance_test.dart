@@ -5,7 +5,13 @@ void main() => runFleetConformance(const FleetAppConfig(
       // Bundles its own type, so nothing falls back to a web font — a
       // character the bundled families cannot draw is a box on a
       // real phone. C7 sweeps lib/ for any.
-      checks: FleetAppConfig.withBundledFonts,
+      // C8: Mantle runs OhTheme directly, so its ambient iconTheme is live —
+      // a bare IconButton.filled paints its glyph the color of its own
+      // fill. Filled icon buttons must come from OhIconButton.
+      checks: {
+        ...FleetAppConfig.withBundledFonts,
+        FleetCheck.c8IconButtons,
+      },
       // Mantle consumes OhTheme.light()/hearthDark() directly
       // (lib/features/settings/.../theme_preference.dart) — the full tier.
       styleTier: StyleTier.full,
