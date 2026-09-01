@@ -80,7 +80,7 @@ class AxisTally {
     if (level == 'lean-$poleA') return 1;
     if (level == poleB) return -2;
     if (level == 'lean-$poleB') return -1;
-    throw ArgumentError('Unknown axis level "$level" for axis "$axis"');
+    throw ArgumentError('Unknown axis level “$level” for axis “$axis”');
   }
 
   /// Fold each chosen term's signals into a position. Each axis is normalized

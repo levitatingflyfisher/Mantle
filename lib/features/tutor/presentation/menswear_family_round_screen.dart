@@ -58,33 +58,36 @@ class _MenswearFamilyRoundScreenState
     if (_handoff) {
       final theme = Theme.of(context);
       return Scaffold(
-        body: Center(
-          child: Padding(
-            padding: OhSpacing.insetLg,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text.rich(
-                  TextSpan(
-                    style: theme.textTheme.titleLarge,
-                    children: [
-                      const TextSpan(text: 'Pass the phone to '),
-                      TextSpan(
-                        text: member.label,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const TextSpan(text: '.'),
-                    ],
+        body: OhPage(
+          padding: EdgeInsets.zero,
+          child: Center(
+            child: Padding(
+              padding: OhSpacing.insetLg,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text.rich(
+                    TextSpan(
+                      style: theme.textTheme.titleLarge,
+                      children: [
+                        const TextSpan(text: 'Pass the phone to '),
+                        TextSpan(
+                          text: member.label,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const TextSpan(text: '.'),
+                      ],
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: OhSpacing.lg),
-                FilledButton(
-                  key: const Key('family-handoff-continue'),
-                  onPressed: () => setState(() => _handoff = false),
-                  child: const Text("I'm ready"),
-                ),
-              ],
+                  const SizedBox(height: OhSpacing.lg),
+                  FilledButton(
+                    key: const Key('family-handoff-continue'),
+                    onPressed: () => setState(() => _handoff = false),
+                    child: const Text('I’m ready'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -32,6 +32,7 @@ class LeanRoundState {
     this.pickCount = 0,
     this.target = kLeanPickTarget,
     this.errorMessage,
+    this.error,
   });
 
   final LeanRoundPhase phase;
@@ -39,6 +40,9 @@ class LeanRoundState {
   final int pickCount;
   final int target;
   final String? errorMessage;
+
+  /// The failure behind [LeanRoundPhase.error], for the Details view only.
+  final Object? error;
 
   double get progress => target == 0 ? 0 : (pickCount / target).clamp(0.0, 1.0);
 
@@ -50,6 +54,7 @@ class LeanRoundState {
     int? pickCount,
     int? target,
     Object? errorMessage = _absent,
+    Object? error = _absent,
   }) =>
       LeanRoundState(
         phase: phase ?? this.phase,
@@ -61,6 +66,7 @@ class LeanRoundState {
         errorMessage: identical(errorMessage, _absent)
             ? this.errorMessage
             : errorMessage as String?,
+        error: identical(error, _absent) ? this.error : error,
       );
 }
 
@@ -150,7 +156,9 @@ class LeanRoundController extends StateNotifier<LeanRoundState> {
     } catch (e) {
       if (!mounted) return;
       state = state.copyWith(
-          phase: LeanRoundPhase.error, errorMessage: e.toString());
+          phase: LeanRoundPhase.error,
+          errorMessage: 'The round couldn’t start. Nothing was lost.',
+          error: e);
     }
   }
 

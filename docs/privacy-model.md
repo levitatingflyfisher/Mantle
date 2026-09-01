@@ -16,7 +16,7 @@ The only data that persists *at all* is:
 | Data | Where it lives | Leaves device? |
 |---|---|---|
 | Members, rounds, ranking decisions, charters, solo progress | Local Drift/SQLite database (app-private storage) | No |
-| Theme preference (Daytime / Evening / Late night) | `flutter_secure_storage` (OS keystore) | No |
+| Theme preference (Follow phone / Light / Dark / Night) | `flutter_secure_storage` (OS keystore) | No |
 | The affinity deck, canon, plates, Spot questions | Bundled read-only assets shipped in the app | N/A (never uploaded) |
 
 A **PDF Charter** leaves the device only if *you* export/share it, through the OS

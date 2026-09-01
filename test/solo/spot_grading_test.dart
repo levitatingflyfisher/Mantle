@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mantle/features/content/domain/domain.dart';
 import 'package:mantle/features/content/domain/spot_question.dart';
@@ -54,6 +57,37 @@ void main() {
         explanation: 'The right plate shows a raised roped head.',
       );
       expect(SpotGrading.grade(qB, 'A'), isFalse);
+    });
+  });
+
+  group('SpotGrading.showBFirst (badass-01: the answer was always on the left)',
+      () {
+    final ids = [
+      for (final q in (jsonDecode(File('assets/data/spot.json')
+              .readAsStringSync()) as Map)['questions'] as List)
+        (q as Map)['id'] as String,
+    ];
+
+    test('is stable for the same member and question', () {
+      for (final id in ids) {
+        expect(SpotGrading.showBFirst('m1', id),
+            SpotGrading.showBFirst('m1', id));
+      }
+    });
+
+    test('puts plate B first for a fair share of the real questions', () {
+      for (final member in ['m1', 'anonymous', 'aria-1234']) {
+        final bFirst = ids.where((id) => SpotGrading.showBFirst(member, id));
+        expect(bFirst.length, inInclusiveRange(ids.length ~/ 4, ids.length * 3 ~/ 4),
+            reason: 'with every correct answer stored as A, the side must '
+                'vary or "press left" wins every time ($member)');
+      }
+    });
+
+    test('differs between members for at least some questions', () {
+      final differing = ids.where((id) =>
+          SpotGrading.showBFirst('m1', id) != SpotGrading.showBFirst('m2', id));
+      expect(differing, isNotEmpty);
     });
   });
 }

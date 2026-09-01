@@ -113,7 +113,7 @@ class MantleBackupSerializer
     }
     for (final key in _expectedTables) {
       if (!tables.containsKey(key)) {
-        throw FormatException('Missing table "$key" in backup payload');
+        throw FormatException('Missing table “$key” in backup payload');
       }
     }
     return tables;
@@ -160,6 +160,10 @@ class MantleBackupSerializer
               label: row['label'] as String,
               color: row['color'] as int,
               createdAt: _dateTime(row['createdAt']),
+              // Absent in schema-1 backups: those members are all active.
+              deletedAt: Value(row['deletedAt'] == null
+                  ? null
+                  : _dateTime(row['deletedAt'])),
             ));
       }
 
@@ -250,7 +254,7 @@ class MantleBackupSerializer
     // exists to prevent.
     final list = tables[key];
     if (list is! List) {
-      throw FormatException('Table "$key" is not a list in backup payload');
+      throw FormatException('Table “$key” is not a list in backup payload');
     }
     return list.cast<Map<String, dynamic>>();
   }

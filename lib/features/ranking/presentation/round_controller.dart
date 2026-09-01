@@ -54,6 +54,7 @@ class RoundState {
     this.decisionCount = 0,
     this.currentPair,
     this.errorMessage,
+    this.error,
   });
 
   final RoundPhase phase;
@@ -74,6 +75,10 @@ class RoundState {
   final RoundPair? currentPair;
 
   final String? errorMessage;
+
+  /// The failure behind [RoundPhase.error], for the Details view only. Null
+  /// for the known "not enough people" stop, which retrying cannot fix.
+  final Object? error;
 
   // ── Derived ────────────────────────────────────────────────────────────────
 
@@ -116,6 +121,7 @@ class RoundState {
     int? decisionCount,
     Object? currentPair = _absent,
     Object? errorMessage = _absent,
+    Object? error = _absent,
   }) {
     return RoundState(
       phase: phase ?? this.phase,
@@ -129,6 +135,7 @@ class RoundState {
       errorMessage: identical(errorMessage, _absent)
           ? this.errorMessage
           : errorMessage as String?,
+      error: identical(error, _absent) ? this.error : error,
     );
   }
 }
@@ -222,7 +229,7 @@ class RoundController extends StateNotifier<RoundState> {
       if (memberRows.length < 2) {
         state = state.copyWith(
           phase: RoundPhase.error,
-          errorMessage: 'Need at least 2 members to start a round.',
+          errorMessage: 'Add at least two people before starting a round.',
         );
         return;
       }
@@ -287,12 +294,20 @@ class RoundController extends StateNotifier<RoundState> {
       if (!mounted) return;
       state = state.copyWith(
         phase: RoundPhase.error,
-        errorMessage: e.toString(),
+        errorMessage: 'The round couldn’t be set up. Nothing was lost.',
+        error: e,
       );
     }
   }
 
   // ── Public API ─────────────────────────────────────────────────────────────
+
+  /// Set the round up again after a load failure.
+  Future<void> retry() async {
+    if (state.phase != RoundPhase.error) return;
+    state = const RoundState();
+    await _init();
+  }
 
   /// Record that Image A was preferred. Forced choice — no ties.
   Future<void> chooseA() => _record(MatchOutcome.aWins);

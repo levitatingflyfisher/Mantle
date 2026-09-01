@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openhearth_design/openhearth_design.dart';
 
 import '../../../core/providers.dart';
+import '../../solo/domain/spot_grading.dart';
 import '../../../widgets/plate.dart';
 import '../content/domain/menswear_spot_question.dart';
 
@@ -55,78 +56,85 @@ class _MenswearSpotScreenState extends ConsumerState<MenswearSpotScreen> {
     }
   }
 
+  Widget _optionA() => Expanded(
+        child: _SpotOption(
+          key: const Key('ms-spot-plate-A'),
+          plateKey: _q.plateA,
+          side: 'A',
+          correctSide: _answered ? _q.correctSide : null,
+          onTap: _answered ? null : () => _choose('A'),
+        ),
+      );
+
+  Widget _optionB() => Expanded(
+        child: _SpotOption(
+          key: const Key('ms-spot-plate-B'),
+          plateKey: _q.plateB,
+          side: 'B',
+          correctSide: _answered ? _q.correctSide : null,
+          onTap: _answered ? null : () => _choose('B'),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: const Text('Spot the difference')),
-      body: SingleChildScrollView(
-        padding: OhSpacing.insetPage,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text('${_index + 1} of ${widget.questions.length}',
-                textAlign: TextAlign.center,
-                style: theme.textTheme.labelSmall
-                    ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-            const SizedBox(height: OhSpacing.md),
-            Text(_q.promptText,
-                key: const Key('ms-spot-prompt'),
-                textAlign: TextAlign.center,
-                style: theme.textTheme.titleMedium),
-            const SizedBox(height: OhSpacing.lg),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: _SpotOption(
-                    key: const Key('ms-spot-plate-A'),
-                    plateKey: _q.plateA,
-                    side: 'A',
-                    correctSide: _answered ? _q.correctSide : null,
-                    onTap: _answered ? null : () => _choose('A'),
-                  ),
-                ),
-                const SizedBox(width: OhSpacing.md),
-                Expanded(
-                  child: _SpotOption(
-                    key: const Key('ms-spot-plate-B'),
-                    plateKey: _q.plateB,
-                    side: 'B',
-                    correctSide: _answered ? _q.correctSide : null,
-                    onTap: _answered ? null : () => _choose('B'),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: OhSpacing.lg),
-            if (_answered) ...[
-              Card(
-                key: const Key('ms-spot-explanation'),
-                child: Padding(
-                  padding: OhSpacing.insetMd,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(_lastCorrect! ? "That's the one." : 'Not quite —',
-                          style: theme.textTheme.labelMedium?.copyWith(
-                              color: theme.colorScheme.onSurfaceVariant)),
-                      const SizedBox(height: OhSpacing.sm),
-                      Text(_q.explanation, style: theme.textTheme.bodyMedium),
-                    ],
-                  ),
-                ),
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: SingleChildScrollView(
+          padding: OhSpacing.insetPage,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text('${_index + 1} of ${widget.questions.length}',
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.labelSmall
+                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+              const SizedBox(height: OhSpacing.md),
+              Text(_q.promptText,
+                  key: const Key('ms-spot-prompt'),
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.titleMedium),
+              const SizedBox(height: OhSpacing.lg),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // Plate order varies by member and question (badass-01); keys
+                // and the grade follow the plate, not the slot.
+                children: SpotGrading.showBFirst(widget.memberId, _q.id)
+                    ? [_optionB(), const SizedBox(width: OhSpacing.md), _optionA()]
+                    : [_optionA(), const SizedBox(width: OhSpacing.md), _optionB()],
               ),
               const SizedBox(height: OhSpacing.lg),
-              if (_hasNext)
-                FilledButton.icon(
-                  key: const Key('ms-spot-next'),
-                  onPressed: _next,
-                  icon: const Icon(Icons.arrow_forward),
-                  label: const Text('Next'),
+              if (_answered) ...[
+                Card(
+                  key: const Key('ms-spot-explanation'),
+                  child: Padding(
+                    padding: OhSpacing.insetMd,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(_lastCorrect! ? 'That’s the one.' : 'Not quite.',
+                            style: theme.textTheme.labelMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant)),
+                        const SizedBox(height: OhSpacing.sm),
+                        Text(_q.explanation, style: theme.textTheme.bodyMedium),
+                      ],
+                    ),
+                  ),
                 ),
+                const SizedBox(height: OhSpacing.lg),
+                if (_hasNext)
+                  FilledButton.icon(
+                    key: const Key('ms-spot-next'),
+                    onPressed: _next,
+                    icon: const Icon(Icons.arrow_forward),
+                    label: const Text('Next'),
+                  ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

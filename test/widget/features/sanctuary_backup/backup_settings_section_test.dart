@@ -57,12 +57,12 @@ void main() {
   tearDown(() async => db.close());
 
   Future<void> scrollToBackupSection(WidgetTester tester) async {
-    await tester.scrollUntilVisible(find.text('Encrypted Backup'), 100);
+    await tester.scrollUntilVisible(find.text('Backup'), 100);
     await tester.pumpAndSettle();
   }
 
   group('BackupSettingsSection embed', () {
-    testWidgets('Settings shows the Encrypted Backup section', (tester) async {
+    testWidgets('Settings shows the Backup section', (tester) async {
       await tester.pumpWidget(
         _buildSettingsScreen(db, store: InMemorySecureKeyStore()),
       );
@@ -71,7 +71,7 @@ void main() {
       await scrollToBackupSection(tester);
 
       expect(find.byType(BackupSettingsSection), findsOneWidget);
-      expect(find.text('Encrypted Backup'), findsOneWidget);
+      expect(find.text('Backup'), findsOneWidget);
     });
 
     testWidgets('ghost state offers setup, restore, vault, and plain export',

@@ -51,6 +51,7 @@ minutes" walkthrough with screenshots. If you write one, put it in
 - **[Vision](../VISION.md)** — the one idea, the invariants, the honest scorecard.
 - **[Architecture overview](architecture/OVERVIEW.md)** — the layers + a diagram.
 - **[Architecture Decision Records](adr/)** — why each load-bearing choice was made.
+- **[Personas](explanation/personas.md)**: who agents play when they test the UI, with scenarios.
 - **[Concepts](concepts.md)** — the deck, the round, the merge, the reveal, the
   Charter, the through-lines.
 - **[Privacy model](privacy-model.md)** — exactly what leaves the device (nothing)

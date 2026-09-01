@@ -6,8 +6,8 @@
 // 1. Both plates are rendered side by side.
 // 2. Tapping a plate reveals the explanation card.
 // 3. SpotGrading.grade is reflected in the result label.
-// 4. Tapping the correct side shows "That's the one."
-// 5. Tapping the incorrect side shows "Not quite —".
+// 4. Tapping the correct side shows 'That’s the one.'
+// 5. Tapping the incorrect side shows "Not quite.".
 // 6. Progress is persisted to SpotProgress after answering.
 
 import 'package:drift/native.dart';
@@ -19,6 +19,7 @@ import 'package:mantle/core/providers.dart';
 import 'package:mantle/core/theme/theme_preference.dart';
 import 'package:mantle/features/content/domain/domain.dart';
 import 'package:mantle/features/content/domain/spot_question.dart';
+import 'package:mantle/features/solo/domain/spot_grading.dart';
 import 'package:mantle/features/solo/presentation/spot_screen.dart';
 import 'package:openhearth_design/openhearth_design.dart';
 
@@ -128,10 +129,10 @@ void main() {
       await tester.tap(find.byKey(const Key('spot-plate-A')));
       await tester.pumpAndSettle();
 
-      expect(find.text("That's the one."), findsOneWidget);
+      expect(find.text('That’s the one.'), findsOneWidget);
     });
 
-    testWidgets('incorrect choice shows "Not quite —" label', (tester) async {
+    testWidgets('incorrect choice shows "Not quite." label', (tester) async {
       await tester.pumpWidget(_buildSpotScreen(db));
       await tester.pumpAndSettle();
 
@@ -139,7 +140,7 @@ void main() {
       await tester.tap(find.byKey(const Key('spot-plate-B')));
       await tester.pumpAndSettle();
 
-      expect(find.text('Not quite —'), findsOneWidget);
+      expect(find.text('Not quite.'), findsOneWidget);
     });
 
     testWidgets('correct answer on correctSide==B is graded right',
@@ -151,7 +152,7 @@ void main() {
       await tester.tap(find.byKey(const Key('spot-plate-B')));
       await tester.pumpAndSettle();
 
-      expect(find.text("That's the one."), findsOneWidget);
+      expect(find.text('That’s the one.'), findsOneWidget);
     });
 
     testWidgets('wrong answer on correctSide==B is graded wrong',
@@ -163,7 +164,7 @@ void main() {
       await tester.tap(find.byKey(const Key('spot-plate-A')));
       await tester.pumpAndSettle();
 
-      expect(find.text('Not quite —'), findsOneWidget);
+      expect(find.text('Not quite.'), findsOneWidget);
     });
 
     testWidgets('answering persists seenCount to SpotProgress', (tester) async {
@@ -253,5 +254,18 @@ void main() {
       expect(find.text(_qB.promptText), findsOneWidget);
       expect(find.text(_qA.promptText), findsNothing);
     });
+  });
+
+  testWidgets('plates carry no slot letter and sit in a per-member order',
+      (tester) async {
+    await tester.pumpWidget(_buildSpotScreen(db, memberId: 'm1'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('A'), findsNothing, reason: 'the letter names the slot');
+    expect(find.text('B'), findsNothing);
+
+    final aLeft = tester.getCenter(find.byKey(const Key('spot-plate-A'))).dx <
+        tester.getCenter(find.byKey(const Key('spot-plate-B'))).dx;
+    expect(aLeft, !SpotGrading.showBFirst('m1', _qA.id));
   });
 }

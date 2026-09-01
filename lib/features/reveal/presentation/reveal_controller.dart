@@ -32,6 +32,7 @@ class RevealState {
     this.spineIsFallback = false,
     this.deckById = const {},
     this.errorMessage,
+    this.error,
   });
 
   final RevealStatus status;
@@ -49,6 +50,10 @@ class RevealState {
   final Map<String, DeckImage> deckById;
 
   final String? errorMessage;
+
+  /// The failure behind [RevealStatus.error], kept for the Details view and
+  /// never printed as the message itself.
+  final Object? error;
 }
 
 // ── Provider ──────────────────────────────────────────────────────────────────
@@ -79,6 +84,14 @@ class RevealController extends StateNotifier<RevealState> {
         _contentRepo = contentRepo,
         super(const RevealState()) {
     unawaited(_init());
+  }
+
+  /// Assemble the same round again after a failure. The round's choices are
+  /// already stored, so nobody has to play it again.
+  Future<void> retry() async {
+    if (state.status != RevealStatus.error) return;
+    state = const RevealState();
+    await _init();
   }
 
   final String _roundId;
@@ -132,6 +145,7 @@ class RevealController extends StateNotifier<RevealState> {
           final eloSession = SessionBuilder.buildSession(
             itemIds: itemIds,
             matches: matchRows,
+            sessionId: session.id,
             participantId: session.memberId,
           );
           eloSessions.add(eloSession);
@@ -159,10 +173,11 @@ class RevealController extends StateNotifier<RevealState> {
     } catch (e, st) {
       debugPrint('Reveal failed: $e\n$st');
       if (!mounted) return;
-      state = const RevealState(
+      state = RevealState(
         status: RevealStatus.error,
-        errorMessage:
-            "We couldn't put your results together. Try running a round again.",
+        errorMessage: 'Every choice from this round is saved. '
+            'We couldn’t put the results together this time.',
+        error: e,
       );
     }
   }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openhearth_design/openhearth_design.dart';
 
-import '../../../widgets/error_view.dart';
 import '../content/domain/menswear_term.dart';
 import '../domain/axis_tally.dart';
 import 'field_guide_controller.dart';
@@ -32,57 +31,66 @@ class FieldGuideScreen extends ConsumerWidget {
     if (state.status == FieldGuideStatus.error) {
       return Scaffold(
         appBar: AppBar(title: const Text('Field Guide')),
-        body: ErrorView(message: state.errorMessage ?? 'Something went wrong.'),
+        body: OhPage(
+          padding: EdgeInsets.zero,
+          child: OhErrorState(
+            message: state.errorMessage ?? OhErrorMessages.generic,
+            onRetry: () => ref.invalidate(fieldGuideControllerProvider(memberId)),
+          ),
+        ),
       );
     }
 
     return Scaffold(
       appBar: AppBar(title: const Text('Your Field Guide')),
-      body: SingleChildScrollView(
-        padding: OhSpacing.insetPage,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // ── Your lean (always shown) ──────────────────────────────────
-            Text('Your lean', style: theme.textTheme.headlineSmall),
-            const SizedBox(height: OhSpacing.md),
-            Column(
-              key: const Key('field-guide-sliders'),
-              children: [
-                for (final axis in AxisTally.kAxes)
-                  _AxisSlider(
-                    lowLabel: _axisLabels[axis]![0],
-                    highLabel: _axisLabels[axis]![1],
-                    value: state.position.value(axis),
-                  ),
-              ],
-            ),
-            const SizedBox(height: OhSpacing.xl),
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: SingleChildScrollView(
+          padding: OhSpacing.insetPage,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // ── Your lean (always shown) ──────────────────────────────────
+              Text('Your lean', style: theme.textTheme.headlineSmall),
+              const SizedBox(height: OhSpacing.md),
+              Column(
+                key: const Key('field-guide-sliders'),
+                children: [
+                  for (final axis in AxisTally.kAxes)
+                    _AxisSlider(
+                      lowLabel: _axisLabels[axis]![0],
+                      highLabel: _axisLabels[axis]![1],
+                      value: state.position.value(axis),
+                    ),
+                ],
+              ),
+              const SizedBox(height: OhSpacing.xl),
 
-            // ── Your named look (gated) ───────────────────────────────────
-            if (state.hasEnoughSignal && state.match != null)
-              _ArchetypeCard(match: state.match!)
-            else
-              Card(
-                key: const Key('field-guide-keep-going'),
-                child: Padding(
-                  padding: OhSpacing.insetMd,
-                  child: Text(
-                    'Keep going to name your look — a few more picks and your '
-                    'lean will come into focus.',
-                    style: theme.textTheme.bodyMedium,
+              // ── Your named look (gated) ───────────────────────────────────
+              if (state.hasEnoughSignal && state.match != null)
+                _ArchetypeCard(match: state.match!)
+              else
+                Card(
+                  key: const Key('field-guide-keep-going'),
+                  child: Padding(
+                    padding: OhSpacing.insetMd,
+                    child: Text(
+                      'Keep going to name your look: a few more picks and your '
+                      'lean will come into focus.',
+                      style: theme.textTheme.bodyMedium,
+                    ),
                   ),
                 ),
-              ),
-            const SizedBox(height: OhSpacing.xl),
+              const SizedBox(height: OhSpacing.xl),
 
-            // ── Words you now own ─────────────────────────────────────────
-            Text('Words you now own', style: theme.textTheme.headlineSmall),
-            const SizedBox(height: OhSpacing.md),
-            _Lexicon(
-                key: const Key('field-guide-lexicon'), terms: state.lexicon),
-            const SizedBox(height: OhSpacing.xl),
-          ],
+              // ── Words you now own ─────────────────────────────────────────
+              Text('Words you now own', style: theme.textTheme.headlineSmall),
+              const SizedBox(height: OhSpacing.md),
+              _Lexicon(
+                  key: const Key('field-guide-lexicon'), terms: state.lexicon),
+              const SizedBox(height: OhSpacing.xl),
+            ],
+          ),
         ),
       ),
     );
@@ -170,7 +178,7 @@ class _Lexicon extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     if (terms.isEmpty) {
-      return Text('No words yet — learn a few terms to fill this in.',
+      return Text('No words yet. Learn a few terms to fill this in.',
           style: theme.textTheme.bodyMedium
               ?.copyWith(color: theme.colorScheme.onSurfaceVariant));
     }

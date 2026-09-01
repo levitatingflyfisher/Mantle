@@ -11,9 +11,12 @@ import 'package:printing/printing.dart';
 
 import '../../../core/db/database.dart';
 import '../../../core/providers.dart';
+import '../../../core/theme/theme_preference.dart';
 import '../../../widgets/image_placeholder_tile.dart';
 import '../../content/domain/deck_image.dart';
-import 'charter_pdf.dart';
+// Deferred: the PDF layout and its embedded-font support are only needed
+// when someone taps Print, so on web they load then instead of with the app.
+import 'charter_pdf.dart' deferred as charter_pdf;
 
 // ── Screen ────────────────────────────────────────────────────────────────────
 
@@ -111,7 +114,20 @@ class _CharterScreenState extends ConsumerState<CharterScreen> {
       );
       final updated = await dao.byId(widget.charter.id);
       if (updated == null) return;
-      final doc = buildCharterPdf(updated, labels: _labels);
+      final ids = [
+        ...List<String>.from(jsonDecode(updated.spineItemIds) as List),
+        ...List<String>.from(jsonDecode(updated.contestedItemIds) as List),
+      ];
+      if (!_deckLoaded) await _loadDeck();
+      await charter_pdf.loadLibrary();
+      final plates = await charter_pdf.loadCharterPlates(_deckById, ids);
+      final pdfTheme = await charter_pdf.loadCharterPdfTheme();
+      final doc = charter_pdf.buildCharterPdf(
+        updated,
+        labels: _labels,
+        plates: plates,
+        theme: pdfTheme,
+      );
       await Printing.layoutPdf(
         onLayout: (_) async => doc.save(),
         name: 'House Charter',
@@ -129,66 +145,70 @@ class _CharterScreenState extends ConsumerState<CharterScreen> {
       appBar: AppBar(
         title: const Text('Our Charter'),
         actions: [
-          IconButton(
+          const MantleThemeToggle(),
+          TextButton.icon(
             icon: const Icon(Icons.picture_as_pdf_outlined),
-            tooltip: 'Export / Print',
+            label: const Text('Print'),
             onPressed: _exporting ? null : _export,
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: OhSpacing.insetPage,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // ── House name ─────────────────────────────────────────────────
-              TextField(
-                controller: _houseNameCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Name your House',
-                  hintText: 'e.g. Thornwood',
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: OhSpacing.insetPage,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // ── House name ─────────────────────────────────────────────────
+                TextField(
+                  controller: _houseNameCtrl,
+                  decoration: const InputDecoration(
+                    labelText: 'Name your House',
+                    hintText: 'e.g. Thornwood',
+                  ),
+                  textCapitalization: TextCapitalization.words,
                 ),
-                textCapitalization: TextCapitalization.words,
-              ),
-              const SizedBox(height: OhSpacing.md),
+                const SizedBox(height: OhSpacing.md),
 
-              // ── Motto ──────────────────────────────────────────────────────
-              TextField(
-                controller: _mottoCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Your motto',
-                  hintText: 'e.g. Built to last.',
-                ),
-              ),
-              const SizedBox(height: OhSpacing.lg),
-
-              // ── Spine section ──────────────────────────────────────────────
-              Text('Your House Spine', style: theme.textTheme.headlineSmall),
-              const SizedBox(height: OhSpacing.sm),
-              _buildSpineGrid(),
-              const SizedBox(height: OhSpacing.lg),
-
-              // ── Through-lines ──────────────────────────────────────────────
-              if (_throughlineKeys.isNotEmpty) ...[
-                Text('Named Through-Lines',
-                    style: theme.textTheme.titleMedium),
-                const SizedBox(height: OhSpacing.sm),
-                Text(
-                  _throughlineKeys.map(_label).join(' · '),
-                  style: theme.textTheme.bodyMedium,
+                // ── Motto ──────────────────────────────────────────────────────
+                TextField(
+                  controller: _mottoCtrl,
+                  decoration: const InputDecoration(
+                    labelText: 'Your motto',
+                    hintText: 'e.g. Built to last.',
+                  ),
                 ),
                 const SizedBox(height: OhSpacing.lg),
-              ],
 
-              // ── Save button ────────────────────────────────────────────────
-              ElevatedButton(
-                key: const Key('charter-save-button'),
-                onPressed: _save,
-                child: const Text('Save Charter'),
-              ),
-              const SizedBox(height: OhSpacing.xl),
-            ],
+                // ── Spine section ──────────────────────────────────────────────
+                Text('Your House Spine', style: theme.textTheme.headlineSmall),
+                const SizedBox(height: OhSpacing.sm),
+                _buildSpineGrid(),
+                const SizedBox(height: OhSpacing.lg),
+
+                // ── Through-lines ──────────────────────────────────────────────
+                if (_throughlineKeys.isNotEmpty) ...[
+                  Text('Named Through-Lines',
+                      style: theme.textTheme.titleMedium),
+                  const SizedBox(height: OhSpacing.sm),
+                  Text(
+                    _throughlineKeys.map(_label).join(' · '),
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: OhSpacing.lg),
+                ],
+
+                // ── Save button ────────────────────────────────────────────────
+                ElevatedButton(
+                  key: const Key('charter-save-button'),
+                  onPressed: _save,
+                  child: const Text('Save Charter'),
+                ),
+                const SizedBox(height: OhSpacing.xl),
+              ],
+            ),
           ),
         ),
       ),

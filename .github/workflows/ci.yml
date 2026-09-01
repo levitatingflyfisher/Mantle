@@ -53,6 +53,14 @@ jobs:
       - name: Test
         run: flutter test
 
+      # The suite runs on the Dart VM, which hid the dart2js-only crash that
+      # broke every reveal on web. Compile the reveal's pure-Dart path to JS
+      # and run one whole round through it under node (no browser).
+      - name: Reveal under dart2js (node)
+        run: |
+          dart compile js tool/web_reveal_check.dart -o build/web_reveal_check.js
+          node tool/run_js.cjs build/web_reveal_check.js
+
   build-apk:
     name: Build debug APK (smoke)
     needs: analyze-and-test

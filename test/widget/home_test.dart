@@ -65,7 +65,7 @@ void main() {
       // Card is enabled — tapping it when no charter exists shows a snackbar.
       await tester.tap(find.text('Open last Charter'));
       await tester.pumpAndSettle();
-      expect(find.text('No charter yet — complete a round first.'), findsOneWidget);
+      expect(find.text('No charter yet. Complete a round first.'), findsOneWidget);
     });
 
     testWidgets('"Explore" card is present and navigates to solo hub', (tester) async {
@@ -90,7 +90,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // MembersScreen has the "Who's playing?" AppBar title.
-      expect(find.text("Who's playing?"), findsOneWidget);
+      expect(find.text('Who’s playing?'), findsOneWidget);
     });
   });
 }

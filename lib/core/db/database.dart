@@ -30,6 +30,10 @@ class Members extends Table {
   TextColumn get label => text()();
   IntColumn get color => integer()();
   DateTimeColumn get createdAt => dateTime()();
+
+  /// Set when the member is removed; the row is kept so they can be restored
+  /// from "Recently removed" (fleet ruling: Undo never expires). Null = active.
+  DateTimeColumn get deletedAt => dateTime().nullable()();
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -137,9 +141,14 @@ class MantleDatabase extends _$MantleDatabase {
   MantleDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
-  MigrationStrategy get migration =>
-      MigrationStrategy(onCreate: (m) async => m.createAll());
+  MigrationStrategy get migration => MigrationStrategy(
+        onCreate: (m) async => m.createAll(),
+        onUpgrade: (m, from, to) async {
+          // v2: members are soft-deleted.
+          if (from < 2) await m.addColumn(members, members.deletedAt);
+        },
+      );
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openhearth_design/openhearth_design.dart';
+import 'package:sanctuary_backup_ui/sanctuary_backup_ui.dart';
 
 import '../../../core/providers.dart';
+import '../../../core/theme/theme_preference.dart';
 import '../../../widgets/activity_card.dart';
 import '../../ranking/presentation/members_screen.dart';
 import '../../reveal/presentation/charter_screen.dart';
@@ -27,118 +29,136 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Mantle'),
+        // Two labelled actions only fit a 320dp bar up to 2x text, so the
+        // labels stop growing there; the page itself scales fully.
         actions: [
-          IconButton(
-            key: const Key('home-settings-button'),
-            icon: const Icon(Icons.settings_outlined),
-            tooltip: 'Settings',
-            onPressed: () => Navigator.push<void>(
-              context,
-              MaterialPageRoute<void>(
-                builder: (_) => const SettingsScreen(),
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: OhSpacing.insetPage,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          MediaQuery.withClampedTextScaling(
+            maxScaleFactor: 2.0,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const SizedBox(height: OhSpacing.xl),
-
-                // ── Wordmark / title ─────────────────────────────────────────
-                Text(
-                  'Mantle',
-                  style: theme.textTheme.displayMedium,
-                ),
-                const SizedBox(height: OhSpacing.xs),
-                Text(
-                  'Discover what is recognizably yours.',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: cs.onSurfaceVariant,
-                  ),
-                ),
-
-                const SizedBox(height: OhSpacing.xl),
-
-                // ── Lead: the menswear tutor ─────────────────────────────────
-                ActivityCard(
-                  key: const Key('home-tutor-card'),
-                  icon: Icons.checkroom_outlined,
-                  title: 'Learn your style',
-                  subtitle:
-                      'Learn the names, find your lean, and see your Field Guide.',
-                  onTap: () => Navigator.push<void>(
+                const MantleThemeToggle(),
+                TextButton.icon(
+                  key: const Key('home-settings-button'),
+                  icon: const Icon(Icons.settings_outlined),
+                  label: const Text('Settings'),
+                  onPressed: () => Navigator.push<void>(
                     context,
                     MaterialPageRoute<void>(
-                      builder: (_) => const TutorHubScreen(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: OhSpacing.md),
-
-                // ── Primary action — Start a round ───────────────────────────
-                ActivityCard(
-                  icon: Icons.people_outline,
-                  title: 'Start a round',
-                  subtitle:
-                      'Gather the household and rank together to find the thread that runs through your home.',
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (_) => const MembersScreen(),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(height: OhSpacing.md),
-
-                // ── Open last Charter ────────────────────────────────────────
-                ActivityCard(
-                  icon: Icons.auto_stories_outlined,
-                  title: 'Open last Charter',
-                  subtitle: "Your House's spine and named through-lines.",
-                  onTap: () async {
-                    final chartersDao = ref.read(chartersDaoProvider);
-                    final charter = await chartersDao.latest();
-                    if (charter != null && context.mounted) {
-                      await Navigator.push<void>(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (_) => CharterScreen(charter: charter),
-                        ),
-                      );
-                    } else if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content:
-                              Text('No charter yet — complete a round first.'),
-                        ),
-                      );
-                    }
-                  },
-                ),
-
-                const SizedBox(height: OhSpacing.md),
-
-                // ── Explore solo depth ───────────────────────────────────────
-                ActivityCard(
-                  icon: Icons.explore_outlined,
-                  title: 'Explore',
-                  subtitle:
-                      'Read the vocabulary, train your eye, or map your through-lines — solo, any time.',
-                  onTap: () => Navigator.push<void>(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (_) => const SoloHubScreen(),
+                      builder: (_) => const SettingsScreen(),
                     ),
                   ),
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: OhSpacing.insetPage,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: OhSpacing.xl),
+
+                  // ── Wordmark / title ─────────────────────────────────────────
+                  Text(
+                    'Mantle',
+                    style: theme.textTheme.displayMedium,
+                  ),
+                  const SizedBox(height: OhSpacing.xs),
+                  Text(
+                    'Discover what is recognizably yours.',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: cs.onSurfaceVariant,
+                    ),
+                  ),
+
+                  // ── Finish setup (fleet first-run ruling) ───────────────────
+                  // Takes no space once backup is set up or dismissed.
+                  const BackupSetupReminder(),
+
+                  const SizedBox(height: OhSpacing.xl),
+
+                  // ── Lead: the menswear tutor ─────────────────────────────────
+                  ActivityCard(
+                    key: const Key('home-tutor-card'),
+                    icon: Icons.checkroom_outlined,
+                    title: 'Learn your style',
+                    subtitle:
+                        'Learn the names, find your lean, and see your Field Guide.',
+                    onTap: () => Navigator.push<void>(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const TutorHubScreen(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: OhSpacing.md),
+
+                  // ── Primary action — Start a round ───────────────────────────
+                  ActivityCard(
+                    icon: Icons.people_outline,
+                    title: 'Start a round',
+                    subtitle:
+                        'Gather the household and rank together to find the thread that runs through your home.',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const MembersScreen(),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: OhSpacing.md),
+
+                  // ── Open last Charter ────────────────────────────────────────
+                  ActivityCard(
+                    icon: Icons.auto_stories_outlined,
+                    title: 'Open last Charter',
+                    subtitle: 'Your House’s spine and named through-lines.',
+                    onTap: () async {
+                      final chartersDao = ref.read(chartersDaoProvider);
+                      final charter = await chartersDao.latest();
+                      if (charter != null && context.mounted) {
+                        await Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (_) => CharterScreen(charter: charter),
+                          ),
+                        );
+                      } else if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content:
+                                Text('No charter yet. Complete a round first.'),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+
+                  const SizedBox(height: OhSpacing.md),
+
+                  // ── Explore solo depth ───────────────────────────────────────
+                  ActivityCard(
+                    icon: Icons.explore_outlined,
+                    title: 'Explore',
+                    subtitle:
+                        'Read the vocabulary, train your eye, or map your through-lines: solo, any time.',
+                    onTap: () => Navigator.push<void>(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const SoloHubScreen(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

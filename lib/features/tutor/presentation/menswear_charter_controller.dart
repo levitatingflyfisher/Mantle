@@ -89,6 +89,7 @@ class MenswearCharterController extends StateNotifier<MenswearCharterState> {
         eloSessions.add(SessionBuilder.buildSession(
           itemIds: itemIds,
           matches: rows,
+          sessionId: s.id,
           participantId: s.memberId,
         ));
         for (final m in rows) {
@@ -118,7 +119,7 @@ class MenswearCharterController extends StateNotifier<MenswearCharterState> {
       if (!mounted) return;
       state = const MenswearCharterState(
         status: MenswearCharterStatus.error,
-        errorMessage: "We couldn't assemble your House Charter.",
+        errorMessage: 'We couldn’t assemble your House Charter.',
       );
     }
   }

@@ -30,8 +30,10 @@ Riverpod, Drift. Ghost mode only — no network, no accounts, no analytics.
 ## Non-negotiables (breaking one is a regression, not a feature)
 
 - **Ghost mode is the product.** Do **not** add a network client for app data, an
-  account system, analytics, or telemetry. All state is local Drift/SQLite; the
-  only non-Drift persistence is the theme preference in `flutter_secure_storage`.
+  account system, analytics, or telemetry. All app data is local Drift/SQLite; outside
+  Drift there is only the theme preference and the backup package's own state
+  (recovery words and the Finish setup dismissal in `flutter_secure_storage`,
+  snapshots in the on-device vault).
   No Firebase/Supabase/BaaS — v2 sync, if built, is *encrypted blobs through a
   dumb relay*, never plaintext.
 - **No taste scores, ever.** No global score, no leaderboard, no "better"/

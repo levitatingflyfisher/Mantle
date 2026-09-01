@@ -137,6 +137,9 @@ Future<void> _seedRoundWithSessions(MantleDatabase db, String roundId) async {
 class _StaticRevealController extends StateNotifier<RevealState>
     implements RevealController {
   _StaticRevealController(super.state);
+
+  @override
+  Future<void> retry() async {}
 }
 
 Widget _buildRevealScreenWithState(MantleDatabase db, RevealState revealState) {

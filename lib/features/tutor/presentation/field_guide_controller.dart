@@ -122,7 +122,7 @@ class FieldGuideController extends StateNotifier<FieldGuideState> {
       if (!mounted) return;
       state = const FieldGuideState(
         status: FieldGuideStatus.error,
-        errorMessage: "We couldn't assemble your Field Guide.",
+        errorMessage: 'We couldn’t assemble your Field Guide.',
       );
     }
   }

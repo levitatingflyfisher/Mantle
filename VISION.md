@@ -79,7 +79,8 @@ grain of salt — not as a specification and not as guaranteed-correct.** If a
 comment and the tests disagree, the tests win; if the tests and reality disagree,
 reality wins. As of v1:
 
-**Real, tested, load-bearing** (132 tests passing; `flutter analyze` clean):
+**Real, tested, load-bearing** (284 tests passing, each file run on its own;
+`flutter analyze` clean; the reveal's path also runs under dart2js in CI):
 - The whole spine: gather → per-domain fixed-length round → persist decisions →
   rebuild sessions → merge → Spine/Contested partition → name through-lines →
   editable Charter → PDF export. This is the product and it holds.
@@ -88,8 +89,11 @@ reality wins. As of v1:
 - The 24-image affinity deck is **real, license-verified CC0/PD** (Cleveland
   Museum of Art + the Met), with a content-validation test that refuses any deck
   record missing a complete provenance block.
-- Ghost mode: no network client exists in the app; theme preference is the only
-  thing outside Drift (in `flutter_secure_storage`).
+- Ghost mode: no network client exists in the app. Outside Drift there is only
+  the theme preference and the encrypted backup's own state (recovery words,
+  on-device snapshots).
+- Reversible by default: a member can be renamed or removed with an Undo, and
+  Clear all data keeps a safety copy with an Undo when backup is set up.
 
 **Aspirational — documented, not shipped:**
 - **Cross-device sync (v2).** The data model is *shaped* for it — `EloSession`

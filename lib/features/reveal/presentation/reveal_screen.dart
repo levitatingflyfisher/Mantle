@@ -9,6 +9,7 @@ import 'package:openhearth_design/openhearth_design.dart';
 
 import '../../../core/db/database.dart';
 import '../../../core/providers.dart';
+import '../../../core/theme/theme_preference.dart';
 import '../../../widgets/image_placeholder_tile.dart';
 import '../../content/domain/deck_image.dart';
 import '../domain/reveal.dart';
@@ -41,31 +42,23 @@ class _RevealScreenState extends ConsumerState<RevealScreen> {
       RevealStatus.loading => const Scaffold(
           body: Center(child: CircularProgressIndicator()),
         ),
-      RevealStatus.error => _buildError(context, state.errorMessage),
+      RevealStatus.error => _buildError(context, state),
       RevealStatus.ready => _buildReady(context, state),
     };
   }
 
-  Widget _buildError(BuildContext context, String? message) {
-    final theme = Theme.of(context);
+  Widget _buildError(BuildContext context, RevealState state) {
     return Scaffold(
       appBar: AppBar(title: const Text('Your Mantle')),
-      body: Center(
-        child: Padding(
-          padding: OhSpacing.insetLg,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.error_outline,
-                  size: 48, color: theme.colorScheme.error),
-              const SizedBox(height: OhSpacing.md),
-              Text(
-                message ?? 'Something went wrong.',
-                style: theme.textTheme.bodyMedium,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: OhErrorState(
+          title: 'The reveal didn’t come together',
+          message: state.errorMessage ?? OhErrorMessages.generic,
+          error: state.error,
+          onRetry: () => ref
+              .read(revealControllerProvider(widget.roundId).notifier)
+              .retry(),
         ),
       ),
     );
@@ -75,68 +68,74 @@ class _RevealScreenState extends ConsumerState<RevealScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Your Mantle')),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: OhSpacing.insetPage,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // ── House Spine header ─────────────────────────────────────────
-              Text(
-                'Your House Spine',
-                style: theme.textTheme.headlineSmall,
-              ),
-              const SizedBox(height: OhSpacing.sm),
-
-              // ── Warm fallback copy ─────────────────────────────────────────
-              if (state.spineIsFallback)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: OhSpacing.sm),
-                  child: Text(
-                    "You're still finding your common ground — this is just the beginning.",
-                    style: theme.textTheme.bodyMedium,
-                  ),
-                ),
-
-              // ── Spine grid — always render ─────────────────────────────────
-              _SpineGrid(
-                items: state.spineItems,
-                deckById: state.deckById,
-              ),
-              const SizedBox(height: OhSpacing.lg),
-
-              // ── Through-line sentence ──────────────────────────────────────
-              if (state.namedThroughlines.isNotEmpty) ...[
-                _ThroughlineSentence(
-                  throughlines: state.namedThroughlines,
-                  labels: state.throughlineLabels,
-                ),
-                const SizedBox(height: OhSpacing.lg),
-              ],
-
-              // ── Contested section ──────────────────────────────────────────
-              if (state.contestedItems.isNotEmpty) ...[
+      appBar: AppBar(
+        title: const Text('Your Mantle'),
+        actions: const [MantleThemeToggle()],
+      ),
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: OhSpacing.insetPage,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // ── House Spine header ─────────────────────────────────────────
                 Text(
-                  'Where the House Argues',
+                  'Your House Spine',
                   style: theme.textTheme.headlineSmall,
                 ),
                 const SizedBox(height: OhSpacing.sm),
-                _ContestedList(
-                  items: state.contestedItems,
+
+                // ── Warm fallback copy ─────────────────────────────────────────
+                if (state.spineIsFallback)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: OhSpacing.sm),
+                    child: Text(
+                      'You’re still finding your common ground. This is just the beginning.',
+                      style: theme.textTheme.bodyMedium,
+                    ),
+                  ),
+
+                // ── Spine grid — always render ─────────────────────────────────
+                _SpineGrid(
+                  items: state.spineItems,
                   deckById: state.deckById,
                 ),
                 const SizedBox(height: OhSpacing.lg),
-              ],
 
-              // ── Make Charter button ────────────────────────────────────────
-              ElevatedButton(
-                key: const Key('make-charter-button'),
-                onPressed: _creating ? null : () => _makeCharter(state),
-                child: const Text('Make our Charter'),
-              ),
-              const SizedBox(height: OhSpacing.xl),
-            ],
+                // ── Through-line sentence ──────────────────────────────────────
+                if (state.namedThroughlines.isNotEmpty) ...[
+                  _ThroughlineSentence(
+                    throughlines: state.namedThroughlines,
+                    labels: state.throughlineLabels,
+                  ),
+                  const SizedBox(height: OhSpacing.lg),
+                ],
+
+                // ── Contested section ──────────────────────────────────────────
+                if (state.contestedItems.isNotEmpty) ...[
+                  Text(
+                    'Where the House Argues',
+                    style: theme.textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: OhSpacing.sm),
+                  _ContestedList(
+                    items: state.contestedItems,
+                    deckById: state.deckById,
+                  ),
+                  const SizedBox(height: OhSpacing.lg),
+                ],
+
+                // ── Make Charter button ────────────────────────────────────────
+                ElevatedButton(
+                  key: const Key('make-charter-button'),
+                  onPressed: _creating ? null : () => _makeCharter(state),
+                  child: const Text('Make our Charter'),
+                ),
+                const SizedBox(height: OhSpacing.xl),
+              ],
+            ),
           ),
         ),
       ),

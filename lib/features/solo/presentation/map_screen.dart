@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openhearth_design/openhearth_design.dart';
 
 import '../../../core/providers.dart';
-import '../../../widgets/error_view.dart';
 
 // ── Providers ─────────────────────────────────────────────────────────────────
 
@@ -66,26 +65,30 @@ class MapScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Map'),
       ),
-      body: labelsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) {
-          debugPrint('MapScreen error: $e');
-          return ErrorView(
-            message: "We couldn't load your map. Please try again.",
-            onRetry: () => ref.invalidate(_mapThroughlineLabelsProvider(memberId)),
-          );
-        },
-        data: (labels) {
-          if (labels.isEmpty) {
-            return _EmptyState(cs: cs, theme: theme);
-          }
-          return _MapBody(
-            labels: labels,
-            memberLabel: memberLabel,
-            theme: theme,
-            cs: cs,
-          );
-        },
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: labelsAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) {
+            debugPrint('MapScreen error: $e');
+            return OhErrorState(
+              message: 'Your map didn’t load.',
+              error: e,
+              onRetry: () => ref.invalidate(_mapThroughlineLabelsProvider(memberId)),
+            );
+          },
+          data: (labels) {
+            if (labels.isEmpty) {
+              return _EmptyState(cs: cs, theme: theme);
+            }
+            return _MapBody(
+              labels: labels,
+              memberLabel: memberLabel,
+              theme: theme,
+              cs: cs,
+            );
+          },
+        ),
       ),
     );
   }
@@ -153,7 +156,7 @@ class _MapBody extends StatelessWidget {
 
           // ── Context note ──────────────────────────────────────────────────
           Text(
-            'These threads surfaced as you explored. Keep reading and spotting — the picture fills in gradually.',
+            'These threads surfaced as you explored. Keep reading and spotting; the picture fills in gradually.',
             key: const Key('map-context-note'),
             style: theme.textTheme.bodySmall?.copyWith(
               color: cs.onSurfaceVariant,
@@ -190,7 +193,7 @@ class _EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: OhSpacing.md),
             Text(
-              'Nothing has surfaced yet — keep exploring.',
+              'Nothing has surfaced yet. Keep exploring.',
               key: const Key('map-empty-state'),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: cs.onSurfaceVariant,

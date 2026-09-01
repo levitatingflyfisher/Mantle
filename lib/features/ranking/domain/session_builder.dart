@@ -11,9 +11,15 @@ class SessionBuilder {
 
   /// Reconstruct an [EloSession] for [participantId] over [itemIds],
   /// replaying every [MatchRow] in [matches] (chronological order assumed).
+  ///
+  /// [sessionId] is the persisted RankingSession's id. Passing it means the
+  /// engine never mints one: minting went through `1 << 32`, which is 0
+  /// under dart2js and threw on every reveal on web. `EloEngine.snapshot()`
+  /// takes no id, so the session is built directly from the engine state.
   static EloSession buildSession({
     required List<String> itemIds,
     required List<MatchRow> matches,
+    required String sessionId,
     required String participantId,
   }) {
     final engine = EloEngine(
@@ -32,6 +38,11 @@ class SessionBuilder {
         enabledAlgorithms: {AlgorithmId.elo},
       ),
     );
-    return engine.snapshot(participantId: participantId);
+    return EloSession(
+      sessionId: sessionId,
+      participantId: participantId,
+      items: engine.items,
+      history: List.of(engine.history),
+    );
   }
 }

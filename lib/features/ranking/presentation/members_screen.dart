@@ -6,19 +6,11 @@ import 'package:openhearth_design/openhearth_design.dart';
 
 import '../../../core/db/database.dart';
 import '../../../core/providers.dart';
-import '../../../widgets/error_view.dart';
+import '../../../widgets/member_dot.dart';
+import '../../../core/theme/theme_preference.dart';
 import 'round_screen.dart';
 
-// ── Member-color palette ─────────────────────────────────────────────────────
-// A fixed set of warm, theme-derived swatches for member chips.
-// Colors are taken from OhColors named constants — no inlined hex values.
-const List<Color> _memberSwatches = [
-  OhColors.hearth400, // terracotta
-  OhColors.sage500, // sage green
-  OhColors.slate500, // calm slate blue
-  OhColors.amber400, // warm amber
-  OhColors.hearth700, // deep brick
-];
+// The member palette (with names) lives in widgets/member_dot.dart.
 
 const int _minMembers = 2;
 const int _maxMembers = 5;
@@ -26,6 +18,12 @@ const int _maxMembers = 5;
 // ── Providers ────────────────────────────────────────────────────────────────
 
 /// All members, ordered by creation time ascending. Refreshed on invalidation.
+/// Removed members, most recent first, for the "Recently removed" rows.
+final removedMembersProvider =
+    FutureProvider.autoDispose<List<MemberRow>>((ref) {
+  return ref.watch(membersDaoProvider).removed();
+});
+
 final membersProvider = FutureProvider.autoDispose<List<MemberRow>>((ref) {
   return ref.watch(membersDaoProvider).all();
 });
@@ -58,11 +56,65 @@ class _MembersScreenState extends ConsumerState<MembersScreen> {
     }
   }
 
+  /// Holds the Undo for a removed member. No timer: it lasts until Undo,
+  /// Dismiss, the next removal, or leaving this screen.
+  final _undo = OhUndoController();
+
   @override
   void dispose() {
     _labelController.removeListener(_onLabelChanged);
     _labelController.dispose();
+    _undo.dispose();
     super.dispose();
+  }
+
+  Future<void> _editMember(MemberRow member) async {
+    final result = await showModalBottomSheet<_MemberEdit>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (_) => _EditMemberSheet(member: member),
+    );
+    if (result == null || !mounted) return;
+    final dao = ref.read(membersDaoProvider);
+    if (result.remove) {
+      final row = await dao.remove(member.id);
+      if (row == null || !mounted) return;
+      _refresh();
+      _undo.show(
+        message: 'Removed ${row.label}. They stay in Recently removed.',
+        onUndo: () => _restore(row.id),
+      );
+    } else {
+      await dao.edit(member.id, label: result.label, color: result.color);
+      if (mounted) ref.invalidate(membersProvider);
+    }
+  }
+
+  void _refresh() {
+    ref.invalidate(membersProvider);
+    ref.invalidate(removedMembersProvider);
+  }
+
+  Future<void> _restore(String id) async {
+    await ref.read(membersDaoProvider).restore(id);
+    if (mounted) _refresh();
+  }
+
+  /// Delete forever is the one irreversible step, from a list that has to be
+  /// opened on purpose, so it asks first.
+  Future<void> _deleteForever(MemberRow member) async {
+    final go = await showOhConfirm(
+      context,
+      title: 'Delete ${member.label} for good?',
+      message: 'They will be gone from this list and can’t be restored. '
+          'Past rounds and Charters are kept.',
+      confirmLabel: 'Delete ${member.label}',
+      destructive: true,
+    );
+    if (!go || !mounted) return;
+    await ref.read(membersDaoProvider).deleteForever(member.id);
+    if (mounted) _refresh();
   }
 
   Future<void> _addMember(List<MemberRow> current) async {
@@ -79,7 +131,7 @@ class _MembersScreenState extends ConsumerState<MembersScreen> {
       await dao.add(
         id: id,
         label: label,
-        color: _memberSwatches[_selectedColorIndex].toARGB32(),
+        color: memberSwatches[_selectedColorIndex].color.toARGB32(),
         createdAt: DateTime.now(),
       );
 
@@ -88,7 +140,7 @@ class _MembersScreenState extends ConsumerState<MembersScreen> {
       // Cycle to the next color automatically for the next person.
       setState(() {
         _selectedColorIndex =
-            (_selectedColorIndex + 1) % _memberSwatches.length;
+            (_selectedColorIndex + 1) % memberSwatches.length;
       });
       ref.invalidate(membersProvider);
     } finally {
@@ -101,92 +153,110 @@ class _MembersScreenState extends ConsumerState<MembersScreen> {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
     final membersAsync = ref.watch(membersProvider);
+    final removed =
+        ref.watch(removedMembersProvider).valueOrNull ?? const <MemberRow>[];
 
     return Scaffold(
+      bottomNavigationBar: OhUndoBar(controller: _undo),
       appBar: AppBar(
-        title: const Text("Who's playing?"),
+        title: const Text('Who’s playing?'),
+        actions: const [MantleThemeToggle()],
       ),
-      body: membersAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) {
-          debugPrint('MembersScreen error: $e');
-          return ErrorView(
-            message: "We couldn't load members. Please try again.",
-            onRetry: () => ref.invalidate(membersProvider),
-          );
-        },
-        data: (members) {
-          final atMax = members.length >= _maxMembers;
-          final canStart = members.length >= _minMembers;
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: membersAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) {
+            debugPrint('MembersScreen error: $e');
+            return OhErrorState(
+              message: 'The list of people didn’t load.',
+              error: e,
+              onRetry: () => ref.invalidate(membersProvider),
+            );
+          },
+          data: (members) {
+            final atMax = members.length >= _maxMembers;
+            final canStart = members.length >= _minMembers;
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // ── Member list ──────────────────────────────────────────────
-              Expanded(
-                child: members.isEmpty
-                    ? _EmptyHint(cs: cs)
-                    : ListView.separated(
-                        padding: OhSpacing.insetMd,
-                        itemCount: members.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: OhSpacing.sm),
-                        itemBuilder: (_, i) =>
-                            _MemberTile(member: members[i]),
-                      ),
-              ),
-
-              // ── Add-member form ──────────────────────────────────────────
-              if (!atMax) ...[
-                const Divider(height: 1),
-                _AddMemberForm(
-                  controller: _labelController,
-                  selectedColorIndex: _selectedColorIndex,
-                  labelIsEmpty: _labelIsEmpty,
-                  onColorSelected: (i) =>
-                      setState(() => _selectedColorIndex = i),
-                  onAdd: () => _addMember(members),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // ── Member list ──────────────────────────────────────────────
+                Expanded(
+                  child: members.isEmpty && removed.isEmpty
+                      ? _EmptyHint(cs: cs)
+                      : ListView(
+                          padding: OhSpacing.insetMd,
+                          children: [
+                            for (final m in members) ...[
+                              _MemberTile(
+                                member: m,
+                                onTap: () => _editMember(m),
+                              ),
+                              const SizedBox(height: OhSpacing.sm),
+                            ],
+                            if (removed.isNotEmpty)
+                              _RecentlyRemoved(
+                                members: removed,
+                                onRestore: (m) => _restore(m.id),
+                                onDeleteForever: _deleteForever,
+                              ),
+                          ],
+                        ),
                 ),
-              ] else
+
+                // ── Add-member form ──────────────────────────────────────────
+                if (!atMax) ...[
+                  const Divider(height: 1),
+                  _AddMemberForm(
+                    controller: _labelController,
+                    selectedColorIndex: _selectedColorIndex,
+                    labelIsEmpty: _labelIsEmpty,
+                    onColorSelected: (i) =>
+                        setState(() => _selectedColorIndex = i),
+                    onAdd: () => _addMember(members),
+                  ),
+                ] else
+                  Padding(
+                    padding: OhSpacing.insetMd,
+                    child: Text(
+                      'Maximum of $_maxMembers members reached.',
+                      style: theme.textTheme.bodySmall,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+
+                // ── Start round ──────────────────────────────────────────────
                 Padding(
-                  padding: OhSpacing.insetMd,
-                  child: Text(
-                    'Maximum of $_maxMembers members reached.',
-                    style: theme.textTheme.bodySmall,
-                    textAlign: TextAlign.center,
+                  padding: const EdgeInsets.fromLTRB(OhSpacing.lg, OhSpacing.sm, OhSpacing.lg, OhSpacing.lg),
+                  child: ElevatedButton(
+                    key: const Key('startRoundButton'),
+                    onPressed: canStart
+                        ? () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => const RoundScreen(),
+                              ),
+                            );
+                          }
+                        : null,
+                    child: const Text('Start a round'),
                   ),
                 ),
 
-              // ── Start round ──────────────────────────────────────────────
-              Padding(
-                padding: const EdgeInsets.fromLTRB(OhSpacing.lg, OhSpacing.sm, OhSpacing.lg, OhSpacing.lg),
-                child: ElevatedButton(
-                  key: const Key('startRoundButton'),
-                  onPressed: canStart
-                      ? () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (_) => const RoundScreen(),
-                            ),
-                          );
-                        }
-                      : null,
-                  child: const Text('Start a round'),
-                ),
-              ),
-
-              if (!canStart && members.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: OhSpacing.md),
-                  child: Text(
-                    'Add at least $_minMembers people to begin.',
-                    style: theme.textTheme.bodySmall,
-                    textAlign: TextAlign.center,
+                if (!canStart && members.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: OhSpacing.md),
+                    child: Text(
+                      'Add at least $_minMembers people to begin.',
+                      style: theme.textTheme.bodySmall,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -213,7 +283,7 @@ class _EmptyHint extends StatelessWidget {
             ),
             const SizedBox(height: OhSpacing.md),
             Text(
-              "Add the people who'll be playing.",
+              'Add the people who’ll be playing.',
               style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
@@ -224,20 +294,77 @@ class _EmptyHint extends StatelessWidget {
   }
 }
 
+/// Removed members, kept until restored or deleted for good, so a removal
+/// always has a way back (fleet ruling: Undo never expires).
+class _RecentlyRemoved extends StatelessWidget {
+  const _RecentlyRemoved({
+    required this.members,
+    required this.onRestore,
+    required this.onDeleteForever,
+  });
+
+  final List<MemberRow> members;
+  final ValueChanged<MemberRow> onRestore;
+  final ValueChanged<MemberRow> onDeleteForever;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const SizedBox(height: OhSpacing.md),
+        Text('Recently removed',
+            style: theme.textTheme.titleSmall
+                ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        for (final m in members)
+          Padding(
+            padding: const EdgeInsets.only(top: OhSpacing.xs),
+            child: Row(
+              children: [
+                MemberDot(color: Color(m.color), label: m.label, radius: 12),
+                const SizedBox(width: OhSpacing.sm),
+                Expanded(
+                  child: Text(m.label, overflow: TextOverflow.ellipsis),
+                ),
+                TextButton(
+                  key: Key('removed-restore-${m.id}'),
+                  onPressed: () => onRestore(m),
+                  child: const Text('Restore'),
+                ),
+                IconButton(
+                  key: Key('removed-forever-${m.id}'),
+                  tooltip: 'Delete ${m.label} for good',
+                  icon: const Icon(Icons.delete_forever_outlined),
+                  onPressed: () => onDeleteForever(m),
+                ),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+}
+
 class _MemberTile extends StatelessWidget {
-  const _MemberTile({required this.member});
+  const _MemberTile({required this.member, required this.onTap});
   final MemberRow member;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final memberColor = Color(member.color);
     return Card(
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: memberColor,
-          radius: 16,
-        ),
+        leading: MemberDot(color: memberColor, label: member.label),
         title: Text(member.label),
+        subtitle: memberColourName(member.color) == null
+            ? null
+            : Text(memberColourName(member.color)!),
+        // The pencil says the row can be changed; the whole row is the
+        // target.
+        trailing: const Icon(Icons.edit_outlined),
+        onTap: onTap,
       ),
     );
   }
@@ -287,50 +414,16 @@ class _AddMemberForm extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: OhSpacing.sm),
                 child: Text(
-                  'Color',
+                  'Colour',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
               const SizedBox(width: OhSpacing.md),
               Expanded(
-                child: Wrap(
-                  spacing: OhSpacing.sm,
-                  runSpacing: OhSpacing.sm,
-                  children: [
-                    for (int i = 0; i < _memberSwatches.length; i++)
-                      Semantics(
-                        label: 'Member colour ${i + 1}',
-                        selected: selectedColorIndex == i,
-                        button: true,
-                        child: GestureDetector(
-                          key: Key('colorSwatch_$i'),
-                          onTap: () => onColorSelected(i),
-                          child: SizedBox(
-                            width: 44,
-                            height: 44,
-                            child: Center(
-                              child: AnimatedContainer(
-                                duration: OhMotion.fast,
-                                width: 28,
-                                height: 28,
-                                decoration: BoxDecoration(
-                                  color: _memberSwatches[i],
-                                  shape: BoxShape.circle,
-                                  border: selectedColorIndex == i
-                                      ? Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                          width: 2.5,
-                                        )
-                                      : null,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
+                child: _SwatchPicker(
+                  selectedIndex: selectedColorIndex,
+                  onSelected: onColorSelected,
+                  keyPrefix: 'colorSwatch_',
                 ),
               ),
             ],
@@ -351,3 +444,172 @@ class _AddMemberForm extends StatelessWidget {
     );
   }
 }
+
+// ── Swatch picker ─────────────────────────────────────────────────────────────
+
+/// The member colours as named, tappable swatches. The swatches live in a
+/// Wrap so they flow onto a second line on narrow phones (320dp) or at large
+/// text scale rather than overflowing. [selectedIndex] may be null when a
+/// member's stored colour predates the current palette.
+class _SwatchPicker extends StatelessWidget {
+  const _SwatchPicker({
+    required this.selectedIndex,
+    required this.onSelected,
+    required this.keyPrefix,
+  });
+
+  final int? selectedIndex;
+  final ValueChanged<int> onSelected;
+  final String keyPrefix;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: OhSpacing.sm,
+      runSpacing: OhSpacing.sm,
+      children: [
+        for (int i = 0; i < memberSwatches.length; i++)
+          Semantics(
+            label: 'Colour: ${memberSwatches[i].name}',
+            selected: selectedIndex == i,
+            button: true,
+            child: GestureDetector(
+              key: Key('$keyPrefix$i'),
+              onTap: () => onSelected(i),
+              child: SizedBox(
+                width: 44,
+                height: 44,
+                child: Center(
+                  child: AnimatedContainer(
+                    duration: OhMotion.fast,
+                    width: 28,
+                    height: 28,
+                    decoration: BoxDecoration(
+                      color: memberSwatches[i].color,
+                      shape: BoxShape.circle,
+                      border: selectedIndex == i
+                          ? Border.all(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              width: 2.5,
+                            )
+                          : null,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+// ── Edit sheet ────────────────────────────────────────────────────────────────
+
+class _MemberEdit {
+  const _MemberEdit({this.label, this.color, this.remove = false});
+  final String? label;
+  final int? color;
+  final bool remove;
+}
+
+/// Rename, recolour or remove one member, with the same controls the add
+/// form has. Remove is one of the edits; it does not ask first, because the
+/// list offers an Undo that does not expire.
+class _EditMemberSheet extends StatefulWidget {
+  const _EditMemberSheet({required this.member});
+  final MemberRow member;
+
+  @override
+  State<_EditMemberSheet> createState() => _EditMemberSheetState();
+}
+
+class _EditMemberSheetState extends State<_EditMemberSheet> {
+  late final _name = TextEditingController(text: widget.member.label);
+  int? _picked;
+
+  @override
+  void initState() {
+    super.initState();
+    _name.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _name.dispose();
+    super.dispose();
+  }
+
+  int? get _currentIndex {
+    if (_picked != null) return _picked;
+    for (var i = 0; i < memberSwatches.length; i++) {
+      if (memberSwatches[i].color.toARGB32() == widget.member.color) return i;
+    }
+    return null;
+  }
+
+  void _save() {
+    final label = _name.text.trim();
+    if (label.isEmpty) return;
+    Navigator.of(context).pop(_MemberEdit(
+      label: label,
+      color: _picked == null ? null : memberSwatches[_picked!].color.toARGB32(),
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final roles = OhColorRoles.of(context);
+    return Padding(
+      key: const Key('member-edit-sheet'),
+      padding: EdgeInsets.only(
+        left: OhSpacing.md,
+        right: OhSpacing.md,
+        bottom: MediaQuery.viewInsetsOf(context).bottom + OhSpacing.md,
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text('Edit ${widget.member.label}',
+                style: theme.textTheme.titleLarge),
+            const SizedBox(height: OhSpacing.md),
+            TextField(
+              key: const Key('member-edit-name'),
+              controller: _name,
+              decoration: const InputDecoration(labelText: 'Name'),
+              textCapitalization: TextCapitalization.words,
+              onSubmitted: (_) => _save(),
+            ),
+            const SizedBox(height: OhSpacing.md),
+            Text('Colour', style: theme.textTheme.bodySmall),
+            const SizedBox(height: OhSpacing.xs),
+            _SwatchPicker(
+              selectedIndex: _currentIndex,
+              onSelected: (i) => setState(() => _picked = i),
+              keyPrefix: 'member-edit-colour-',
+            ),
+            const SizedBox(height: OhSpacing.lg),
+            FilledButton(
+              key: const Key('member-edit-save'),
+              onPressed: _name.text.trim().isEmpty ? null : _save,
+              child: const Text('Save'),
+            ),
+            const SizedBox(height: OhSpacing.sm),
+            TextButton.icon(
+              key: const Key('member-edit-remove'),
+              style: TextButton.styleFrom(foregroundColor: roles.urgency),
+              icon: const Icon(Icons.person_remove_outlined),
+              label: Text('Remove ${widget.member.label}'),
+              onPressed: () =>
+                  Navigator.of(context).pop(const _MemberEdit(remove: true)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

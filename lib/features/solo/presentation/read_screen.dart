@@ -90,111 +90,114 @@ class _ReadScreenState extends ConsumerState<ReadScreen> {
             ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: OhSpacing.insetPage,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // ── Plate ──────────────────────────────────────────────────────
-            Center(
-              child: Plate(
-                key: Key('read-plate-${item.plate}'),
-                plateKey: item.plate,
-                size: 200,
-              ),
-            ),
-            const SizedBox(height: OhSpacing.lg),
-
-            // ── Term ───────────────────────────────────────────────────────
-            Text(
-              item.term,
-              key: const Key('read-term'),
-              style: theme.textTheme.headlineMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: OhSpacing.sm),
-
-            // ── Gloss ──────────────────────────────────────────────────────
-            Text(
-              item.gloss,
-              key: const Key('read-gloss'),
-              style: theme.textTheme.bodyLarge?.copyWith(
-                fontStyle: FontStyle.italic,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: OhSpacing.lg),
-
-            // ── Principle ──────────────────────────────────────────────────
-            Text(
-              item.principle,
-              key: const Key('read-principle'),
-              style: theme.textTheme.bodyLarge,
-            ),
-            const SizedBox(height: OhSpacing.lg),
-
-            // ── Two equal lenses ────────────────────────────────────────────
-            // quickRead and closerRead are two ways of looking at the same
-            // concept. Neither is a "better" or "deeper" reading than the
-            // other — they are different angles on the same truth.
-            _LensCard(
-              key: const Key('read-quick-read'),
-              label: 'Quick read',
-              body: item.quickRead,
-            ),
-            const SizedBox(height: OhSpacing.md),
-            _LensCard(
-              key: const Key('read-closer-read'),
-              label: 'Closer read',
-              body: item.closerRead,
-            ),
-            const SizedBox(height: OhSpacing.lg),
-
-            // ── Cross-domain echo ───────────────────────────────────────────
-            if (item.echo.note.isNotEmpty) ...[
-              _EchoNote(
-                key: const Key('read-echo'),
-                note: item.echo.note,
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: SingleChildScrollView(
+          padding: OhSpacing.insetPage,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // ── Plate ──────────────────────────────────────────────────────
+              Center(
+                child: Plate(
+                  key: Key('read-plate-${item.plate}'),
+                  plateKey: item.plate,
+                  size: 200,
+                ),
               ),
               const SizedBox(height: OhSpacing.lg),
-            ],
 
-            // ── Self-report ────────────────────────────────────────────────
-            // Key is scoped to the current item so Flutter creates a fresh
-            // _SelfReportState (resetting _choice to null) when the user
-            // navigates to a different item.
-            _SelfReport(
-              key: Key('read-self-report-${item.id}'),
-              onReport: _report,
-            ),
-            const SizedBox(height: OhSpacing.lg),
+              // ── Term ───────────────────────────────────────────────────────
+              Text(
+                item.term,
+                key: const Key('read-term'),
+                style: theme.textTheme.headlineMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: OhSpacing.sm),
 
-            // ── Navigation ─────────────────────────────────────────────────
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (_hasPrev)
-                  OutlinedButton.icon(
-                    key: const Key('read-prev-button'),
-                    onPressed: _goPrev,
-                    icon: const Icon(Icons.arrow_back),
-                    label: const Text('Previous'),
-                  )
-                else
-                  const SizedBox.shrink(),
-                if (_hasNext)
-                  FilledButton.icon(
-                    key: const Key('read-next-button'),
-                    onPressed: _goNext,
-                    icon: const Icon(Icons.arrow_forward),
-                    label: const Text('Next'),
-                  )
-                else
-                  const SizedBox.shrink(),
+              // ── Gloss ──────────────────────────────────────────────────────
+              Text(
+                item.gloss,
+                key: const Key('read-gloss'),
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  fontStyle: FontStyle.italic,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: OhSpacing.lg),
+
+              // ── Principle ──────────────────────────────────────────────────
+              Text(
+                item.principle,
+                key: const Key('read-principle'),
+                style: theme.textTheme.bodyLarge,
+              ),
+              const SizedBox(height: OhSpacing.lg),
+
+              // ── Two equal lenses ────────────────────────────────────────────
+              // quickRead and closerRead are two ways of looking at the same
+              // concept. Neither is a "better" or "deeper" reading than the
+              // other — they are different angles on the same truth.
+              _LensCard(
+                key: const Key('read-quick-read'),
+                label: 'Quick read',
+                body: item.quickRead,
+              ),
+              const SizedBox(height: OhSpacing.md),
+              _LensCard(
+                key: const Key('read-closer-read'),
+                label: 'Closer read',
+                body: item.closerRead,
+              ),
+              const SizedBox(height: OhSpacing.lg),
+
+              // ── Cross-domain echo ───────────────────────────────────────────
+              if (item.echo.note.isNotEmpty) ...[
+                _EchoNote(
+                  key: const Key('read-echo'),
+                  note: item.echo.note,
+                ),
+                const SizedBox(height: OhSpacing.lg),
               ],
-            ),
-            const SizedBox(height: OhSpacing.xl),
-          ],
+
+              // ── Self-report ────────────────────────────────────────────────
+              // Key is scoped to the current item so Flutter creates a fresh
+              // _SelfReportState (resetting _choice to null) when the user
+              // navigates to a different item.
+              _SelfReport(
+                key: Key('read-self-report-${item.id}'),
+                onReport: _report,
+              ),
+              const SizedBox(height: OhSpacing.lg),
+
+              // ── Navigation ─────────────────────────────────────────────────
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (_hasPrev)
+                    OutlinedButton.icon(
+                      key: const Key('read-prev-button'),
+                      onPressed: _goPrev,
+                      icon: const Icon(Icons.arrow_back),
+                      label: const Text('Previous'),
+                    )
+                  else
+                    const SizedBox.shrink(),
+                  if (_hasNext)
+                    FilledButton.icon(
+                      key: const Key('read-next-button'),
+                      onPressed: _goNext,
+                      icon: const Icon(Icons.arrow_forward),
+                      label: const Text('Next'),
+                    )
+                  else
+                    const SizedBox.shrink(),
+                ],
+              ),
+              const SizedBox(height: OhSpacing.xl),
+            ],
+          ),
         ),
       ),
     );

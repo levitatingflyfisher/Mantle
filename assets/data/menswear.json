@@ -53,7 +53,7 @@
       "handle": null,
       "gloss": "A round-neck pullover made of looped-back fleece with ribbed neck, cuffs, and hem.",
       "quickRead": "A plain round-neck sweatshirt.",
-      "closerRead": "The ribbed neck, cuffs, and hem, plus the small V-stitch or triangle gusset at the collar, are the tells; inside is looped-back fleece, and it's simply the hood-less cousin of the hoodie.",
+      "closerRead": "The ribbed neck, cuffs, and hem, plus the small V-stitch or triangle gusset at the collar, are the tells; inside is looped-back fleece, and it’s simply the hood-less cousin of the hoodie.",
       "axisSignals": [{"axis": "structured-relaxed", "pole": "relaxed"}],
       "plateHint": "A flat sweatshirt with call-outs to the ribbing and the V-gusset at the collar, plus a cutaway of the loopback fleece interior."
     },
@@ -72,10 +72,10 @@
       "id": "chambray-shirt",
       "facet": "garment",
       "term": "Chambray shirt",
-      "handle": "the denim shirt that isn't denim",
+      "handle": "the denim shirt that isn’t denim",
       "gloss": "A lightweight cotton button-up woven from a colored warp and a white weft, giving a soft faded-blue look.",
       "quickRead": "A soft blue button-up work shirt.",
-      "closerRead": "It reads like denim but wears far lighter and smoother; the plain over-under weave (not denim's diagonal twill) is the tell, and up close you see white threads flickering through the blue.",
+      "closerRead": "It reads like denim but wears far lighter and smoother; the plain over-under weave (not denim’s diagonal twill) is the tell, and up close you see white threads flickering through the blue.",
       "axisSignals": [{"axis": "muted-graphic", "pole": "muted"}],
       "plateHint": "A flat button-up shirt with a zoom-in swatch of the plain colored-warp/white-weft weave, set beside a denim twill swatch."
     },
@@ -228,7 +228,7 @@
       "term": "Cropped",
       "handle": null,
       "gloss": "A length that deliberately stops short, higher than the usual hem.",
-      "quickRead": "A length that stops short, above where you'd expect.",
+      "quickRead": "A length that stops short, above where you’d expect.",
       "closerRead": "The hem ends higher on purpose, above the ankle on trousers or above the hip on a jacket, showing sock or skin; that clean high stop is the tell.",
       "axisSignals": [{"axis": "classic-directional", "pole": "directional"}],
       "plateHint": "A trouser leg shown ending above the ankle bone with the exposed gap to the shoe labeled."
@@ -239,10 +239,10 @@
       "term": "Break (trouser break)",
       "handle": "where the hem meets the shoe",
       "gloss": "The amount of fabric-fold a trouser leg makes where it rests on the shoe.",
-      "quickRead": "How long the pants sit — whether they pool, touch, or stop above the shoe.",
+      "quickRead": "How long the pants sit: whether they pool, touch, or stop above the shoe.",
       "closerRead": "Full break stacks a fold or two of cloth on the shoe, half break just kisses it, and no break stops clean above; reading the break tells you how carefully a whole outfit was calibrated.",
       "axisSignals": [],
-      "plateHint": "Three trouser hems side by side over the same shoe — full break, half break, no break — each labeled."
+      "plateHint": "Three trouser hems side by side over the same shoe (full break, half break, no break), each labeled."
     },
     {
       "id": "flat-front-chino",
@@ -273,7 +273,7 @@
       "handle": null,
       "gloss": "The standard blue jean, with two front, two back, and one coin pocket.",
       "quickRead": "A regular pair of blue jeans.",
-      "closerRead": "The five-pocket layout — two back, two front, plus the little coin pocket — with rivets at the stress points and a felled inseam is the template nearly every jean copies.",
+      "closerRead": "The five-pocket layout (two back, two front, plus the little coin pocket) with rivets at the stress points and a felled inseam is the template nearly every jean copies.",
       "axisSignals": [],
       "plateHint": "A flat pair of jeans with each of the five pockets and the rivets numbered and labeled."
     },
@@ -326,9 +326,9 @@
       "facet": "trousers",
       "term": "Selvedge straight denim",
       "handle": "the self-edge",
-      "gloss": "A straight-leg jean woven on old shuttle looms so the fabric's own edge finishes the seam.",
+      "gloss": "A straight-leg jean woven on old shuttle looms so the fabric’s own edge finishes the seam.",
       "quickRead": "A straight pair of jeans.",
-      "closerRead": "Cuff them and you find the 'self-edge' — a tight, often red-lined band woven on narrow shuttle looms so the fabric edge won't fray; that clean selvedge line is the denim-lover's tell.",
+      "closerRead": "Cuff them and you find the 'self-edge': a tight, often red-lined band woven on narrow shuttle looms so the fabric edge won’t fray; that clean selvedge line is the denim-lover’s tell.",
       "axisSignals": [{"axis": "classic-directional", "pole": "classic"}],
       "plateHint": "A cuffed jean hem with a zoom on the selvedge band and its colored line along the outseam."
     },
@@ -347,10 +347,10 @@
       "id": "chore-coat",
       "facet": "outerwear",
       "term": "Chore coat",
-      "handle": "the workman's coat",
+      "handle": "the workman’s coat",
       "gloss": "A boxy button-up work jacket in sturdy cotton with flat patch pockets.",
       "quickRead": "A boxy button-up work jacket.",
-      "closerRead": "Three or four flat patch pockets, a straight boxy cut, and a hard-wearing cotton or moleskin; the French 'bleu de travail' workman's coat, worn as a light layer.",
+      "closerRead": "Three or four flat patch pockets, a straight boxy cut, and a hard-wearing cotton or moleskin; the French 'bleu de travail' workman’s coat, worn as a light layer.",
       "axisSignals": [{"axis": "classic-directional", "pole": "classic"}],
       "plateHint": "A flat boxy jacket with the patch pockets and button front labeled and the straight side seams marked."
     },
@@ -402,10 +402,10 @@
       "id": "peacoat",
       "facet": "outerwear",
       "term": "Peacoat",
-      "handle": "the sailor's coat",
+      "handle": "the sailor’s coat",
       "gloss": "A short, heavy double-breasted wool coat of naval origin.",
       "quickRead": "A short, heavy double-breasted wool coat.",
-      "closerRead": "Broad notched lapels, two rows of anchor-stamped buttons, and slash hand-warmer pockets in thick navy melton wool; the sailor's coat.",
+      "closerRead": "Broad notched lapels, two rows of anchor-stamped buttons, and slash hand-warmer pockets in thick navy melton wool; the sailor’s coat.",
       "axisSignals": [{"axis": "structured-relaxed", "pole": "structured"}, {"axis": "classic-directional", "pole": "classic"}],
       "plateHint": "A flat double-breasted coat with the two button rows, the wide lapels, and the slash pockets labeled."
     },
@@ -493,7 +493,7 @@
       "handle": "the slip-on",
       "gloss": "A low, laceless slip-on shoe, often with a strap across the top.",
       "quickRead": "A slip-on leather shoe.",
-      "closerRead": "No laces, you just step in; the strap across the top tells the type — a cut band with a slot is a penny loafer, a metal snaffle is a bit loafer, and fringe-with-strings is a tassel.",
+      "closerRead": "No laces, you just step in; the strap across the top tells the type: a cut band with a slot is a penny loafer, a metal snaffle is a bit loafer, and fringe-with-strings is a tassel.",
       "axisSignals": [{"axis": "classic-directional", "pole": "classic"}],
       "plateHint": "A side view of a slip-on shoe with the saddle strap across the vamp labeled, showing a penny-slot variant."
     },

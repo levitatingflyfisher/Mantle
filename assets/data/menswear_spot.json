@@ -17,12 +17,12 @@
       "plateA": "crew-tee",
       "plateB": "henley",
       "correctSide": "B",
-      "explanation": "The buttoned placket is the henley's tell; the crew tee has a plain round neckline."
+      "explanation": "The buttoned placket is the henley’s tell; the crew tee has a plain round neckline."
     },
     {
       "id": "ms-spot-point-spread",
       "facet": "collar",
-      "promptText": "Which is the spread collar — points set wide apart?",
+      "promptText": "Which is the spread collar (points set wide apart)?",
       "plateA": "point-collar",
       "plateB": "spread-collar",
       "correctSide": "B",
@@ -49,7 +49,7 @@
     {
       "id": "ms-spot-chelsea-chukka",
       "facet": "footwear",
-      "promptText": "Which is the Chelsea boot — elastic side panels, no laces?",
+      "promptText": "Which is the Chelsea boot (elastic side panels, no laces)?",
       "plateA": "chelsea-boot",
       "plateB": "chukka-desert-boot",
       "correctSide": "A",
@@ -67,11 +67,11 @@
     {
       "id": "ms-spot-derby-loafer",
       "facet": "footwear",
-      "promptText": "Which is the derby — a lace-up with open lacing?",
+      "promptText": "Which is the derby (a lace-up with open lacing)?",
       "plateA": "derby",
       "plateB": "loafer",
       "correctSide": "A",
-      "explanation": "The derby laces up, with the lace flaps stitched on top of the shoe front. The loafer has no laces at all — you just step in."
+      "explanation": "The derby laces up, with the lace flaps stitched on top of the shoe front. The loafer has no laces at all: you just step in."
     }
   ]
 }

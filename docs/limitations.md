@@ -15,11 +15,13 @@ is a v2 idea, not a feature.
 
 ## No accounts, no recovery
 
-Ghost mode has no account and therefore no account recovery. If the device is lost
-or the app's data is cleared, the family's rounds and Charters are gone. There is
-no backup story beyond exporting a Charter PDF yourself. A Named tier (backup /
-recovery / cross-device identity) is deferred until a real "lost my phone" need
-drives it.
+Ghost mode has no account and therefore no account recovery. The encrypted
+backup (Settings → Backup) is the way back: an exported `.ohbk` file opens with
+the 12 recovery words on any device, and Clear all data takes a safety copy into
+Previous backups first (with an Undo) when backup is set up. Without backup set
+up, a lost device or a Clear all data means the rounds and Charters are gone,
+and the app says so before it clears. A Named tier (account recovery,
+cross-device identity) is deferred until a real "lost my phone" need drives it.
 
 ## The reveal needs ≥ 2 rankers — and the math doesn't enforce it
 

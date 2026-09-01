@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:openhearth_design/openhearth_design.dart';
 import 'package:mantle/core/theme/theme_preference.dart';
 import 'package:mantle/features/home/presentation/home_screen.dart';
 import 'package:sanctuary_backup_ui/sanctuary_backup_ui.dart';
@@ -26,18 +27,15 @@ class _MantleAppState extends ConsumerState<MantleApp> {
 
   @override
   Widget build(BuildContext context) {
-    final pref = ref.watch(themePreferenceProvider);
+    final pref = ref.watch(themePreferenceProvider).valueOrNull ??
+        ThemePreference.system;
+    // Each screen caps its own content with OhPage, so the bars still span
+    // a tablet or browser window while the phone layout stays phone-shaped.
     return MaterialApp(
       title: 'Mantle',
-      theme: (pref.valueOrNull ?? ThemePreference.light).build(),
-      builder: (context, child) {
-        final inner = child ?? const SizedBox.shrink();
-        if (MediaQuery.of(context).size.width <= 760) return inner;
-        return ColoredBox(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          child: Center(child: SizedBox(width: 760, child: inner)),
-        );
-      },
+      theme: OhTheme.light(),
+      darkTheme: pref.darkTheme(),
+      themeMode: pref.themeMode,
       home: const HomeScreen(),
     );
   }

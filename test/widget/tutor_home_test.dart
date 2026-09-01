@@ -14,7 +14,6 @@ import 'package:mantle/features/tutor/presentation/learn_screen.dart';
 import 'package:mantle/features/tutor/presentation/menswear_charter_start_screen.dart';
 import 'package:mantle/features/tutor/presentation/menswear_spot_screen.dart';
 import 'package:mantle/features/tutor/presentation/tutor_hub_screen.dart';
-import 'package:mantle/widgets/error_view.dart';
 import 'package:openhearth_design/openhearth_design.dart';
 
 MenswearTerm _t(String id) => MenswearTerm(
@@ -140,9 +139,9 @@ void main() {
         menswearRepository: _SpotFailsMenswearRepository()));
     await tester.pumpAndSettle();
 
-    // Hub still renders (not the ErrorView) — terms loaded fine.
+    // Hub still renders (not the error state) — terms loaded fine.
     expect(find.byKey(const Key('tutor-learn')), findsOneWidget);
-    expect(find.byType(ErrorView), findsNothing);
+    expect(find.byType(OhErrorState), findsNothing);
 
     await tester.tap(find.byKey(const Key('tutor-learn')));
     await tester.pumpAndSettle();

@@ -86,7 +86,7 @@ void main() {
         reason: 'Empty-state widget must be present when no rows exist',
       );
       expect(
-        find.text('Nothing has surfaced yet — keep exploring.'),
+        find.text('Nothing has surfaced yet. Keep exploring.'),
         findsOneWidget,
       );
     });

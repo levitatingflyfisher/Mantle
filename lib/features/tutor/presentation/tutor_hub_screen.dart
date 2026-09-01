@@ -4,8 +4,8 @@ import 'package:openhearth_design/openhearth_design.dart';
 
 import '../../../core/db/database.dart';
 import '../../../core/providers.dart';
+import '../../../core/theme/theme_preference.dart';
 import '../../../widgets/activity_card.dart';
-import '../../../widgets/error_view.dart';
 import '../content/domain/menswear_spot_question.dart';
 import '../content/domain/menswear_term.dart';
 import 'field_guide_screen.dart';
@@ -53,8 +53,17 @@ class _TutorHubScreenState extends ConsumerState<TutorHubScreen> {
       );
     }
     if (termsAsync is AsyncError) {
-      return const ErrorView(
-          message: "We couldn't load the menswear guide. Please try again.");
+      return Scaffold(
+        appBar: AppBar(title: const Text('Learn your style')),
+        body: OhPage(
+          padding: EdgeInsets.zero,
+          child: OhErrorState(
+            message: 'The menswear guide didn’t load.',
+            error: termsAsync.error,
+            onRetry: () => ref.invalidate(_tutorTermsProvider),
+          ),
+        ),
+      );
     }
 
     final members = membersAsync.valueOrNull ?? [];
@@ -71,91 +80,97 @@ class _TutorHubScreenState extends ConsumerState<TutorHubScreen> {
         (members.isNotEmpty ? members.first.id : anonymousId);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Learn your style')),
-      body: SingleChildScrollView(
-        padding: OhSpacing.insetPage,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: OhSpacing.md),
-            if (members.length > 1) ...[
-              Text('Exploring as',
-                  style: theme.textTheme.labelMedium
-                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-              const SizedBox(height: OhSpacing.sm),
-              Wrap(
-                spacing: OhSpacing.sm,
-                children: [
-                  for (final m in members)
-                    ChoiceChip(
-                      key: Key('tutor-member-${m.id}'),
-                      label: Text(m.label),
-                      selected: memberId == m.id,
-                      onSelected: (_) =>
-                          setState(() => _selectedMemberId = m.id),
-                    ),
-                ],
-              ),
-              const SizedBox(height: OhSpacing.xl),
-            ],
-            ActivityCard(
-              key: const Key('tutor-learn'),
-              icon: Icons.menu_book_outlined,
-              title: 'Learn the names',
-              subtitle: 'What is it called, and what is the tell?',
-              onTap: terms.isEmpty
-                  ? null
-                  : () => Navigator.push<void>(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (_) => LearnScreen(
-                            items: terms,
-                            spotQuestions: spotQuestions,
-                            memberId: memberId,
+      appBar: AppBar(
+        title: const Text('Learn your style'),
+        actions: const [MantleThemeToggle()],
+      ),
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: SingleChildScrollView(
+          padding: OhSpacing.insetPage,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: OhSpacing.md),
+              if (members.length > 1) ...[
+                Text('Exploring as',
+                    style: theme.textTheme.labelMedium
+                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                const SizedBox(height: OhSpacing.sm),
+                Wrap(
+                  spacing: OhSpacing.sm,
+                  children: [
+                    for (final m in members)
+                      ChoiceChip(
+                        key: Key('tutor-member-${m.id}'),
+                        label: Text(m.label),
+                        selected: memberId == m.id,
+                        onSelected: (_) =>
+                            setState(() => _selectedMemberId = m.id),
+                      ),
+                  ],
+                ),
+                const SizedBox(height: OhSpacing.xl),
+              ],
+              ActivityCard(
+                key: const Key('tutor-learn'),
+                icon: Icons.menu_book_outlined,
+                title: 'Learn the names',
+                subtitle: 'What is it called, and what is the tell?',
+                onTap: terms.isEmpty
+                    ? null
+                    : () => Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (_) => LearnScreen(
+                              items: terms,
+                              spotQuestions: spotQuestions,
+                              memberId: memberId,
+                            ),
                           ),
                         ),
-                      ),
-            ),
-            const SizedBox(height: OhSpacing.md),
-            ActivityCard(
-              key: const Key('tutor-lean'),
-              icon: Icons.swipe_outlined,
-              title: 'Find your lean',
-              subtitle: 'Which draws you? Pairwise picks shape your look.',
-              onTap: () => Navigator.push<void>(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (_) => LeanRoundScreen(memberId: memberId),
+              ),
+              const SizedBox(height: OhSpacing.md),
+              ActivityCard(
+                key: const Key('tutor-lean'),
+                icon: Icons.swipe_outlined,
+                title: 'Find your lean',
+                subtitle: 'Which draws you? Pairwise picks shape your look.',
+                onTap: () => Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (_) => LeanRoundScreen(memberId: memberId),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: OhSpacing.md),
-            ActivityCard(
-              key: const Key('tutor-field-guide'),
-              icon: Icons.explore_outlined,
-              title: 'Your Field Guide',
-              subtitle: 'The words you own and where your taste lands.',
-              onTap: () => Navigator.push<void>(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (_) => FieldGuideScreen(memberId: memberId),
+              const SizedBox(height: OhSpacing.md),
+              ActivityCard(
+                key: const Key('tutor-field-guide'),
+                icon: Icons.explore_outlined,
+                title: 'Your Field Guide',
+                subtitle: 'The words you own and where your taste lands.',
+                onTap: () => Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (_) => FieldGuideScreen(memberId: memberId),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: OhSpacing.md),
-            ActivityCard(
-              key: const Key('tutor-charter'),
-              icon: Icons.workspaces_outline,
-              title: 'Your House Charter',
-              subtitle: 'Discover the look your household shares.',
-              onTap: () => Navigator.push<void>(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (_) => const MenswearCharterStartScreen(),
+              const SizedBox(height: OhSpacing.md),
+              ActivityCard(
+                key: const Key('tutor-charter'),
+                icon: Icons.workspaces_outline,
+                title: 'Your House Charter',
+                subtitle: 'Discover the look your household shares.',
+                onTap: () => Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (_) => const MenswearCharterStartScreen(),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

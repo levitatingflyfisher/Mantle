@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openhearth_design/openhearth_design.dart';
 
-import '../../../widgets/error_view.dart';
 import '../../../widgets/plate.dart';
 import '../content/domain/menswear_term.dart';
 import 'field_guide_screen.dart';
@@ -28,24 +27,32 @@ class LeanRoundScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Find your lean')),
-      body: switch (state.phase) {
-        LeanRoundPhase.loading =>
-          const Center(child: CircularProgressIndicator()),
-        LeanRoundPhase.error => ErrorView(
-            message: state.errorMessage ?? 'Something went wrong.'),
-        LeanRoundPhase.complete =>
-          _CompleteView(memberId: memberId, onComplete: onComplete),
-        LeanRoundPhase.pairing => _PairingView(
-            pair: state.currentPair!,
-            progress: state.progress,
-            pickCount: state.pickCount,
-            target: state.target,
-            onChooseA: controller.chooseA,
-            onChooseB: controller.chooseB,
-            onSkip: controller.skip,
-            theme: theme,
-          ),
-      },
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: switch (state.phase) {
+          LeanRoundPhase.loading =>
+            const Center(child: CircularProgressIndicator()),
+          LeanRoundPhase.error => OhErrorState(
+              message: state.errorMessage ?? OhErrorMessages.generic,
+              error: state.error,
+              onRetry: state.error == null
+                  ? null
+                  : () => ref.invalidate(leanRoundControllerProvider(args)),
+            ),
+          LeanRoundPhase.complete =>
+            _CompleteView(memberId: memberId, onComplete: onComplete),
+          LeanRoundPhase.pairing => _PairingView(
+              pair: state.currentPair!,
+              progress: state.progress,
+              pickCount: state.pickCount,
+              target: state.target,
+              onChooseA: controller.chooseA,
+              onChooseB: controller.chooseB,
+              onSkip: controller.skip,
+              theme: theme,
+            ),
+        },
+      ),
     );
   }
 }

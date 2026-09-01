@@ -94,101 +94,107 @@ class _SpotScreenState extends ConsumerState<SpotScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final q = _current;
+    final plateA = Expanded(
+      child: _PlateOption(
+        key: const Key('spot-plate-A'),
+        plateKey: q.plateA,
+        side: 'A',
+        chosenSide: _chosenSide,
+        correctSide: _answered ? q.correctSide : null,
+        onTap: _answered ? null : () => _choose('A'),
+      ),
+    );
+    final plateB = Expanded(
+      child: _PlateOption(
+        key: const Key('spot-plate-B'),
+        plateKey: q.plateB,
+        side: 'B',
+        chosenSide: _chosenSide,
+        correctSide: _answered ? q.correctSide : null,
+        onTap: _answered ? null : () => _choose('B'),
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Spot'),
       ),
-      body: SingleChildScrollView(
-        padding: OhSpacing.insetPage,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // ── Progress indicator ─────────────────────────────────────────
-            Text(
-              '${_index + 1} of ${widget.questions.length}',
-              key: const Key('spot-counter'),
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: SingleChildScrollView(
+          padding: OhSpacing.insetPage,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // ── Progress indicator ─────────────────────────────────────────
+              Text(
+                '${_index + 1} of ${widget.questions.length}',
+                key: const Key('spot-counter'),
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: OhSpacing.md),
+              const SizedBox(height: OhSpacing.md),
 
-            // ── Prompt ─────────────────────────────────────────────────────
-            Text(
-              q.promptText,
-              key: const Key('spot-prompt'),
-              style: theme.textTheme.titleMedium,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: OhSpacing.lg),
-
-            // ── Two plates ─────────────────────────────────────────────────
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: _PlateOption(
-                    key: const Key('spot-plate-A'),
-                    plateKey: q.plateA,
-                    side: 'A',
-                    chosenSide: _chosenSide,
-                    correctSide: _answered ? q.correctSide : null,
-                    onTap: _answered ? null : () => _choose('A'),
-                  ),
-                ),
-                const SizedBox(width: OhSpacing.md),
-                Expanded(
-                  child: _PlateOption(
-                    key: const Key('spot-plate-B'),
-                    plateKey: q.plateB,
-                    side: 'B',
-                    chosenSide: _chosenSide,
-                    correctSide: _answered ? q.correctSide : null,
-                    onTap: _answered ? null : () => _choose('B'),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: OhSpacing.lg),
-
-            // ── Explanation (shown after answering) ────────────────────────
-            if (_answered) ...[
-              _ExplanationCard(
-                key: const Key('spot-explanation'),
-                explanation: q.explanation,
-                correct: _lastCorrect!,
+              // ── Prompt ─────────────────────────────────────────────────────
+              Text(
+                q.promptText,
+                key: const Key('spot-prompt'),
+                style: theme.textTheme.titleMedium,
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: OhSpacing.lg),
-            ],
 
-            // ── Navigation ──────────────────────────────────────────────────
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (_hasPrev)
-                  OutlinedButton.icon(
-                    key: const Key('spot-prev-button'),
-                    onPressed: _goPrev,
-                    icon: const Icon(Icons.arrow_back),
-                    label: const Text('Previous'),
-                  )
-                else
-                  const SizedBox.shrink(),
-                if (_hasNext && _answered)
-                  FilledButton.icon(
-                    key: const Key('spot-next-button'),
-                    onPressed: _goNext,
-                    icon: const Icon(Icons.arrow_forward),
-                    label: const Text('Next'),
-                  )
-                else
-                  const SizedBox.shrink(),
+              // ── Two plates ─────────────────────────────────────────────────
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                // Which plate sits on the left varies by member and question
+                // (SpotGrading.showBFirst). Keys follow the plate, not the slot,
+                // and the grade is by plate.
+                children: SpotGrading.showBFirst(widget.memberId, q.id)
+                    ? [plateB, const SizedBox(width: OhSpacing.md), plateA]
+                    : [plateA, const SizedBox(width: OhSpacing.md), plateB],
+              ),
+              const SizedBox(height: OhSpacing.lg),
+
+              // ── Explanation (shown after answering) ────────────────────────
+              if (_answered) ...[
+                _ExplanationCard(
+                  key: const Key('spot-explanation'),
+                  explanation: q.explanation,
+                  correct: _lastCorrect!,
+                ),
+                const SizedBox(height: OhSpacing.lg),
               ],
-            ),
-            const SizedBox(height: OhSpacing.xl),
-          ],
+
+              // ── Navigation ──────────────────────────────────────────────────
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (_hasPrev)
+                    OutlinedButton.icon(
+                      key: const Key('spot-prev-button'),
+                      onPressed: _goPrev,
+                      icon: const Icon(Icons.arrow_back),
+                      label: const Text('Previous'),
+                    )
+                  else
+                    const SizedBox.shrink(),
+                  if (_hasNext && _answered)
+                    FilledButton.icon(
+                      key: const Key('spot-next-button'),
+                      onPressed: _goNext,
+                      icon: const Icon(Icons.arrow_forward),
+                      label: const Text('Next'),
+                    )
+                  else
+                    const SizedBox.shrink(),
+                ],
+              ),
+              const SizedBox(height: OhSpacing.xl),
+            ],
+          ),
         ),
       ),
     );
@@ -254,13 +260,8 @@ class _PlateOption extends StatelessWidget {
               plateKey: plateKey,
               size: 140,
             ),
-            const SizedBox(height: OhSpacing.xs),
-            Text(
-              side,
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: cs.onSurfaceVariant,
-              ),
-            ),
+            // No slot letter under the plate: "A" on the left named the
+            // slot, which was the very cue that gave the answer away.
           ],
         ),
       ),
@@ -285,7 +286,7 @@ class _ExplanationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final label = correct ? "That's the one." : 'Not quite —';
+    final label = correct ? 'That’s the one.' : 'Not quite.';
 
     return Card(
       child: Padding(

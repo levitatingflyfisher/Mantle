@@ -11,6 +11,26 @@ void main() => runFleetConformance(const FleetAppConfig(
       checks: {
         ...FleetAppConfig.withBundledFonts,
         FleetCheck.c8IconButtons,
+        // C10: no raw exception text on screen. Failures go through
+        // OhErrorState, which keeps the exception behind Details.
+        FleetCheck.c10RawErrors,
+        // C11: every app-bar command has a name; Mantle's show icon plus a
+        // short visible label (fleet ruling on top bars).
+        FleetCheck.c11IconLabels,
+        // C12: the accent must not read as the error red (CIEDE2000 >= 12).
+        FleetCheck.c12AccentVsError,
+        // C5-primaryScreens: the screens below keep their primary action
+        // reachable at 360dp x 1.3 (test/a11y/primary_action_sweep_test.dart).
+        FleetCheck.c5PrimaryScreens,
+        // C9 (routes) is deliberately off: Mantle navigates with
+        // Navigator.push and declares no GoRoute, so C9 has nothing to
+        // check and would report exactly that.
+      },
+      primaryActionScreens: {
+        'HomeScreen',
+        'MembersScreen',
+        'RoundScreen',
+        'CharterScreen',
       },
       // Mantle consumes OhTheme.light()/hearthDark() directly
       // (lib/features/settings/.../theme_preference.dart) — the full tier.

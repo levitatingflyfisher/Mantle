@@ -4,6 +4,51 @@ All notable changes to Mantle will be documented in this file.
 
 ## [Unreleased]
 
+### Changed (fleet rollout, September 2026)
+- Builds on openhearth_design 0.7.0, sanctuary_backup_ui 0.3.0 and
+  oh_fleet_conformance 0.8.0. Conformance now also runs C10 (no raw
+  exception on screen), C11 (named app-bar commands), C12 (accent vs error)
+  and the 360dp x 1.3 primary-action sweep for Home, the member list and
+  the round.
+- Every failure state is `OhErrorState` inside its screen's app bar, with
+  Try again. The reveal's error says the round's choices are saved and
+  retries the same round; it no longer tells a household to play it again.
+  The local `ErrorView` is gone.
+- Clear all data takes a safety copy into Previous backups first, clears at
+  once and offers an Undo that does not expire. Without backup it asks
+  first and says there is no copy. It is no longer "cannot be undone".
+- Theme: follow the phone by default, with Light / Dark (and "Auto") in the
+  app bar of every primary screen; Night stays in Settings. The old
+  Daytime / Evening / Late night choice migrates (Daytime follows the
+  phone, Evening is Dark, Late night is Night).
+- Each screen's content is capped at 640dp and centred on tablets and in
+  the browser; the app bars span the window.
+- Settings and Print are labelled in their app bars.
+- Home shows a dismissable Finish setup line while backup is not set up.
+  On web the recovery words are stored under Mantle's own key names.
+- Copy: no spaced em dashes and typographic apostrophes, in the app and in
+  the bundled content.
+- The round prints "Architecture · 4 of 12" beside the domain name.
+- Members show their initial inside their colour dot everywhere, and the
+  swatches have names ("Colour: Sage").
+- A tap on a member renames, recolours or removes them; remove has an Undo.
+- A removed member stays under "Recently removed" with Restore (and a
+  confirmed delete forever). The database is now schema 2 (`members.deletedAt`);
+  a backup from this version is refused as "newer" by older builds.
+- Bundled content no longer uses characters the fonts cannot draw ("Noh
+  Costume"; "Ma" without the kanji), and a test keeps it that way.
+- Spot shows the correct plate on the left or right per member and
+  question, with no A/B letters (the answer used to be the left plate
+  every time). The menswear quiz does the same.
+- The printed House Charter carries the Spine and Contested plates with
+  their titles, a "Made on" date, and is set in Lora.
+
+### Fixed
+- The reveal rebuilds each session under its saved id, so it never mints
+  one; minting was the dart2js `1 << 32` crash that broke every reveal on
+  web. CI now compiles the reveal path with dart2js and runs one whole
+  round under node.
+
 ### Added
 - First CI workflow (`.github/workflows/ci.yml`): analyze + test, debug-APK
   and web-release smoke builds, Flutter pinned to the fleet's 3.38.7, all

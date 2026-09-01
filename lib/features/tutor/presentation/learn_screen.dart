@@ -79,55 +79,58 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
             ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: OhSpacing.insetPage,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Center(child: Plate(plateKey: term.id, size: 200)),
-            const SizedBox(height: OhSpacing.lg),
-            Text(term.term,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.headlineMedium),
-            if (term.handle != null) ...[
-              const SizedBox(height: OhSpacing.xs),
-              Text(term.handle!,
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: SingleChildScrollView(
+          padding: OhSpacing.insetPage,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(child: Plate(plateKey: term.id, size: 200)),
+              const SizedBox(height: OhSpacing.lg),
+              Text(term.term,
                   textAlign: TextAlign.center,
-                  style: theme.textTheme.titleSmall
-                      ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-            ],
-            const SizedBox(height: OhSpacing.md),
-            Text(term.gloss,
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyLarge
-                    ?.copyWith(fontStyle: FontStyle.italic)),
-            const SizedBox(height: OhSpacing.lg),
-            _LensCard(label: 'What you notice', body: term.quickRead),
-            const SizedBox(height: OhSpacing.md),
-            if (!_revealed)
-              OutlinedButton(
-                key: const Key('learn-reveal'),
-                onPressed: () => setState(() => _revealed = true),
-                child: const Text('The tell'),
-              )
-            else
-              _LensCard(label: 'The tell', body: term.closerRead),
-            const SizedBox(height: OhSpacing.lg),
-            OutlinedButton.icon(
-              key: const Key('learn-add-to-lexicon'),
-              onPressed: _saving ? null : _addToLexicon,
-              icon: const Icon(Icons.add),
-              label: const Text('Add to my lexicon'),
-            ),
-            const SizedBox(height: OhSpacing.lg),
-            if (_hasNext)
-              FilledButton.icon(
-                key: const Key('learn-next'),
-                onPressed: _next,
-                icon: const Icon(Icons.arrow_forward),
-                label: const Text('Next term'),
+                  style: theme.textTheme.headlineMedium),
+              if (term.handle != null) ...[
+                const SizedBox(height: OhSpacing.xs),
+                Text(term.handle!,
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.titleSmall
+                        ?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+              ],
+              const SizedBox(height: OhSpacing.md),
+              Text(term.gloss,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyLarge
+                      ?.copyWith(fontStyle: FontStyle.italic)),
+              const SizedBox(height: OhSpacing.lg),
+              _LensCard(label: 'What you notice', body: term.quickRead),
+              const SizedBox(height: OhSpacing.md),
+              if (!_revealed)
+                OutlinedButton(
+                  key: const Key('learn-reveal'),
+                  onPressed: () => setState(() => _revealed = true),
+                  child: const Text('The tell'),
+                )
+              else
+                _LensCard(label: 'The tell', body: term.closerRead),
+              const SizedBox(height: OhSpacing.lg),
+              OutlinedButton.icon(
+                key: const Key('learn-add-to-lexicon'),
+                onPressed: _saving ? null : _addToLexicon,
+                icon: const Icon(Icons.add),
+                label: const Text('Add to my lexicon'),
               ),
-          ],
+              const SizedBox(height: OhSpacing.lg),
+              if (_hasNext)
+                FilledButton.icon(
+                  key: const Key('learn-next'),
+                  onPressed: _next,
+                  icon: const Icon(Icons.arrow_forward),
+                  label: const Text('Next term'),
+                ),
+            ],
+          ),
         ),
       ),
     );

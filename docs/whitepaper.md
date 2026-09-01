@@ -113,7 +113,7 @@ account-free**. No existing tool sits at that intersection.
 
 A white paper that overclaims is marketing. Honestly, as of v1:
 
-**Built, tested, load-bearing** (132 tests passing, `flutter analyze` clean): the
+**Built, tested, load-bearing** (284 tests passing, `flutter analyze` clean): the
 whole spine — gather → per-domain fixed-length round → persisted decisions →
 replayed sessions → harmonic-mean merge → Spine/Contested partition → named
 through-lines → editable Charter → PDF export; the no-peek guarantee (gated reveal

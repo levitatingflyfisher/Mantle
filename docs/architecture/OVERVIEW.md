@@ -92,7 +92,7 @@ flowchart TD
 | **Ranking round** | `lib/features/ranking/domain/` (`round_service`, `session_builder`, `round_models`), `.../data/*_dao.dart`, `.../presentation/round_controller.dart` |
 | **Reveal + Charter** | `lib/features/reveal/domain/` (`reveal_service`, `reveal`, `throughline_namer`), `.../presentation/` (`reveal_controller`, `charter_screen`, `charter_pdf`) |
 | **Solo depth** | `lib/features/solo/` (Read / Spot / Map, `spot_grading.dart`, progress DAOs) |
-| **Shared widgets** | `lib/widgets/` (`plate.dart`, `activity_card.dart`, `error_view.dart`, …) |
+| **Shared widgets** | `lib/widgets/` (`plate.dart`, `activity_card.dart`, …); failure states use the shared `OhErrorState` from `openhearth_design` |
 | **Ranking + merge math** | **`elo_engine`** sibling package (`EloEngine`, `EloMerge`, `agreement`) — *not* in this repo |
 
 ## Layer boundaries (the ones that matter)

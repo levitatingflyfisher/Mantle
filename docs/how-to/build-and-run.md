@@ -55,6 +55,27 @@ flutter test --update-goldens test/golden/plates_test.dart
 
 Review the image diff before committing updated goldens.
 
+### The reveal under dart2js
+
+`flutter test` runs on the Dart VM, and the VM hid a crash that broke every
+reveal on the web build (`1 << 32` is 0 under dart2js). A small check compiles
+the reveal's pure-Dart path (`SessionBuilder` → `RevealService` →
+`ThroughlineNamer`) to JavaScript and runs one whole two-member round through
+it under node, with no browser:
+
+```bash
+dart compile js tool/web_reveal_check.dart -o build/web_reveal_check.js
+node tool/run_js.cjs build/web_reveal_check.js   # exit 0 = the reveal assembled
+```
+
+CI runs it after the test suite. With the pre-fix `SessionBuilder` and
+eloEngine it fails with the audit's `RangeError: max must be in range
+0 < max ≤ 2^32, was 0`.
+
+What it does **not** do: open the built web app. No CI step renders a Flutter
+screen in a browser, so the web UI itself (layout, plugins, the reveal screen)
+is still only checked by hand before a release.
+
 ## Drift code generation
 
 The Drift database and DAOs are code-generated (`*.g.dart`). After changing a table

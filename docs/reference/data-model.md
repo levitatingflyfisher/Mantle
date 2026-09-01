@@ -2,13 +2,14 @@
 
 Precise lookup material. Schema is authoritative in
 [`lib/core/db/database.dart`](../../lib/core/db/database.dart); this page mirrors
-it. `schemaVersion = 1`, create-all migration.
+it. `schemaVersion = 2`: create-all on a fresh install; upgrading from 1 adds
+`members.deletedAt`.
 
 ## Drift tables (local, mutable)
 
 | Table | Key / notable columns | Purpose |
 |---|---|---|
-| **Members** | `id` (PK), `label`, `color` (int ARGB), `createdAt` | The 2–5 people in a sitting. No accounts. |
+| **Members** | `id` (PK), `label`, `color` (int ARGB), `createdAt`, `deletedAt` (nullable) | The 2–5 people in a sitting. No accounts. A removed member keeps their row with `deletedAt` set and is listed under Recently removed until restored or deleted for good. |
 | **Rounds** | `id` (PK), `deckVersion`, `createdAt` | One family sitting, tied to a deck version. |
 | **RankingSessions** | `id` (PK), `roundId`, `memberId`, `domain`, `isComplete` (default false), `resultsLocked` (default **true**), `createdAt` | One member's ranking of one domain. `resultsLocked` backs the no-peek guarantee. |
 | **RankingMatches** | `id` (PK), `sessionId` (indexed), `idA`, `idB`, `outcome` (`'aWins'`\|`'bWins'`), `decidedAt` | One recorded head-to-head decision. Persistence stores **decisions**, not ratings — the ranking is replayed from these. |
@@ -22,7 +23,10 @@ DAOs live in `lib/features/*/data/*_dao.dart` (`MembersDao`, `RoundsDao`,
 `DiscoveredThroughlinesDao`).
 
 Theme preference is **not** in Drift — it's a single key in
-`flutter_secure_storage` (`mantle.themePreference`).
+`flutter_secure_storage`: `mantle.themeMode` (`system` / `light` / `dark` /
+`night`, default `system`). The old `mantle.themePreference` key from the
+Daytime / Evening / Late night picker is only read, as a migration: Daytime
+becomes follow-the-phone, Evening becomes Dark, Late night stays Night.
 
 ### Dormant sync fields
 

@@ -5,7 +5,6 @@ import 'package:openhearth_design/openhearth_design.dart';
 import '../../../core/db/database.dart';
 import '../../../core/providers.dart';
 import '../../../core/utils/id.dart';
-import '../../../widgets/error_view.dart';
 import '../../ranking/presentation/members_screen.dart';
 import 'menswear_family_round_screen.dart';
 
@@ -69,77 +68,81 @@ class _MenswearCharterStartScreenState
 
     return Scaffold(
       appBar: AppBar(title: const Text('Your House Charter')),
-      body: membersAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => ErrorView(
-          message: "We couldn't load members. Please try again.",
-          onRetry: () => ref.invalidate(membersProvider),
-        ),
-        data: (members) {
-          if (members.length < _minFamilyMembers) {
-            return Center(
-              child: Padding(
-                padding: OhSpacing.insetLg,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'Add at least 2 people to build a House Charter',
-                      style: theme.textTheme.bodyLarge,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: OhSpacing.lg),
-                    FilledButton(
-                      key: const Key('family-add-members'),
-                      onPressed: _addMembers,
-                      child: const Text('Add people'),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  padding: OhSpacing.insetMd,
-                  itemCount: members.length,
-                  itemBuilder: (_, i) {
-                    final m = members[i];
-                    return CheckboxListTile(
-                      key: Key('family-member-${m.id}'),
-                      value: _selected.contains(m.id),
-                      title: Text(m.label),
-                      onChanged: (checked) => setState(() {
-                        if (checked ?? false) {
-                          _selected.add(m.id);
-                        } else {
-                          _selected.remove(m.id);
-                        }
-                      }),
-                    );
-                  },
-                ),
-              ),
-              Padding(
-                padding: OhSpacing.insetMd,
-                child: SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    key: const Key('family-begin'),
-                    onPressed: _selected.length >= _minFamilyMembers
-                        ? () => _begin(members)
-                        : null,
-                    child: const Text('Begin'),
+      body: OhPage(
+        padding: EdgeInsets.zero,
+        child: membersAsync.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) => OhErrorState(
+            message: 'The list of people didn’t load.',
+            error: e,
+            onRetry: () => ref.invalidate(membersProvider),
+          ),
+          data: (members) {
+            if (members.length < _minFamilyMembers) {
+              return Center(
+                child: Padding(
+                  padding: OhSpacing.insetLg,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Add at least 2 people to build a House Charter',
+                        style: theme.textTheme.bodyLarge,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: OhSpacing.lg),
+                      FilledButton(
+                        key: const Key('family-add-members'),
+                        onPressed: _addMembers,
+                        child: const Text('Add people'),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+              );
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding: OhSpacing.insetMd,
+                    itemCount: members.length,
+                    itemBuilder: (_, i) {
+                      final m = members[i];
+                      return CheckboxListTile(
+                        key: Key('family-member-${m.id}'),
+                        value: _selected.contains(m.id),
+                        title: Text(m.label),
+                        onChanged: (checked) => setState(() {
+                          if (checked ?? false) {
+                            _selected.add(m.id);
+                          } else {
+                            _selected.remove(m.id);
+                          }
+                        }),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: OhSpacing.insetMd,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      key: const Key('family-begin'),
+                      onPressed: _selected.length >= _minFamilyMembers
+                          ? () => _begin(members)
+                          : null,
+                      child: const Text('Begin'),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
