@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+<!-- wide-leg-trouser: broad near-parallel legs traced against a dotted slim outline -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M70 42 L130 42 L124 178 L108 178 L100 92 L92 178 L76 178 Z"/>
+    <path d="M71 50 L129 50"/>
+  </g>
+  <path d="M70 42 L76 178" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M130 42 L124 178" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <text x="100" y="34" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">wide</text>
+  <path d="M146 120 L164 120 L160 176 L154 176 L152 148 L150 176 L144 176 Z" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <text x="155" y="114" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">slim</text>
+</svg>

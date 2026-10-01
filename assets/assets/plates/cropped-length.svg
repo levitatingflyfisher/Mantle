@@ -1,0 +1,13 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- cropped-length: trouser hem stopping above the ankle bone, with the exposed gap to the shoe labeled -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M84 26 L116 26 L112 138 L88 138 Z"/>
+    <path d="M74 178 L74 164 Q78 154 92 154 L128 156 Q138 158 140 166 L136 176 L118 178 Z"/>
+  </g>
+  <line x1="78" y1="146" x2="122" y2="146" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <line x1="88" y1="138" x2="112" y2="138" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="88" y1="154" x2="112" y2="154" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="100" y1="138" x2="100" y2="154" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <text x="40" y="149" fill="#8FB3C7" font-size="8" font-family="monospace">ankle</text>
+  <text x="116" y="148" fill="#8FB3C7" font-size="8" font-family="monospace">gap</text>
+</svg>

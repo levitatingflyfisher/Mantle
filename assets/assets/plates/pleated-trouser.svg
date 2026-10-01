@@ -1,0 +1,13 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+<!-- pleated-trouser: two waistband pleat folds, arrowed toward the fly -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M72 42 L128 42 L118 178 L104 178 L100 96 L96 178 L82 178 Z"/>
+    <path d="M74 50 L126 50"/>
+    <path d="M100 50 L100 90"/>
+  </g>
+  <path d="M92 50 L88 78" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M88 78 L84 73 M88 78 L84 82" fill="none" stroke="#C4553B" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M108 50 L112 78" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M112 78 L116 73 M112 78 L116 82" fill="none" stroke="#C4553B" stroke-width="1.4" stroke-linecap="round"/>
+  <text x="100" y="93" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">pleat</text>
+</svg>

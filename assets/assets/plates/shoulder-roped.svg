@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- shoulder-roped: raised roll at sleeve head, squared shoulders -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M36 72 Q68 40 100 40 Q132 40 164 72"/>
+    <path d="M100 40 L100 155"/>
+  </g>
+  <line x1="36" y1="72" x2="164" y2="72" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <!-- roped roll - raised bumps at sleeve head -->
+  <path d="M58 52 Q66 42 78 44" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M142 52 Q134 42 122 44" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

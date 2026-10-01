@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- loafer: slip-on shoe with a saddle strap across the vamp and a penny slot, no laces -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M46 150 L46 116 Q50 106 64 102 Q80 98 96 98 Q110 98 122 102 Q140 108 152 118 Q164 128 166 136 Q164 144 154 150 Z"/>
+    <path d="M48 146 Q100 143 152 146"/>
+  </g>
+  <line x1="40" y1="150" x2="176" y2="150" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <path d="M76 101 Q100 92 124 101 Q124 108 124 110 Q100 101 76 110 Z" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <rect x="96" y="99" width="8" height="5" rx="1.2" fill="none" stroke="#C4553B" stroke-width="1.4"/>
+  <text x="100" y="86" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">saddle strap</text>
+</svg>

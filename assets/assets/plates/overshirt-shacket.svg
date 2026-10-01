@@ -1,0 +1,19 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- overshirt-shacket: boxy heavier-cloth overshirt with a shirt point collar and dense button placket -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M74 28 L100 18 L126 28 L124 170 L76 170 Z"/>
+    <path d="M100 28 L100 170"/>
+    <circle cx="100" cy="46" r="2"/>
+    <circle cx="100" cy="64" r="2"/>
+    <circle cx="100" cy="82" r="2"/>
+    <circle cx="100" cy="100" r="2"/>
+    <circle cx="100" cy="118" r="2"/>
+    <circle cx="100" cy="136" r="2"/>
+    <circle cx="100" cy="154" r="2"/>
+  </g>
+  <path d="M84 40 L100 28 L116 40" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="78" y="70" width="20" height="24" fill="none" stroke="#C4553B" stroke-width="1.4"/>
+  <rect x="102" y="70" width="20" height="24" fill="none" stroke="#C4553B" stroke-width="1.4"/>
+  <text x="100" y="20" fill="#8FB3C7" font-size="7" text-anchor="middle" font-family="monospace">collar</text>
+  <text x="88" y="66" fill="#8FB3C7" font-size="7" text-anchor="middle" font-family="monospace">pocket</text>
+</svg>

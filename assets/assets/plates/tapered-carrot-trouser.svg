@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+<!-- tapered-carrot-trouser: full hip and thigh bulge narrowing sharply to a tight ankle -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M80 42 Q60 60 62 86 Q66 150 90 178 L97 178 Q100 140 100 94 Q100 140 103 178 L110 178 Q134 150 138 86 Q140 60 120 42 Z"/>
+    <path d="M81 50 L119 50"/>
+  </g>
+  <path d="M138 86 Q134 150 110 178" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="62" y1="86" x2="138" y2="86" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <text x="100" y="82" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">full thigh</text>
+  <line x1="90" y1="156" x2="110" y2="156" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <text x="100" y="152" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">tight ankle</text>
+</svg>

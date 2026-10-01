@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- polo: collared pullover, folded piqué collar and a two-button placket -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M74 26 L100 18 L126 26 L122 176 L78 176 Z"/>
+  </g>
+  <path d="M86 40 L100 30 L114 40" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M100 38 L100 64" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="100" cy="46" r="2.4" fill="none" stroke="#C4553B" stroke-width="1.4"/>
+  <circle cx="100" cy="58" r="2.4" fill="none" stroke="#C4553B" stroke-width="1.4"/>
+  <path d="M122 158 L130 178" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <text x="132" y="172" fill="#8FB3C7" font-size="8" font-family="monospace">tail</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- armhole-low: low open armhole - coat body drags when arm lifts -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M72 26 L100 18 L128 26 L122 80 L122 168 L78 168 L78 80 Z"/>
+    <!-- sleeve further from body -->
+    <path d="M72 32 Q44 80 48 148"/>
+    <path d="M128 32 Q156 80 152 148"/>
+  </g>
+  <!-- low armhole - no gap, wide scye -->
+  <path d="M78 80 Q58 100 60 148" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <text x="100" y="115" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">low</text>
+</svg>

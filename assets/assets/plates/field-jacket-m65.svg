@@ -1,0 +1,19 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- field-jacket-m65: hip-length military jacket with four bellows pockets and a waist drawcord -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M74 28 L100 18 L126 28 L128 168 L72 168 Z"/>
+    <path d="M100 28 L100 168"/>
+    <path d="M84 28 L84 42 L116 42 L116 28"/>
+  </g>
+  <line x1="100" y1="30" x2="100" y2="40" stroke="#C4553B" stroke-width="1.4"/>
+  <rect x="96" y="30" width="8" height="5" fill="none" stroke="#C4553B" stroke-width="1.2"/>
+  <path d="M79 46 L79 66 L97 66 L97 46 M79 46 L97 46 M88 46 L88 66" fill="none" stroke="#C4553B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M103 46 L103 66 L121 66 L121 46 M103 46 L121 46 M112 46 L112 66" fill="none" stroke="#C4553B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M75 112 L75 144 L99 144 L99 112 M75 112 L99 112 M87 112 L87 144" fill="none" stroke="#C4553B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M101 112 L101 144 L125 144 L125 112 M101 112 L125 112 M113 112 L113 144" fill="none" stroke="#C4553B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M74 152 Q100 160 126 152" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="74" cy="152" r="2" fill="none" stroke="#C4553B" stroke-width="1.4"/>
+  <circle cx="126" cy="152" r="2" fill="none" stroke="#C4553B" stroke-width="1.4"/>
+  <text x="87" y="76" fill="#8FB3C7" font-size="7" text-anchor="middle" font-family="monospace">pocket</text>
+  <text x="100" y="176" fill="#8FB3C7" font-size="7" text-anchor="middle" font-family="monospace">drawcord</text>
+</svg>

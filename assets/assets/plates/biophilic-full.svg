@@ -1,0 +1,16 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- biophilic-full: complete nature system - daylight, materials, sightline, organic form -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="46" y="36" width="108" height="128"/>
+    <!-- window opening top for daylight -->
+    <rect x="70" y="36" width="60" height="36"/>
+  </g>
+  <!-- daylight rays -->
+  <line x1="80" y1="36" x2="74" y2="70" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <line x1="100" y1="36" x2="100" y2="72" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <line x1="120" y1="36" x2="126" y2="70" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <!-- plant stems in organic form -->
+  <path d="M100 164 L100 100" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M100 120 Q86 110 82 96" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M100 108 Q116 100 120 86" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+</svg>
