@@ -9,6 +9,9 @@ void main() => runFleetConformance(const FleetAppConfig(
       // a bare IconButton.filled paints its glyph the color of its own
       // fill. Filled icon buttons must come from OhIconButton.
       checks: {
+        // C13: the PWA loads nothing from Google's CDNs. web/flutter_bootstrap.js
+        // points CanvasKit and the engine's fallback fonts at this origin.
+        FleetCheck.c13WebSelfHosted,
         ...FleetAppConfig.withBundledFonts,
         FleetCheck.c8IconButtons,
         // C10: no raw exception text on screen. Failures go through
