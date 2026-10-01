@@ -67,7 +67,7 @@ class _MenswearCharterStartScreenState
     final membersAsync = ref.watch(membersProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Your House Charter')),
+      appBar: AppBar(title: const Text('Your Wardrobe Charter')),
       body: OhPage(
         padding: EdgeInsets.zero,
         child: membersAsync.when(
@@ -86,7 +86,7 @@ class _MenswearCharterStartScreenState
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Add at least 2 people to build a House Charter',
+                        'Add at least 2 people to build a Wardrobe Charter',
                         style: theme.textTheme.bodyLarge,
                         textAlign: TextAlign.center,
                       ),

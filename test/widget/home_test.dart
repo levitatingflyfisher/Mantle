@@ -36,11 +36,17 @@ void main() {
   });
 
   group('HomeScreen', () {
-    testWidgets('home leads with the "Learn your style" tutor card',
+    // Audit finding 3: the menswear tutor led Home above the household's
+    // primary action. Every school accepts the floor: lead with "Start a
+    // round"; the tutor stays, below it.
+    testWidgets('home leads with "Start a round"; the tutor follows',
         (tester) async {
       await tester.pumpWidget(_buildHomeScreen(db));
       await tester.pumpAndSettle();
-      expect(find.byKey(const Key('home-tutor-card')), findsOneWidget);
+      final tutor = find.byKey(const Key('home-tutor-card'));
+      expect(tutor, findsOneWidget);
+      expect(tester.getTopLeft(find.text('Start a round')).dy,
+          lessThan(tester.getTopLeft(tutor).dy));
     });
 
     testWidgets('renders without crashing', (tester) async {

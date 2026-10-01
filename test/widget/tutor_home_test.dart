@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -108,10 +110,32 @@ void main() {
     await tester.pumpWidget(_build(db, home: const TutorHubScreen()));
     await tester.pumpAndSettle();
 
+    // Audit finding 3: the tutor made a second "Your House Charter" from a
+    // different deck. Its artifact has its own name, used nowhere else.
+    expect(find.text('Your Wardrobe Charter'), findsOneWidget);
+    expect(find.text('Your House Charter'), findsNothing);
+
     await tester.tap(find.byKey(const Key('tutor-charter')));
     await tester.pumpAndSettle();
 
     expect(find.byType(MenswearCharterStartScreen), findsOneWidget);
+    expect(find.text('Your Wardrobe Charter'), findsOneWidget);
+  });
+
+  test('the tutor never calls its artifact a House Charter', () {
+    final offenders = <String>[];
+    for (final f in Directory('lib/features/tutor').listSync(recursive: true)) {
+      if (f is! File || !f.path.endsWith('.dart')) continue;
+      final lines = f.readAsLinesSync();
+      for (var i = 0; i < lines.length; i++) {
+        final l = lines[i].trimLeft();
+        if (l.startsWith('//')) continue;
+        if (RegExp(r"'[^']*House Charter[^']*'").hasMatch(l)) {
+          offenders.add('${f.path}:${i + 1}');
+        }
+      }
+    }
+    expect(offenders, isEmpty);
   });
 
   testWidgets('Learn carries spot questions through to a reachable Quiz',

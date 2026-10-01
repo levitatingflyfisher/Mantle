@@ -37,6 +37,10 @@ class MatchesDao extends DatabaseAccessor<MantleDatabase>
     );
   }
 
+  /// Delete one match by [id] (an undone pick).
+  Future<void> deleteById(String id) =>
+      (delete(rankingMatches)..where((t) => t.id.equals(id))).go();
+
   /// Return all matches for [sessionId] as domain [MatchRow] DTOs,
   /// ordered by [decidedAt] ascending.
   Future<List<MatchRow>> forSession(String sessionId) async {

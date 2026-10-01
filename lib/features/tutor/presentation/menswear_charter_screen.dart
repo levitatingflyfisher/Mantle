@@ -24,7 +24,7 @@ class MenswearCharterScreen extends ConsumerWidget {
     }
     if (state.status == MenswearCharterStatus.error) {
       return Scaffold(
-        appBar: AppBar(title: const Text('House Charter')),
+        appBar: AppBar(title: const Text('Wardrobe Charter')),
         body: OhPage(
           padding: EdgeInsets.zero,
           child: OhErrorState(
@@ -39,7 +39,7 @@ class MenswearCharterScreen extends ConsumerWidget {
     final poleWords = state.throughlinePoles.map((p) => p.pole).toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Your House Charter')),
+      appBar: AppBar(title: const Text('Your Wardrobe Charter')),
       body: OhPage(
         padding: EdgeInsets.zero,
         child: SingleChildScrollView(

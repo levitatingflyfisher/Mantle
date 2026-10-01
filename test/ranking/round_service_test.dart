@@ -16,4 +16,28 @@ void main() {
     final p = rs.nextPair(); // still proposes (no convergence dependency)
     expect(p, isNotNull);
   });
+
+  test('undoLastDecision restores the ratings from before that pick', () {
+    final rs = RoundService(['a', 'b', 'c', 'd']);
+    rs.recordDecision('a', 'b', MatchOutcome.aWins);
+    rs.recordDecision('c', 'd', MatchOutcome.skip);
+    rs.recordDecision('c', 'd', MatchOutcome.bWins);
+    Map<String, double> ratings() =>
+        {for (final i in rs.snapshot('p').items) i.id: i.rating};
+    final before = ratings();
+
+    rs.recordDecision('a', 'c', MatchOutcome.bWins);
+    rs.recordDecision('b', 'd', MatchOutcome.skip); // a skip after the pick
+    expect(rs.decisionCount, 3);
+    expect(rs.undoLastDecision(), ('a', 'c'));
+    expect(rs.decisionCount, 2);
+    expect(ratings(), before);
+  });
+
+  test('undoLastDecision with nothing to undo returns null', () {
+    final rs = RoundService(['a', 'b']);
+    rs.recordDecision('a', 'b', MatchOutcome.skip);
+    expect(rs.undoLastDecision(), isNull);
+    expect(rs.decisionCount, 0);
+  });
 }

@@ -160,7 +160,7 @@ class _TutorHubScreenState extends ConsumerState<TutorHubScreen> {
               ActivityCard(
                 key: const Key('tutor-charter'),
                 icon: Icons.workspaces_outline,
-                title: 'Your House Charter',
+                title: 'Your Wardrobe Charter',
                 subtitle: 'Discover the look your household shares.',
                 onTap: () => Navigator.push<void>(
                   context,

@@ -93,7 +93,9 @@ reality wins. As of v1:
   the theme preference and the encrypted backup's own state (recovery words,
   on-device snapshots).
 - Reversible by default: a member can be renamed or removed with an Undo, and
-  Clear all data keeps a safety copy with an Undo when backup is set up.
+  Clear all data keeps a safety copy with an Undo when backup is set up. In a
+  round, "Undo that" takes back the last pick (one step, within the current
+  domain; a domain's twelfth pick moves the round on and is not undone).
 
 **Aspirational — documented, not shipped:**
 - **Cross-device sync (v2).** The data model is *shaped* for it — `EloSession`

@@ -113,4 +113,28 @@ void main() {
     // Sliders are always shown.
     expect(find.byKey(const Key('field-guide-sliders')), findsOneWidget);
   });
+
+  // Audit finding 11: the lean (-2..2) was a LinearProgressIndicator whose
+  // origin sat at maximal Relaxed, so no lean read as half done. It is now
+  // a rule from pole to pole with a centre tick and one marker at the value,
+  // with the lean in words beside it.
+  testWidgets('the lean is a two-pole scale with a centre, not a progress bar',
+      (tester) async {
+    await _seedLean(db, 22);
+    await tester.pumpWidget(_build(db));
+    await tester.pumpAndSettle();
+
+    final sliders = find.byKey(const Key('field-guide-sliders'));
+    expect(
+        find.descendant(
+            of: sliders, matching: find.byType(LinearProgressIndicator)),
+        findsNothing);
+    final centre = find.byKey(const Key('lean-centre-structured-relaxed'));
+    final marker = find.byKey(const Key('lean-marker-structured-relaxed'));
+    expect(centre, findsOneWidget);
+    expect(marker, findsOneWidget);
+    // Relaxed is the left pole; a relaxed lean sits left of centre.
+    expect(tester.getCenter(marker).dx, lessThan(tester.getCenter(centre).dx));
+    expect(find.textContaining('Leans Relaxed'), findsOneWidget);
+  });
 }

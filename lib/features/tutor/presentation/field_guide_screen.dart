@@ -58,6 +58,7 @@ class FieldGuideScreen extends ConsumerWidget {
                 children: [
                   for (final axis in AxisTally.kAxes)
                     _AxisSlider(
+                      axis: axis,
                       lowLabel: _axisLabels[axis]![0],
                       highLabel: _axisLabels[axis]![1],
                       value: state.position.value(axis),
@@ -97,33 +98,109 @@ class FieldGuideScreen extends ConsumerWidget {
   }
 }
 
+/// One axis of the lean, drawn as what it is: a two-pole scale (audit
+/// finding 11). A rule runs from pole to pole with a tick at the centre and
+/// one marker at the value; the lean is said in words beside it. The filled
+/// progress bar it replaces had its origin at the low pole, so no lean read
+/// as half done, and the same widget meant literal progress elsewhere.
 class _AxisSlider extends StatelessWidget {
-  const _AxisSlider(
-      {required this.lowLabel, required this.highLabel, required this.value});
+  const _AxisSlider({
+    required this.axis,
+    required this.lowLabel,
+    required this.highLabel,
+    required this.value,
+  });
+  final String axis;
   final String lowLabel;
   final String highLabel;
-  final double value; // -2..2
+  final double value; // -2..2, negative toward [lowLabel]
+
+  /// Within this of zero the lean reads as even.
+  static const _even = 0.25;
+
+  String get _words {
+    if (value.abs() < _even) return 'Even';
+    final pole = value < 0 ? lowLabel : highLabel;
+    return 'Leans $pole, ${value.abs().toStringAsFixed(1)} of 2';
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // Map -2..2 to 0..1 for the indicator.
+    final cs = theme.colorScheme;
     final t = ((value + 2) / 4).clamp(0.0, 1.0);
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: OhSpacing.sm),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(lowLabel, style: theme.textTheme.labelSmall),
-              Text(highLabel, style: theme.textTheme.labelSmall),
-            ],
-          ),
-          const SizedBox(height: OhSpacing.xs),
-          LinearProgressIndicator(value: t),
-        ],
+    const marker = 14.0;
+    return Semantics(
+      label: '$lowLabel to $highLabel: $_words',
+      excludeSemantics: true,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: OhSpacing.sm),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(lowLabel, style: theme.textTheme.labelSmall),
+                Text(highLabel, style: theme.textTheme.labelSmall),
+              ],
+            ),
+            const SizedBox(height: OhSpacing.xs),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final w = constraints.maxWidth;
+                final x = (t * w).clamp(marker / 2, w - marker / 2);
+                return SizedBox(
+                  height: marker + 4,
+                  child: Stack(
+                    children: [
+                      // The rule, pole to pole.
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        top: (marker + 4) / 2 - 1,
+                        child: Container(height: 2, color: cs.outlineVariant),
+                      ),
+                      // The centre: no lean.
+                      Positioned(
+                        left: w / 2 - 1,
+                        top: 0,
+                        child: Container(
+                          key: Key('lean-centre-$axis'),
+                          width: 2,
+                          height: marker + 4,
+                          color: cs.outline,
+                        ),
+                      ),
+                      // The value.
+                      Positioned(
+                        left: x - marker / 2,
+                        top: 2,
+                        child: Container(
+                          key: Key('lean-marker-$axis'),
+                          width: marker,
+                          height: marker,
+                          decoration: BoxDecoration(
+                            color: cs.primary,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: OhSpacing.xs),
+            Text(
+              _words,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: cs.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

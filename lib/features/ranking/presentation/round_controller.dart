@@ -55,9 +55,15 @@ class RoundState {
     this.currentPair,
     this.errorMessage,
     this.error,
+    this.canUndo = false,
   });
 
   final RoundPhase phase;
+
+  /// Whether "Undo that" can take back the last pick: true after a pick in
+  /// the current domain, false at its start (a domain's last pick moves the
+  /// round on and is not undone from here).
+  final bool canUndo;
 
   /// Ordered list of member labels.
   final List<RoundMember> members;
@@ -122,8 +128,10 @@ class RoundState {
     Object? currentPair = _absent,
     Object? errorMessage = _absent,
     Object? error = _absent,
+    bool? canUndo,
   }) {
     return RoundState(
+      canUndo: canUndo ?? this.canUndo,
       phase: phase ?? this.phase,
       members: members ?? this.members,
       memberIndex: memberIndex ?? this.memberIndex,
@@ -205,6 +213,10 @@ class RoundController extends StateNotifier<RoundState> {
   /// Guards against double-tap race: ensures only one [_record] call is
   /// in-flight at a time. Set to true at entry, cleared in the finally block.
   bool _processing = false;
+
+  /// The stored match behind the last pick in the current domain, while it
+  /// can still be undone. One step deep.
+  String? _lastMatchId;
 
   // Per-member per-domain: _services[memberIndex][domainIndex]
   late List<List<RoundService>> _services;
@@ -315,8 +327,47 @@ class RoundController extends StateNotifier<RoundState> {
   /// Record that Image B was preferred. Forced choice — no ties.
   Future<void> chooseB() => _record(MatchOutcome.bWins);
 
+  /// Record a pick made on [pair], but only if [pair] is still the one on
+  /// screen. The round screen marks a pick and writes it a beat later; if
+  /// Skip or Undo changed the pair in between, the pick is dropped rather
+  /// than recorded against a pair nobody chose from.
+  Future<void> chooseOn(RoundPair pair, MatchOutcome outcome) async {
+    if (!identical(state.currentPair, pair)) return;
+    await _record(outcome);
+  }
+
   /// Skip the current pair without counting it as a decision.
   Future<void> skip() => _record(MatchOutcome.skip);
+
+  /// Take back the last pick in the current domain (audit finding 5): its
+  /// pair comes back, the count drops, and its stored match is deleted so it
+  /// never reaches the Charter.
+  Future<void> undo() async {
+    if (_processing || state.phase != RoundPhase.pairing) return;
+    final matchId = _lastMatchId;
+    if (matchId == null) return;
+    _processing = true;
+    try {
+      final mi = state.memberIndex;
+      final di = state.domainIndex;
+      final pairIds = _services[mi][di].undoLastDecision();
+      if (pairIds == null) return;
+      await _matchesDao.deleteById(matchId);
+      _lastMatchId = null;
+      final imgMap = _domainImageMaps[di];
+      state = state.copyWith(
+        decisionCount: _services[mi][di].decisionCount,
+        currentPair: RoundPair(
+          imageA: imgMap[pairIds.$1]!,
+          imageB: imgMap[pairIds.$2]!,
+          sessionId: _sessionIds[mi][di],
+        ),
+        canUndo: false,
+      );
+    } finally {
+      _processing = false;
+    }
+  }
 
   /// Dismiss the hand-off interstitial and begin the next member's turn.
   Future<void> beginNextMember() async {
@@ -333,6 +384,7 @@ class RoundController extends StateNotifier<RoundState> {
       domainIndex: 0,
       decisionCount: 0,
       currentPair: _proposePair(nextMemberIndex, 0),
+      canUndo: false,
     );
   }
 
@@ -354,12 +406,15 @@ class RoundController extends StateNotifier<RoundState> {
 
     // Persist non-skip decisions only (skips are not decisions per spec).
     if (outcome != MatchOutcome.skip) {
+      final matchId = secureHexId();
       await _matchesDao.record(
+        id: matchId,
         sessionId: pair.sessionId,
         idA: pair.imageA.id,
         idB: pair.imageB.id,
         outcome: outcome.name,
       );
+      _lastMatchId = matchId;
 
       final newCount = service.decisionCount;
 
@@ -370,27 +425,33 @@ class RoundController extends StateNotifier<RoundState> {
         if (di < 2) {
           // More domains for this member → auto-advance.
           final nextDi = di + 1;
+          _lastMatchId = null;
           state = state.copyWith(
             domainIndex: nextDi,
             decisionCount: 0,
             currentPair: _proposePair(mi, nextDi),
+            canUndo: false,
           );
         } else {
           // All 3 domains done for this member.
           if (mi + 1 < state.members.length) {
             // Show hand-off interstitial for next member.
+            _lastMatchId = null;
             state = state.copyWith(
               phase: RoundPhase.handoff,
               domainIndex: di,
               decisionCount: newCount,
               currentPair: null,
+              canUndo: false,
             );
           } else {
             // All members done.
+            _lastMatchId = null;
             state = state.copyWith(
               phase: RoundPhase.complete,
               decisionCount: newCount,
               currentPair: null,
+              canUndo: false,
             );
           }
         }
@@ -399,6 +460,7 @@ class RoundController extends StateNotifier<RoundState> {
         state = state.copyWith(
           decisionCount: newCount,
           currentPair: _proposePair(mi, di),
+          canUndo: true,
         );
       }
     } else {

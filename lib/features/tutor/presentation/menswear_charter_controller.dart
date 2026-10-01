@@ -119,7 +119,7 @@ class MenswearCharterController extends StateNotifier<MenswearCharterState> {
       if (!mounted) return;
       state = const MenswearCharterState(
         status: MenswearCharterStatus.error,
-        errorMessage: 'We couldn’t assemble your House Charter.',
+        errorMessage: 'We couldn’t assemble your Wardrobe Charter.',
       );
     }
   }

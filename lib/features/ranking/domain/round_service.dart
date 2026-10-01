@@ -11,18 +11,26 @@ const int kDecisionsPerDomain = 12;
 /// - Skips (via [MatchOutcome.skip]) do NOT advance [decisionCount].
 /// - Completion is reached as soon as [decisionCount] >= [kDecisionsPerDomain].
 class RoundService {
-  final EloEngine _engine;
+  final List<String> _itemIds;
+  EloEngine _engine;
   int _decisionCount = 0;
+
+  /// Every call to [recordDecision], in order, so [undoLastDecision] can
+  /// rebuild the engine without the last pick.
+  final List<(String, String, MatchOutcome)> _log = [];
 
   /// Constructs a fresh [RoundService] for the given [itemIds].
   RoundService(List<String> itemIds)
-      : _engine = EloEngine(
-          items: [for (final id in itemIds) EloItem(id: id)],
-          config: const EloConfig(
-            allowTies: false,
-            enabledAlgorithms: {AlgorithmId.elo},
-          ),
-        );
+      : _itemIds = List.unmodifiable(itemIds),
+        _engine = _freshEngine(itemIds);
+
+  static EloEngine _freshEngine(List<String> itemIds) => EloEngine(
+        items: [for (final id in itemIds) EloItem(id: id)],
+        config: const EloConfig(
+          allowTies: false,
+          enabledAlgorithms: {AlgorithmId.elo},
+        ),
+      );
 
   /// Suggest the next pair to compare.
   ///
@@ -37,9 +45,27 @@ class RoundService {
   /// briefly) but does NOT increment [decisionCount].
   void recordDecision(String idA, String idB, MatchOutcome outcome) {
     _engine.record(idA, idB, outcome);
+    _log.add((idA, idB, outcome));
     if (outcome != MatchOutcome.skip) {
       _decisionCount++;
     }
+  }
+
+  /// Takes back the last non-skip decision (and any skips after it) and
+  /// returns its pair, or null when there is none. The engine is rebuilt by
+  /// replaying the remaining log, so its ratings are exactly what they were
+  /// before that pick.
+  (String, String)? undoLastDecision() {
+    final last = _log.lastIndexWhere((d) => d.$3 != MatchOutcome.skip);
+    if (last < 0) return null;
+    final undone = _log[last];
+    _log.removeRange(last, _log.length);
+    _engine = _freshEngine(_itemIds);
+    for (final (a, b, o) in _log) {
+      _engine.record(a, b, o);
+    }
+    _decisionCount--;
+    return (undone.$1, undone.$2);
   }
 
   /// Number of non-skip decisions recorded so far.

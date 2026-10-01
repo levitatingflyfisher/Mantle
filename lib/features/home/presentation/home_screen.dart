@@ -84,7 +84,22 @@ class HomeScreen extends ConsumerWidget {
 
                   const SizedBox(height: OhSpacing.xl),
 
-                  // ── Lead: the menswear tutor ─────────────────────────────────
+                  // ── Primary action, first (audit finding 3): Start a round ──
+                  ActivityCard(
+                    icon: Icons.people_outline,
+                    title: 'Start a round',
+                    subtitle:
+                        'Gather the household and rank together to find the thread that runs through your home.',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (_) => const MembersScreen(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: OhSpacing.md),
+
+                  // ── The menswear tutor: a room off Home, below the primary ─────
                   ActivityCard(
                     key: const Key('home-tutor-card'),
                     icon: Icons.checkroom_outlined,
@@ -95,21 +110,6 @@ class HomeScreen extends ConsumerWidget {
                       context,
                       MaterialPageRoute<void>(
                         builder: (_) => const TutorHubScreen(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: OhSpacing.md),
-
-                  // ── Primary action — Start a round ───────────────────────────
-                  ActivityCard(
-                    icon: Icons.people_outline,
-                    title: 'Start a round',
-                    subtitle:
-                        'Gather the household and rank together to find the thread that runs through your home.',
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (_) => const MembersScreen(),
                       ),
                     ),
                   ),

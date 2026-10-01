@@ -11,7 +11,11 @@
 //       shown when allMembersComplete == true, gating the reveal route.
 //       Key('reveal-spine') is NEVER rendered here — that's Task 13's widget.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:elo_engine/elo_engine.dart' show MatchOutcome;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:openhearth_design/openhearth_design.dart';
 
@@ -150,41 +154,9 @@ class _PairingView extends ConsumerWidget {
                         horizontal: OhSpacing.sm,
                         vertical: OhSpacing.xs,
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          // Image A
-                          Expanded(
-                            child: Semantics(
-                              button: true,
-                              label: 'Choose the left image',
-                              child: GestureDetector(
-                                onTap: controller.chooseA,
-                                child: _ImageTile(
-                                  key: const Key('image-tile-a'),
-                                  assetPath: pair.imageA.assetPath,
-                                  imageId: pair.imageA.id,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: OhSpacing.sm),
-                          // Image B
-                          Expanded(
-                            child: Semantics(
-                              button: true,
-                              label: 'Choose the right image',
-                              child: GestureDetector(
-                                onTap: controller.chooseB,
-                                child: _ImageTile(
-                                  key: const Key('image-tile-b'),
-                                  assetPath: pair.imageB.assetPath,
-                                  imageId: pair.imageB.id,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      child: _PairPlates(
+                        pair: pair,
+                        onChoose: controller.chooseOn,
                       ),
                     ),
                   ),
@@ -197,9 +169,22 @@ class _PairingView extends ConsumerWidget {
                       OhSpacing.lg,
                       OhSpacing.lg,
                     ),
-                    child: TextButton(
-                      onPressed: controller.skip,
-                      child: const Text('Skip this pair'),
+                    // Undo and Skip share one fixed row under the plates, so
+                    // the way back is always in the same place (finding 5).
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceBetween,
+                      spacing: OhSpacing.sm,
+                      children: [
+                        TextButton.icon(
+                          onPressed: state.canUndo ? controller.undo : null,
+                          icon: const Icon(Icons.undo),
+                          label: const Text('Undo that'),
+                        ),
+                        TextButton(
+                          onPressed: controller.skip,
+                          child: const Text('Skip this pair'),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -249,26 +234,147 @@ class _DomainProgressTitle extends StatelessWidget {
       };
 }
 
+// ── The pair ──────────────────────────────────────────────────────────────────
+
+/// The two plates. A pick is answered in the very next frame (audit finding
+/// 9): the chosen plate takes a mark and a selection click before the write,
+/// and the pair changes a beat later, so a registered pick never looks like
+/// a missed one. While one pick is in flight the other plate ignores taps.
+class _PairPlates extends StatefulWidget {
+  const _PairPlates({required this.pair, required this.onChoose});
+
+  final RoundPair pair;
+
+  /// Records a pick for the pair it was made on (dropped if that pair is no
+  /// longer the one on screen).
+  final Future<void> Function(RoundPair pair, MatchOutcome outcome) onChoose;
+
+  @override
+  State<_PairPlates> createState() => _PairPlatesState();
+}
+
+class _PairPlatesState extends State<_PairPlates> {
+  /// 'a' or 'b' while a pick is being recorded.
+  String? _chosen;
+
+  /// Long enough to see the mark, short enough not to slow a 36-pick round.
+  static const _beat = Duration(milliseconds: 150);
+
+  @override
+  void didUpdateWidget(_PairPlates old) {
+    super.didUpdateWidget(old);
+    if (old.pair.imageA.id != widget.pair.imageA.id ||
+        old.pair.imageB.id != widget.pair.imageB.id) {
+      _chosen = null;
+    }
+  }
+
+  Future<void> _pick(String side) async {
+    if (_chosen != null) return;
+    final pair = widget.pair;
+    setState(() => _chosen = side);
+    unawaited(HapticFeedback.selectionClick());
+    await Future<void>.delayed(_beat);
+    // The pick belongs to the pair it was made on: if Skip or Undo changed
+    // the pair inside the beat, the controller drops it.
+    await widget.onChoose(
+        pair, side == 'a' ? MatchOutcome.aWins : MatchOutcome.bWins);
+    if (mounted && _chosen != null) setState(() => _chosen = null);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final pair = widget.pair;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: Semantics(
+            button: true,
+            label: 'Choose the left image',
+            child: _ImageTile(
+              key: const Key('image-tile-a'),
+              side: 'a',
+              assetPath: pair.imageA.assetPath,
+              imageId: pair.imageA.id,
+              chosen: _chosen == 'a',
+              onTap: () => _pick('a'),
+            ),
+          ),
+        ),
+        const SizedBox(width: OhSpacing.sm),
+        Expanded(
+          child: Semantics(
+            button: true,
+            label: 'Choose the right image',
+            child: _ImageTile(
+              key: const Key('image-tile-b'),
+              side: 'b',
+              assetPath: pair.imageB.assetPath,
+              imageId: pair.imageB.id,
+              chosen: _chosen == 'b',
+              onTap: () => _pick('b'),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
 // ── Image tile ────────────────────────────────────────────────────────────────
 
 class _ImageTile extends StatelessWidget {
   const _ImageTile({
     super.key,
+    required this.side,
     required this.assetPath,
     required this.imageId,
+    required this.chosen,
+    required this.onTap,
   });
 
+  final String side;
   final String assetPath;
   final String imageId;
+  final bool chosen;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Card(
       clipBehavior: Clip.antiAlias,
-      child: Image.asset(
-        assetPath,
-        fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => ImagePlaceholderTile(imageId: imageId),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(
+            assetPath,
+            fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) =>
+                ImagePlaceholderTile(imageId: imageId),
+          ),
+          if (chosen)
+            DecoratedBox(
+              key: Key('plate-chosen-$side'),
+              decoration: BoxDecoration(
+                border: Border.all(color: cs.primary, width: 4),
+                color: cs.primary.withValues(alpha: 0.12),
+              ),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Padding(
+                  padding: const EdgeInsets.all(OhSpacing.sm),
+                  child: Icon(Icons.check_circle, color: cs.primary, size: 32),
+                ),
+              ),
+            ),
+          // The press mark: a ripple over the plate, under 100 ms.
+          Material(
+            type: MaterialType.transparency,
+            child: InkWell(onTap: onTap),
+          ),
+        ],
       ),
     );
   }

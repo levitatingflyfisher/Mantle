@@ -110,7 +110,7 @@ void main() {
         .notifier);
     await _completeAndContinue(tester, controllerB);
 
-    // The last member's completion must land on the shared House Charter.
+    // The last member's completion must land on the shared Wardrobe Charter.
     expect(find.byType(MenswearCharterScreen), findsOneWidget);
 
     final sessions = await db.select(db.rankingSessions).get();
