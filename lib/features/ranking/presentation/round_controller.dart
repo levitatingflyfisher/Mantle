@@ -23,6 +23,7 @@ import '../data/matches_dao.dart';
 import '../data/members_dao.dart';
 import '../data/rounds_dao.dart';
 import '../data/sessions_dao.dart';
+import '../data/unfinished_round.dart';
 import '../domain/round_service.dart';
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -56,9 +57,14 @@ class RoundState {
     this.errorMessage,
     this.error,
     this.canUndo = false,
+    this.notice,
   });
 
   final RoundPhase phase;
+
+  /// One line the round screen shows under the prompt: why a Continue
+  /// started a fresh round instead.
+  final String? notice;
 
   /// Whether "Undo that" can take back the last pick: true after a pick in
   /// the current domain, false at its start (a domain's last pick moves the
@@ -129,8 +135,10 @@ class RoundState {
     Object? errorMessage = _absent,
     Object? error = _absent,
     bool? canUndo,
+    String? notice,
   }) {
     return RoundState(
+      notice: notice ?? this.notice,
       canUndo: canUndo ?? this.canUndo,
       phase: phase ?? this.phase,
       members: members ?? this.members,
@@ -168,9 +176,11 @@ class RoundPair {
 
 // ── Provider ──────────────────────────────────────────────────────────────────
 
-final roundControllerProvider =
-    StateNotifierProvider.autoDispose<RoundController, RoundState>(
-  (ref) {
+/// The round controller, by whether the screen asked to pick up an
+/// unfinished round (`true`, Home's Continue) or start one (`false`).
+final roundControllerFamily =
+    StateNotifierProvider.autoDispose.family<RoundController, RoundState, bool>(
+  (ref, resume) {
     final roundsDao = ref.watch(roundsDaoProvider);
     final sessionsDao = ref.watch(sessionsDaoProvider);
     final matchesDao = ref.watch(matchesDaoProvider);
@@ -182,9 +192,13 @@ final roundControllerProvider =
       matchesDao: matchesDao,
       membersDao: membersDao,
       contentRepo: contentRepo,
+      resume: resume,
     );
   },
 );
+
+/// A fresh round: the controller "Start a round" opens.
+final roundControllerProvider = roundControllerFamily(false);
 
 // ── Controller ────────────────────────────────────────────────────────────────
 
@@ -195,7 +209,9 @@ class RoundController extends StateNotifier<RoundState> {
     required MatchesDao matchesDao,
     required MembersDao membersDao,
     required ContentRepository contentRepo,
-  })  : _roundsDao = roundsDao,
+    bool resume = false,
+  })  : _resume = resume,
+        _roundsDao = roundsDao,
         _sessionsDao = sessionsDao,
         _matchesDao = matchesDao,
         _membersDao = membersDao,
@@ -204,6 +220,8 @@ class RoundController extends StateNotifier<RoundState> {
     unawaited(_init());
   }
 
+  /// Pick up the newest unfinished round if it is for the same people.
+  final bool _resume;
   final RoundsDao _roundsDao;
   final SessionsDao _sessionsDao;
   final MatchesDao _matchesDao;
@@ -262,6 +280,24 @@ class RoundController extends StateNotifier<RoundState> {
           .map((imgs) => {for (final img in imgs) img.id: img})
           .toList();
 
+      // 2b. Continue: pick the unfinished round up again, but only for the
+      // same people. Anyone added or removed since starts a fresh round,
+      // and the screen says why.
+      String? notice;
+      if (_resume) {
+        final unfinished =
+            await findUnfinishedRound(_roundsDao.attachedDatabase);
+        if (!mounted) return;
+        if (unfinished != null && unfinished.isFor(members.map((m) => m.id))) {
+          _resumeFrom(unfinished, members);
+          return;
+        }
+        if (unfinished != null) {
+          notice = 'A new round: the people have changed since the '
+              'unfinished one.';
+        }
+      }
+
       // 3. Create a Round row.
       _roundId = secureHexId();
       await _roundsDao.create(
@@ -295,6 +331,7 @@ class RoundController extends StateNotifier<RoundState> {
 
       // 5. Show first pair.
       state = state.copyWith(
+        notice: notice,
         phase: RoundPhase.pairing,
         members: members,
         memberIndex: 0,
@@ -310,6 +347,41 @@ class RoundController extends StateNotifier<RoundState> {
         error: e,
       );
     }
+  }
+
+  /// Rebuilds [unfinished] by replaying each session's stored picks into a
+  /// fresh engine (the replay Undo uses), then shows where it stopped: the
+  /// next pair, or the hand-off if the last person had just finished.
+  void _resumeFrom(UnfinishedRound unfinished, List<RoundMember> members) {
+    _roundId = unfinished.roundId;
+    final n = Domain.values.length;
+    _sessionIds = List.generate(members.length, (_) => List.filled(n, ''));
+    _services = List.generate(members.length, (_) => []);
+    for (var mi = 0; mi < members.length; mi++) {
+      for (var di = 0; di < n; di++) {
+        final session =
+            unfinished.sessions[(members[mi].id, Domain.values[di].name)]!;
+        _sessionIds[mi][di] = session.id;
+        final service =
+            RoundService(_domainImages[di].map((img) => img.id).toList());
+        for (final m in unfinished.matches[session.id] ?? const []) {
+          service.recordDecision(
+              m.idA, m.idB, MatchOutcome.values.byName(m.outcome));
+        }
+        _services[mi].add(service);
+      }
+    }
+    final p = unfinished.position([for (final m in members) m.id]);
+    state = state.copyWith(
+      phase: p.atHandoff ? RoundPhase.handoff : RoundPhase.pairing,
+      members: members,
+      memberIndex: p.memberIndex,
+      domainIndex: p.domainIndex,
+      decisionCount: p.atHandoff ? kDecisionsPerDomain : p.decisions,
+      currentPair:
+          p.atHandoff ? null : _proposePair(p.memberIndex, p.domainIndex),
+      canUndo: false,
+    );
   }
 
   // ── Public API ─────────────────────────────────────────────────────────────

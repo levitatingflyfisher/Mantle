@@ -59,18 +59,18 @@
       "id": "ms-spot-chino-jean",
       "facet": "trousers",
       "promptText": "Which is the flat-front chino, not the five-pocket jean?",
-      "plateA": "flat-front-chino",
-      "plateB": "five-pocket-denim",
-      "correctSide": "A",
+      "plateA": "five-pocket-denim",
+      "plateB": "flat-front-chino",
+      "correctSide": "B",
       "explanation": "The chino runs a smooth cotton twill with no rivets and no coin pocket. The jean shows the five-pocket layout and rivets at the stress points."
     },
     {
       "id": "ms-spot-derby-loafer",
       "facet": "footwear",
       "promptText": "Which is the derby (a lace-up with open lacing)?",
-      "plateA": "derby",
-      "plateB": "loafer",
-      "correctSide": "A",
+      "plateA": "loafer",
+      "plateB": "derby",
+      "correctSide": "B",
       "explanation": "The derby laces up, with the lace flaps stitched on top of the shoe front. The loafer has no laces at all: you just step in."
     }
   ]

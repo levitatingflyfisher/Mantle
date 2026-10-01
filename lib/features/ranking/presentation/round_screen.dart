@@ -23,32 +23,41 @@ import '../../../widgets/image_placeholder_tile.dart';
 import '../../../widgets/member_dot.dart';
 import '../../content/domain/domain.dart';
 import '../../reveal/presentation/reveal_screen.dart';
+import '../data/unfinished_round.dart';
 import '../domain/round_service.dart';
 import 'round_controller.dart';
 
 // ── Screen ────────────────────────────────────────────────────────────────────
 
 class RoundScreen extends ConsumerWidget {
-  const RoundScreen({super.key});
+  const RoundScreen({super.key, this.resume = false});
+
+  /// Pick up the unfinished round (Home's Continue) instead of starting one.
+  final bool resume;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(roundControllerProvider);
+    final round = roundControllerFamily(resume);
+    final state = ref.watch(round);
     return switch (state.phase) {
       RoundPhase.loading => const _LoadingView(),
-      RoundPhase.pairing => _PairingView(state: state),
-      RoundPhase.handoff => _HandoffView(state: state),
-      RoundPhase.complete => const _RevealReadyView(),
-      RoundPhase.error => _ErrorView(state: state),
+      RoundPhase.pairing => _PairingView(state: state, round: round),
+      RoundPhase.handoff => _HandoffView(state: state, round: round),
+      RoundPhase.complete => _RevealReadyView(round: round),
+      RoundPhase.error => _ErrorView(state: state, round: round),
     };
   }
 }
 
+/// The controller instance a [RoundScreen] runs on.
+typedef _Round = AutoDisposeStateNotifierProvider<RoundController, RoundState>;
+
 // ── Error ───────────────────────────────────────────────────────────────────
 
 class _ErrorView extends ConsumerWidget {
-  const _ErrorView({required this.state});
+  const _ErrorView({required this.state, required this.round});
   final RoundState state;
+  final _Round round;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -64,7 +73,7 @@ class _ErrorView extends ConsumerWidget {
           error: state.error,
           onRetry: notEnoughPeople
               ? null
-              : () => ref.read(roundControllerProvider.notifier).retry(),
+              : () => ref.read(round.notifier).retry(),
         ),
       ),
     );
@@ -87,12 +96,13 @@ class _LoadingView extends StatelessWidget {
 // ── Pairing ───────────────────────────────────────────────────────────────────
 
 class _PairingView extends ConsumerWidget {
-  const _PairingView({required this.state});
+  const _PairingView({required this.state, required this.round});
   final RoundState state;
+  final _Round round;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.read(roundControllerProvider.notifier);
+    final controller = ref.read(round.notifier);
     final theme = Theme.of(context);
     final pair = state.currentPair;
 
@@ -100,6 +110,23 @@ class _PairingView extends ConsumerWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: _DomainProgressTitle(state: state),
+        // Every pick is already stored, so Pause just leaves; Home offers
+        // Continue (audit finding 8).
+        actions: [
+          OhBarActions(
+            // "Tailoring · 12 of 12" in titleLarge: about 200 px.
+            titleReserve: 200,
+            children: [
+              OhBarAction(
+                key: const Key('round-pause'),
+                icon: Icons.pause,
+                label: 'Pause',
+                tooltip: 'Pause the round: Home offers Continue',
+                onPressed: () => Navigator.of(context).maybePop(),
+              ),
+            ],
+          ),
+        ],
       ),
       body: OhPage(
         padding: EdgeInsets.zero,
@@ -122,6 +149,16 @@ class _PairingView extends ConsumerWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
+                  if (state.notice != null)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          OhSpacing.lg, 0, OhSpacing.lg, OhSpacing.sm),
+                      child: Text(
+                        state.notice!,
+                        style: theme.textTheme.bodySmall,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
 
                   // ── Member indicator ────────────────────────────────────────
                   if (state.currentMember != null)
@@ -201,7 +238,7 @@ class _DomainProgressTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final domainLabel = _domainLabel(state.currentDomain);
+    final label = domainLabel(state.currentDomain);
     final done = state.totalDecisionsForCurrentMember;
     final total = state.totalDecisionsExpected;
 
@@ -211,27 +248,49 @@ class _DomainProgressTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '$domainLabel · ${state.decisionCount} of $kDecisionsPerDomain',
+          '$label · ${state.decisionCount} of $kDecisionsPerDomain',
           style: theme.textTheme.titleLarge,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: OhSpacing.xs),
-        LinearProgressIndicator(
-          value: total > 0 ? done / total : 0.0,
-          minHeight: 4,
-          semanticsLabel: 'Whole round',
-          semanticsValue: '$done of $total',
+        // Ticks at the domain boundaries: the bar is the whole round, and
+        // the ticks say where each domain ends (finding 2).
+        LayoutBuilder(
+          builder: (context, box) {
+            final n = Domain.values.length;
+            return SizedBox(
+              height: 12,
+              width: double.infinity,
+              child: Stack(
+                alignment: Alignment.centerLeft,
+                clipBehavior: Clip.none,
+                children: [
+                  LinearProgressIndicator(
+                    value: total > 0 ? done / total : 0.0,
+                    minHeight: 4,
+                    semanticsLabel: 'Whole round',
+                    semanticsValue: '$done of $total',
+                  ),
+                  for (var i = 1; i < n; i++)
+                    Positioned(
+                      key: Key('round-domain-tick-$i'),
+                      left: box.maxWidth * i / n - 1,
+                      top: 0,
+                      bottom: 0,
+                      width: 2,
+                      child: ExcludeSemantics(
+                        child: ColoredBox(color: theme.colorScheme.onSurface),
+                      ),
+                    ),
+                ],
+              ),
+            );
+          },
         ),
       ],
     );
   }
-
-  static String _domainLabel(Domain d) => switch (d) {
-        Domain.architecture => 'Architecture',
-        Domain.tailoring => 'Tailoring',
-        Domain.interiors => 'Interiors',
-      };
 }
 
 // ── The pair ──────────────────────────────────────────────────────────────────
@@ -385,12 +444,13 @@ class _ImageTile extends StatelessWidget {
 // Guard (a): No results or spine widget is rendered here.
 
 class _HandoffView extends ConsumerWidget {
-  const _HandoffView({required this.state});
+  const _HandoffView({required this.state, required this.round});
   final RoundState state;
+  final _Round round;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = ref.read(roundControllerProvider.notifier);
+    final controller = ref.read(round.notifier);
     final theme = Theme.of(context);
     final nextMember = state.nextMember;
 
@@ -466,7 +526,8 @@ class _HandoffView extends ConsumerWidget {
 // Key('reveal-spine') is intentionally ABSENT — the spine lives in Task 13.
 
 class _RevealReadyView extends ConsumerWidget {
-  const _RevealReadyView();
+  const _RevealReadyView({required this.round});
+  final _Round round;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -504,7 +565,7 @@ class _RevealReadyView extends ConsumerWidget {
                     key: const Key('reveal-ready-button'),
                     onPressed: () {
                       final roundId =
-                          ref.read(roundControllerProvider.notifier).roundId;
+                          ref.read(round.notifier).roundId;
                       Navigator.push<void>(
                         context,
                         MaterialPageRoute<void>(

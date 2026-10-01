@@ -16,9 +16,9 @@
       "domain": "tailoring",
       "featureId": "waist-suppression",
       "promptText": "Which coat shows stronger waist suppression (more nipped in at the midsection)?",
-      "plateA": "suppression-strong",
-      "plateB": "suppression-none",
-      "correctSide": "A",
+      "plateA": "suppression-none",
+      "plateB": "suppression-strong",
+      "correctSide": "B",
       "explanation": "Waist suppression creates the X-silhouette. The stronger nip at the waist makes the chest and skirt read larger by contrast."
     },
     {
@@ -36,9 +36,9 @@
       "domain": "tailoring",
       "featureId": "roped-shoulder",
       "promptText": "Which shoulder seam shows the roped shoulder (a small raised roll at the sleeve head)?",
-      "plateA": "shoulder-roped",
-      "plateB": "shoulder-soft",
-      "correctSide": "A",
+      "plateA": "shoulder-soft",
+      "plateB": "shoulder-roped",
+      "correctSide": "B",
       "explanation": "The roped shoulder (con rollino) sets the sleevehead with a raised roll, squaring the shoulder line. The soft shoulder slopes gently: the Neapolitan alternative."
     },
     {
@@ -56,9 +56,9 @@
       "domain": "tailoring",
       "featureId": "aline-skirt",
       "promptText": "Which coat skirt flares from the waist in an A-line (the lower body opening outward toward the hem)?",
-      "plateA": "aline-open",
-      "plateB": "aline-straight",
-      "correctSide": "A",
+      "plateA": "aline-straight",
+      "plateB": "aline-open",
+      "correctSide": "B",
       "explanation": "The A-line coat skirt opens below the suppressed waist, completing the hourglass silhouette and allowing the coat to clear the thighs when seated."
     },
     {
@@ -76,9 +76,9 @@
       "domain": "tailoring",
       "featureId": "sack",
       "promptText": "Which jacket silhouette shows the sack cut (straight-hanging with no waist shaping)?",
-      "plateA": "sack-straight",
-      "plateB": "sack-shaped",
-      "correctSide": "A",
+      "plateA": "sack-shaped",
+      "plateB": "sack-straight",
+      "correctSide": "B",
       "explanation": "The sack cut has no darts, no suppression: cloth falls straight from shoulder to hem. A named alternative to the sculpted silhouette."
     },
     {
@@ -96,9 +96,9 @@
       "domain": "architecture",
       "featureId": "poche",
       "promptText": "Which plan reads the walls as solid black mass, with rooms as carved white voids?",
-      "plateA": "poche-filled",
-      "plateB": "poche-outline",
-      "correctSide": "A",
+      "plateA": "poche-outline",
+      "plateB": "poche-filled",
+      "correctSide": "B",
       "explanation": "Poché fills the wall solid so the rooms read as shaped voids rather than leftover space. The solid is the figure; the room is the ground."
     },
     {
@@ -116,9 +116,9 @@
       "domain": "architecture",
       "featureId": "ma",
       "promptText": "Which composition uses the gap between two elements as the focal point (the charged interval held between them)?",
-      "plateA": "ma-gap",
-      "plateB": "ma-full",
-      "correctSide": "A",
+      "plateA": "ma-full",
+      "plateB": "ma-gap",
+      "correctSide": "B",
       "explanation": "Ma is the deliberate negative space, the interval. The gap between elements is composed as carefully as the elements themselves."
     },
     {
@@ -136,9 +136,9 @@
       "domain": "architecture",
       "featureId": "tectonic",
       "promptText": "Which detail expresses the structure’s joint (celebrating the connection rather than hiding it)?",
-      "plateA": "tectonic-expressed",
-      "plateB": "tectonic-hidden",
-      "correctSide": "A",
+      "plateA": "tectonic-hidden",
+      "plateB": "tectonic-expressed",
+      "correctSide": "B",
       "explanation": "Tectonic design expresses the frame and joints (the steel node, the timber connection) rather than encasing them. Structure becomes ornament."
     },
     {
@@ -156,9 +156,9 @@
       "domain": "interiors",
       "featureId": "shibui",
       "promptText": "Which room reveals more the longer you look (quiet on first glance, deepening on attention)?",
-      "plateA": "shibui-quiet",
-      "plateB": "shibui-busy",
-      "correctSide": "A",
+      "plateA": "shibui-busy",
+      "plateB": "shibui-quiet",
+      "correctSide": "B",
       "explanation": "Shibui is understated beauty that rewards sustained attention. A simple surface with complex depth: the opposite of immediate visual loudness."
     },
     {
@@ -176,9 +176,9 @@
       "domain": "interiors",
       "featureId": "patina",
       "promptText": "Which object shows patina (the surface change earned through age and use)?",
-      "plateA": "patina-earned",
-      "plateB": "patina-new",
-      "correctSide": "A",
+      "plateA": "patina-new",
+      "plateB": "patina-earned",
+      "correctSide": "B",
       "explanation": "Patina is the surface character a material earns over time: the sheen on worn brass, the depth on oiled wood. It marks an object as quality."
     },
     {
@@ -196,9 +196,9 @@
       "domain": "interiors",
       "featureId": "japandi",
       "promptText": "Which interior shows japandi (Japanese restraint and asymmetry blended with Nordic warmth and natural material)?",
-      "plateA": "japandi-blend",
-      "plateB": "japandi-cold",
-      "correctSide": "A",
+      "plateA": "japandi-cold",
+      "plateB": "japandi-blend",
+      "correctSide": "B",
       "explanation": "Japandi combines Japanese minimalism (restraint, asymmetry, reverence for material) with Scandinavian warmth (light wood, comfort). The blend avoids both cold severity and clutter."
     }
   ]

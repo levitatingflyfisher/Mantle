@@ -6,7 +6,9 @@ import 'package:sanctuary_backup_ui/sanctuary_backup_ui.dart';
 import '../../../core/providers.dart';
 import '../../../core/theme/theme_preference.dart';
 import '../../../widgets/activity_card.dart';
+import '../../ranking/data/unfinished_round.dart';
 import '../../ranking/presentation/members_screen.dart';
+import '../../ranking/presentation/round_screen.dart';
 import '../../reveal/presentation/charter_screen.dart';
 import '../../settings/presentation/settings_screen.dart';
 import '../../solo/presentation/solo_hub_screen.dart';
@@ -25,6 +27,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
+    final offer = ref.watch(roundResumeOfferProvider).value;
 
     return Scaffold(
       appBar: AppBar(
@@ -84,19 +87,51 @@ class HomeScreen extends ConsumerWidget {
 
                   const SizedBox(height: OhSpacing.xl),
 
+                  // ── An unfinished round comes first (audit finding 8) ────────
+                  if (offer != null && !offer.peopleChanged) ...[
+                    ActivityCard(
+                      key: const Key('home-continue-round'),
+                      icon: Icons.play_arrow_outlined,
+                      title: 'Continue the round',
+                      subtitle: offer.line,
+                      onTap: () async {
+                        await Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (_) => const RoundScreen(resume: true),
+                          ),
+                        );
+                        ref.invalidate(roundResumeOfferProvider);
+                      },
+                    ),
+                    const SizedBox(height: OhSpacing.md),
+                  ],
+
                   // ── Primary action, first (audit finding 3): Start a round ──
                   ActivityCard(
                     icon: Icons.people_outline,
                     title: 'Start a round',
                     subtitle:
                         'Gather the household and rank together to find the thread that runs through your home.',
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (_) => const MembersScreen(),
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => const MembersScreen(),
+                        ),
+                      );
+                      ref.invalidate(roundResumeOfferProvider);
+                    },
+                  ),
+                  if (offer != null && offer.peopleChanged)
+                    Padding(
+                      padding: const EdgeInsets.only(top: OhSpacing.sm),
+                      child: Text(
+                        offer.line,
+                        style: theme.textTheme.bodySmall
+                            ?.copyWith(color: cs.onSurfaceVariant),
                       ),
                     ),
-                  ),
                   const SizedBox(height: OhSpacing.md),
 
                   // ── The menswear tutor: a room off Home, below the primary ─────

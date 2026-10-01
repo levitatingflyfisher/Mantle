@@ -25,6 +25,10 @@ void main() => runFleetConformance(const FleetAppConfig(
         // C5-primaryScreens: the screens below keep their primary action
         // reachable at 360dp x 1.3 (test/a11y/primary_action_sweep_test.dart).
         FleetCheck.c5PrimaryScreens,
+        // C7-assetText: C7 over the bundled text assets too (the deck and
+        // canon JSON, the Spot questions, the plates' <text>), which the
+        // lib/ sweep never reads.
+        FleetCheck.c7AssetText,
         // C9 (routes) is deliberately off: Mantle navigates with
         // Navigator.push and declares no GoRoute, so C9 has nothing to
         // check and would report exactly that.

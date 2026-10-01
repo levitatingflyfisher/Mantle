@@ -96,6 +96,9 @@ reality wins. As of v1:
   Clear all data keeps a safety copy with an Undo when backup is set up. In a
   round, "Undo that" takes back the last pick (one step, within the current
   domain; a domain's twelfth pick moves the round on and is not undone).
+- A round left part-way is picked up again: Pause in the round bar, Continue on
+  Home, rebuilt by replaying the stored picks. Only for the same people; if
+  anyone was added or removed since, a fresh round starts and Home says why.
 
 **Aspirational — documented, not shipped:**
 - **Cross-device sync (v2).** The data model is *shaped* for it — `EloSession`

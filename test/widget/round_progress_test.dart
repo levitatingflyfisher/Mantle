@@ -73,4 +73,38 @@ void main() {
     expect(bar.semanticsLabel, 'Whole round');
     expect(bar.semanticsValue, '1 of ${3 * kDecisionsPerDomain}');
   });
+
+  // Finding 2 / persona H2: the bar measured the whole round with nothing to
+  // say where one domain ends. Ticks at the domain boundaries let one mark do
+  // both jobs.
+  testWidgets('the round bar is ticked at each domain boundary',
+      (tester) async {
+    final db = MantleDatabase.forTesting(NativeDatabase.memory());
+    addTearDown(db.close);
+    await db.membersDao.add(
+        id: 'm1', label: 'Aria', color: 0xFF4CAF50, createdAt: DateTime(2026));
+    await db.membersDao.add(
+        id: 'm2', label: 'Ben', color: 0xFF2196F3, createdAt: DateTime(2026, 2));
+
+    await tester.pumpWidget(ProviderScope(
+      overrides: [
+        databaseProvider.overrideWithValue(db),
+        contentRepositoryProvider.overrideWithValue(_Deck()),
+      ],
+      child: MaterialApp(theme: OhTheme.light(), home: const RoundScreen()),
+    ));
+    await tester.pumpAndSettle();
+
+    final bar = tester.getRect(find.byType(LinearProgressIndicator));
+    final n = Domain.values.length;
+    for (var i = 1; i < n; i++) {
+      final tick = find.byKey(Key('round-domain-tick-$i'));
+      expect(tick, findsOneWidget);
+      final r = tester.getRect(tick);
+      expect(r.center.dx, closeTo(bar.left + bar.width * i / n, 1.5));
+      expect(r.height, greaterThan(bar.height),
+          reason: 'a tick stands proud of the track, so it reads as a mark');
+    }
+    expect(find.byKey(Key('round-domain-tick-$n')), findsNothing);
+  });
 }
