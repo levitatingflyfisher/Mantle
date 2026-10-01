@@ -2,7 +2,7 @@
     <!-- Auto Backup would silently upload the plaintext journaling DB to the
          user's Google account. Backup is the encrypted .ohbk flow only. -->
     <application
-        android:label="mantle"
+        android:label="Mantle"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
