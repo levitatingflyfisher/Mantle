@@ -1,0 +1,10 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- shoulder-soft: Neapolitan shirt-shoulder, sloped and gentle -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 90 Q74 56 100 52 Q126 56 150 90"/>
+    <path d="M100 52 L100 155"/>
+  </g>
+  <line x1="50" y1="90" x2="150" y2="90" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <!-- smooth continuous curve, no roped roll -->
+  <path d="M72 68 Q82 56 92 54" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

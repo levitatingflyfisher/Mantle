@@ -1,0 +1,12 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- straight-fit: trouser leg falling in a constant, parallel width from hip to hem -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M78 40 L122 40 L122 178 L78 178 Z"/>
+  </g>
+  <line x1="70" y1="44" x2="70" y2="174" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <line x1="130" y1="44" x2="130" y2="174" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <line x1="78" y1="50" x2="122" y2="50" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <line x1="78" y1="168" x2="122" y2="168" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <text x="100" y="46" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">hip</text>
+  <text x="100" y="181" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">hem</text>
+</svg>

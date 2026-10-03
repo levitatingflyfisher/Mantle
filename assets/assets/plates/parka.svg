@@ -1,0 +1,11 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- parka: long hooded coat with a forked fishtail back hem -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M79 36 Q72 19 100 16 Q128 19 121 36"/>
+    <path d="M76 36 L100 22 L124 36 L122 172 L78 172 Z"/>
+    <path d="M100 22 L100 172"/>
+  </g>
+  <path d="M80 172 L80 186 L94 177 L100 184 L106 177 L120 186 L120 172" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="100" y="13" fill="#8FB3C7" font-size="7" text-anchor="middle" font-family="monospace">hood</text>
+  <text x="130" y="180" fill="#8FB3C7" font-size="7" font-family="monospace">fishtail</text>
+</svg>

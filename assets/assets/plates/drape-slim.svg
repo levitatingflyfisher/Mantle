@@ -1,0 +1,10 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- drape-slim: flat cut no chest drape, fitted throughout -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M78 20 L100 12 L122 20 L118 178 L82 178 Z"/>
+  </g>
+  <!-- no drape ripple, straight vertical lines -->
+  <line x1="88" y1="30" x2="88" y2="178" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <line x1="112" y1="30" x2="112" y2="178" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+  <path d="M84 96 Q100 100 116 96" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

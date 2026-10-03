@@ -1,0 +1,9 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- tectonic: expressed frame + joint, vs stereotomic mass -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 170 L50 60 L100 30 L150 60 L150 170"/>
+  </g>
+  <path d="M50 60 L100 30 L150 60" fill="none" stroke="#C4553B" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="100" cy="30" r="4" fill="#C4553B" stroke="none"/>
+  <line x1="100" y1="34" x2="100" y2="170" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="3 4" opacity="0.7"/>
+</svg>

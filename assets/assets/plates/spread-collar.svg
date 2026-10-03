@@ -1,0 +1,15 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <!-- spread-collar: dress-shirt collar with a wide spread angle and a big open throat gap -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M58 58 L60 168"/>
+    <path d="M142 58 L140 168"/>
+    <path d="M60 168 L140 168"/>
+    <path d="M82 46 Q100 34 118 46"/>
+    <path d="M58 58 L82 46 L52 102 Z"/>
+    <path d="M142 58 L118 46 L148 102 Z"/>
+  </g>
+  <path d="M82 46 L52 102" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M118 46 L148 102" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M52 102 Q100 128 148 102" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round"/>
+  <text x="100" y="120" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">gap</text>
+</svg>

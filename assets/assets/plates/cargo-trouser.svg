@@ -1,0 +1,15 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+<!-- cargo-trouser: bellows thigh patch pocket with flap, button, and topstitching -->
+  <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M76 42 L124 42 L116 178 L104 178 L100 96 L96 178 L84 178 Z"/>
+    <path d="M77 50 L123 50"/>
+    <path d="M100 50 L100 90"/>
+  </g>
+  <path d="M106 100 L122 100 L120 92 L108 92 Z" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="114" cy="96" r="1.6" fill="none" stroke="#C4553B" stroke-width="1.2"/>
+  <path d="M106 100 L108 136 L120 136 L122 100" fill="none" stroke="#C4553B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M114 102 L114 134" fill="none" stroke="#C4553B" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M106 136 L110 132 M122 136 L118 132" fill="none" stroke="#C4553B" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M109 108 L119 108 M108 118 L120 118 M107 128 L121 128" fill="none" stroke="#8FB3C7" stroke-width="1" stroke-dasharray="2 3" opacity="0.7"/>
+  <text x="114" y="146" fill="#8FB3C7" font-size="8" text-anchor="middle" font-family="monospace">bellows</text>
+</svg>
